@@ -32,7 +32,11 @@ export async function securePeer(t, onConnection) {
   server.on('tlsClientError', () => {});
   const ws = new WebSocketServer({ server, path: '/connect', maxPayload: limits.maxChunkBytes,
     perMessageDeflate: false });
-  ws.on('connection', socket => onConnection(streamPort(createWebSocketStream(socket))));
+  ws.on('connection', socket => {
+    const port = streamPort(createWebSocketStream(socket));
+    socket.on('close', code => port.events.push(`ws:${code}`));
+    onConnection(port);
+  });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   t.after(async () => {
     for (const client of ws.clients) client.terminate();

@@ -25,8 +25,11 @@ before(() => {
 });
 after(() => core?.dispose());
 
-function assertSessionSuccess(result) {
-  assert.equal(result.ok, true, result.ok ? 'SESSION_OK' : result.error.code);
+function assertSessionSuccess(result, source, peer) {
+  const diagnostics = [source, peer].flatMap((port, index) => (port?.events ?? [])
+    .filter(event => /^(?:(?:stream|read|write|end):(?:E[A-Z_0-9]+|TEST_IO_ERROR)|ws:\d+)$/.test(event))
+    .map(event => `CORE_${index === 0 ? 'SOURCE' : 'PEER'}:${event}`));
+  assert.equal(result.ok, true, result.ok ? 'SESSION_OK' : [result.error.code, ...diagnostics].join('\n'));
 }
 
 function temporaryConfig(t, config) {
@@ -144,7 +147,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       assert.equal(sources[0].closed, true); assert.equal(peers[0].closed, true);
       const next = await requestThrough(port, destination, '/owned-test?attempt=1');
       assert.deepEqual(next, { status: 200, body: 'RECOVERED' });
-      assertSessionSuccess(await outcomes[1]);
+      assertSessionSuccess(await outcomes[1], sources[1], peers[1]);
       assert.equal(targetRequests, 2); assert.equal(sessions, 2); assert.equal(active, 0);
       assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed)); return;
     }
@@ -152,7 +155,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       for (let round = 0; round < 20; round++) {
         const response = await requestThrough(port, destination, `/owned-test?round=${round}`);
         assert.deepEqual(response, { status: 200, body: `ROUND:/owned-test?round=${round}` });
-        assertSessionSuccess(await outcomes[round]);
+        assertSessionSuccess(await outcomes[round], sources[round], peers[round]);
         assert.equal(active, 0); assert.equal(sessions, round + 1); assert.equal(targetRequests, round + 1);
         assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed));
       }
@@ -179,7 +182,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
     if (scenario === 'permitted') {
       assert.deepEqual(response, { status: 200, body: 'ROUTEVELA_OWNED_RESPONSE' });
       assert.equal(targetRequests, 1); assert.equal(sessions, 1);
-      assertSessionSuccess(completed[0]); assert.equal(peers[0].closed, true);
+      assertSessionSuccess(completed[0], sources[0], peers[0]); assert.equal(peers[0].closed, true);
     } else if (scenario === 'byte budget') {
       assert.notDeepEqual(response, { status: 200, body: 'A'.repeat(1024) });
       assert.equal(targetRequests, 1); assert.equal(sessions, 1); assert.equal(peers.length, 1);

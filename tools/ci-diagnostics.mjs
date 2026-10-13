@@ -12,8 +12,11 @@ export function failureAnnotation(data) {
   let error = data.details?.error;
   for (let depth = 0; error && depth < 3; depth++, error = error.cause) {
     if (/^ERR_[A-Z_0-9]+$/.test(error.code ?? '')) fields.push(`code=${error.code}`);
-    if (/^CORE_[A-Z_]+(?::[A-Za-z0-9_.-]+)*$/.test(error.message ?? '')) fields.push(`stage=${error.message}`);
-    if (/^RV-[A-Z]+-\d{3}(?:,RV-[A-Z]+-\d{3})*$/.test(error.message ?? '')) fields.push(`session=${error.message}`);
+    for (const line of (error.message ?? '').split('\n')) {
+      if (/^CORE_[A-Z_]+(?::[A-Za-z0-9_.-]+)*$/.test(line)) fields.push(`stage=${line}`);
+    }
+    const session = (error.message ?? '').match(/^(RV-[A-Z]+-\d{3}(?:,RV-[A-Z]+-\d{3})*)(?=\r?\n|$)/)?.[1];
+    if (session) fields.push(`session=${session}`);
     for (const name of ['expected', 'actual']) {
       const value = error[name];
       if (typeof value === 'boolean' || (Number.isSafeInteger(value) && Math.abs(value) <= 1e9)) fields.push(`${name}=${value}`);

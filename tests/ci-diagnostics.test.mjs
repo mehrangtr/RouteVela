@@ -18,3 +18,12 @@ test('public CI annotations omit arbitrary test names, string assertions and unk
     error: { message: 'SECRET_RAW_EXCEPTION', actual: 'SECRET_PAYLOAD', expected: 'SECRET_CONFIG' } } });
   assert.equal(output, '::error title=RouteVela test failure::file=test\n');
 });
+
+test('real assertion error formatting retains only its leading safe session code', () => {
+  let error;
+  try { assert.equal(false, true, 'RV-TRANS-007'); } catch (caught) { error = caught; }
+  const output = failureAnnotation({ details: { error: { code: 'ERR_TEST_FAILURE', cause: error } } });
+  assert.match(output, /session=RV-TRANS-007/); assert.ok(!output.includes('false !== true'));
+  const hostile = failureAnnotation({ details: { error: { message: 'RV-TRANS-005\nSECRET_CONTEXT' } } });
+  assert.match(hostile, /session=RV-TRANS-005/); assert.ok(!hostile.includes('SECRET'));
+});

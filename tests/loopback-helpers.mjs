@@ -11,25 +11,28 @@ export function streamPort(stream) {
   // Native async iteration observes the readable half's EOF independently. The
   // generic toWeb adapters wait for both Duplex halves and can deadlock an echo.
   const reader = stream.iterator({ destroyOnReturn: false });
-  stream.on('error', () => {});
   let closed = false;
   const events = [];
-  const operation = async (signal, action) => {
+  const codeOf = error => /^E[A-Z_0-9]+$/.test(error?.code ?? '') ? error.code : 'TEST_IO_ERROR';
+  stream.on('error', error => events.push(`stream:${codeOf(error)}`));
+  const operation = async (signal, action, stage) => {
     const abort = () => stream.destroy();
     if (signal.aborted) throw new Error('TEST_PORT_ABORTED');
     signal.addEventListener('abort', abort, { once: true });
-    try { return await action(); } finally { signal.removeEventListener('abort', abort); }
+    try { return await action(); }
+    catch (error) { events.push(`${stage}:${codeOf(error)}`); throw error; }
+    finally { signal.removeEventListener('abort', abort); }
   };
   return { events, get closed() { return closed; },
     interrupt() { stream.destroy(new Error('TEST_CONNECTION_INTERRUPTED')); },
     async read(signal) { events.push('read:start'); return operation(signal, async () => {
       const result = await reader.next(); events.push(result.done ? 'read:eof' : `read:${result.value.byteLength}`);
       return result.done ? null : result.value;
-    }); },
+    }, 'read'); },
     async write(chunk, signal) { events.push(`write:${chunk.byteLength}`); await operation(signal,
-      () => new Promise((resolve, reject) => stream.write(chunk, error => error ? reject(error) : resolve()))); events.push('write:done'); },
+      () => new Promise((resolve, reject) => stream.write(chunk, error => error ? reject(error) : resolve())), 'write'); events.push('write:done'); },
     async end(signal) { events.push('end:start'); await operation(signal,
-      () => new Promise((resolve, reject) => stream.end(error => error ? reject(error) : resolve()))); events.push('end:done'); },
+      () => new Promise((resolve, reject) => stream.end(error => error ? reject(error) : resolve())), 'end'); events.push('end:done'); },
     async close() {
       if (closed) throw new Error('DUPLICATE_TEST_CLOSE'); closed = true;
       const disposed = stream.closed ? Promise.resolve() : once(stream, 'close');
