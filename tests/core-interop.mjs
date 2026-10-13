@@ -26,7 +26,7 @@ after(() => core?.dispose());
 
 function assertSessionSuccess(result, source, peer) {
   const diagnostics = [source, peer].flatMap((port, index) => (port?.events ?? [])
-    .filter(event => /^(?:(?:stream|read|write|end):(?:E[A-Z_0-9]+|TEST_IO_ERROR)|ws:\d+)$/.test(event))
+    .filter(event => /^(?:(?:stream|read|write|end):(?:E[A-Z_0-9]+|WS_ERR_[A-Z_0-9]+|TEST_IO_ERROR)|ws:\d+)$/.test(event))
     .map(event => `CORE_${index === 0 ? 'SOURCE' : 'PEER'}:${event}`));
   assert.equal(result.ok, true, result.ok ? 'SESSION_OK' : [result.error.code, ...diagnostics].join('\n'));
 }

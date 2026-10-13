@@ -26,6 +26,18 @@ test('WebSocket end acknowledges an already-closed peer without waiting for TCP 
   await port.close(); assert.equal(port.closed, true);
 });
 
+test('WebSocket end sends an explicit normal closure status to the real peer', { timeout: 5000 }, async t => {
+  const server = new WebSocketServer({ host: '127.0.0.1', port: 0 }); await once(server, 'listening');
+  t.after(async () => { for (const peer of server.clients) peer.terminate(); await new Promise(resolve => server.close(resolve)); });
+  const connected = once(server, 'connection');
+  const client = new WebSocket(`ws://127.0.0.1:${server.address().port}`); t.after(() => client.terminate());
+  await once(client, 'open'); const [ws] = await connected; const port = webSocketPort(ws);
+  const receivedClose = once(client, 'close');
+  await port.end(new AbortController().signal);
+  const [status] = await receivedClose; assert.equal(status, 1000);
+  await port.close(); assert.equal(port.closed, true);
+});
+
 test('native port does not treat an abruptly destroyed unfinished writer as a graceful end', { timeout: 1000 }, async () => {
   const stream = new PassThrough(); const port = streamPort(stream);
   const closed = new Promise(resolve => stream.once('close', resolve)); stream.destroy(); await closed;

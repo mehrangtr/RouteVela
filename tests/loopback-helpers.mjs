@@ -14,7 +14,7 @@ export function streamPort(stream) {
   const reader = stream.iterator({ destroyOnReturn: false });
   let closed = false;
   const events = [];
-  const codeOf = error => /^E[A-Z_0-9]+$/.test(error?.code ?? '') ? error.code : 'TEST_IO_ERROR';
+  const codeOf = error => /^(?:E[A-Z_0-9]+|WS_ERR_[A-Z_0-9]+)$/.test(error?.code ?? '') ? error.code : 'TEST_IO_ERROR';
   stream.on('error', error => events.push(`stream:${codeOf(error)}`));
   const operation = async (signal, action, stage) => {
     const abort = () => stream.destroy();
@@ -58,7 +58,7 @@ export function webSocketPort(ws) {
     if (ws.readyState !== ws.CLOSED) {
       const abort = () => ws.terminate();
       signal.addEventListener('abort', abort, { once: true });
-      try { await new Promise(resolve => { ws.once('close', resolve); ws.close(); }); }
+      try { await new Promise(resolve => { ws.once('close', resolve); ws.close(1000); }); }
       finally { signal.removeEventListener('abort', abort); }
     }
     port.events.push('end:ws:done');
