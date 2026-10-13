@@ -25,6 +25,10 @@ before(() => {
 });
 after(() => core?.dispose());
 
+function assertSessionSuccess(result) {
+  assert.equal(result.ok, true, result.ok ? 'SESSION_OK' : result.error.code);
+}
+
 function temporaryConfig(t, config) {
   const directory = mkdtempSync(resolve(ROOT, '.tmp/core-config-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
@@ -140,7 +144,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       assert.equal(sources[0].closed, true); assert.equal(peers[0].closed, true);
       const next = await requestThrough(port, destination, '/owned-test?attempt=1');
       assert.deepEqual(next, { status: 200, body: 'RECOVERED' });
-      assert.equal((await outcomes[1]).ok, true);
+      assertSessionSuccess(await outcomes[1]);
       assert.equal(targetRequests, 2); assert.equal(sessions, 2); assert.equal(active, 0);
       assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed)); return;
     }
@@ -148,7 +152,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       for (let round = 0; round < 20; round++) {
         const response = await requestThrough(port, destination, `/owned-test?round=${round}`);
         assert.deepEqual(response, { status: 200, body: `ROUND:/owned-test?round=${round}` });
-        assert.equal((await outcomes[round]).ok, true);
+        assertSessionSuccess(await outcomes[round]);
         assert.equal(active, 0); assert.equal(sessions, round + 1); assert.equal(targetRequests, round + 1);
         assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed));
       }
@@ -163,7 +167,8 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       }
       assert.notDeepEqual(responses[5], { status: 200, body: 'A'.repeat(1024) });
       assert.equal(targetRequests, 6); assert.equal(sessions, 6); assert.equal(peakActive, 6); assert.equal(active, 0);
-      assert.equal(completed.filter(result => result.ok).length, 5);
+      assert.equal(completed.filter(result => result.ok).length, 5,
+        completed.filter(result => !result.ok).map(result => result.error.code).join(','));
       assert.deepEqual(completed.filter(result => !result.ok).map(result => result.error.code), ['RV-TRANS-008']);
       assert.equal(peers.length, 6);
       assert.ok(peers.every(peer => peer.closed)); assert.ok(sources.every(source => source.closed));
@@ -174,7 +179,7 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
     if (scenario === 'permitted') {
       assert.deepEqual(response, { status: 200, body: 'ROUTEVELA_OWNED_RESPONSE' });
       assert.equal(targetRequests, 1); assert.equal(sessions, 1);
-      assert.equal(completed[0].ok, true); assert.equal(peers[0].closed, true);
+      assertSessionSuccess(completed[0]); assert.equal(peers[0].closed, true);
     } else if (scenario === 'byte budget') {
       assert.notDeepEqual(response, { status: 200, body: 'A'.repeat(1024) });
       assert.equal(targetRequests, 1); assert.equal(sessions, 1); assert.equal(peers.length, 1);
