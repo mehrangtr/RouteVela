@@ -1,4 +1,4 @@
-import { failure, success, diagnosticError } from '../contracts/index.js';
+import { failure, diagnosticError } from '../contracts/index.js';
 import type { ByteDuplex, ConnectionAccess, Result, RelayStats, RelayLimits, Timers, HeaderProgress } from '../contracts/index.js';
 import { VlessHeaderParser, vlessResponseHeader } from '../protocols/index.js';
 import { relayBytes, closeDuplexes, createDeadline, DEFAULT_RELAY_LIMITS, SessionFault,
@@ -31,6 +31,7 @@ export async function handleVlessSession(client: ByteDuplex, access: ConnectionA
       if (!parsed.ok) throw new SessionFault(parsed.error.code);
       if (parsed.value.status === 'ready') { ready = parsed.value; break; }
     }
+    if (ready.payload.byteLength > limits.maxSessionBytes) throw new SessionFault('RV-TRANS-008');
     const authorization = await sessionOperation(() => access.authorize(ready.request, control.signal), control.signal);
     if (!authorization.ok) throw new SessionFault(diagnosticError(authorization.error).code);
     const connected = await sessionOperation(() => access.dial(ready.request.destination, control.signal).then(result => {
@@ -48,9 +49,7 @@ export async function handleVlessSession(client: ByteDuplex, access: ConnectionA
       await sessionOperation(() => peer.write(ready.payload, control.signal), control.signal);
     }
     control.dispose(); relayOwnsCleanup = true;
-    const relayed = await relayBytes(client, upstream, timers, limits, signal);
-    outcome = relayed.ok ? success(Object.freeze({ ...relayed.value,
-      clientToUpstreamBytes: relayed.value.clientToUpstreamBytes + ready.payload.byteLength })) : relayed;
+    outcome = await relayBytes(client, upstream, timers, limits, signal, ready.payload.byteLength);
   } catch (error) { control.stop(); outcome = sessionFailure(error); }
   finally { parser.finish(); control.dispose(); }
   if (!relayOwnsCleanup) {

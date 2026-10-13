@@ -37,4 +37,4 @@ export class MemoryDuplex {
   async close() { this.closes++; }
 }
 export const TEST_LIMITS = Object.freeze({ maxChunkBytes: 64, idleTimeoutMs: 100,
-  cleanupTimeoutMs: 10, maxEmptyReads: 2, maxSessionMs: 1000 });
+  cleanupTimeoutMs: 10, maxEmptyReads: 2, maxSessionMs: 1000, maxSessionBytes: 256 });

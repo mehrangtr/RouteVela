@@ -27,6 +27,7 @@ export const ERROR_CATALOG = Object.freeze({
   'RV-TRANS-005': { module: 'transports', stage: 'io', retryable: true, message: 'Connection I/O failed.', action: 'Review the safe stage and use a fresh session; do not replay partial writes automatically.' },
   'RV-TRANS-006': { module: 'transports', stage: 'limits', retryable: false, message: 'Invalid connection limits.', action: 'Use finite positive bounded limits.' },
   'RV-TRANS-007': { module: 'transports', stage: 'cleanup', retryable: false, message: 'Connection cleanup failed or timed out.', action: 'Dispose the transport adapter before opening another session.' },
+  'RV-TRANS-008': { module: 'transports', stage: 'budget', retryable: false, message: 'Session forwarding budget exhausted.', action: 'Review the permitted session budget; no automatic replay or reconnect is performed.' },
 } as const);
 for (const entry of Object.values(ERROR_CATALOG)) Object.freeze(entry);
 

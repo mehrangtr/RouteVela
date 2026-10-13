@@ -80,12 +80,13 @@ async function requestThrough(port, destination) {
   });
 }
 
-for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name']) {
+for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name', 'byte budget']) {
   test(`real core VLESS/WSS connection: ${scenario}`, { timeout: 12_000 }, async t => {
     let targetRequests = 0;
     const target = http.createServer((request, response) => {
       targetRequests++; assert.equal(request.url, '/owned-test');
-      response.writeHead(200, { Connection: 'close' }); response.end('ROUTEVELA_OWNED_RESPONSE');
+      response.writeHead(200, { Connection: 'close' });
+      response.end(scenario === 'byte budget' ? Buffer.alloc(1024, 65) : 'ROUTEVELA_OWNED_RESPONSE');
     });
     target.listen(0, '127.0.0.1'); await once(target, 'listening');
     t.after(async () => { target.closeAllConnections(); await new Promise(resolve => target.close(resolve)); });
@@ -93,7 +94,8 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
     let sessions = 0; const peers = []; const outcomes = [];
     const server = await securePeer(t, source => {
       sessions++;
-      outcomes.push(handleVlessSession(source, accessTo(scenario === 'denied destination' ? destination + 1 : destination, peers), realTimers, limits));
+      const sessionLimits = scenario === 'byte budget' ? { ...limits, maxSessionBytes: 256 } : limits;
+      outcomes.push(handleVlessSession(source, accessTo(scenario === 'denied destination' ? destination + 1 : destination, peers), realTimers, sessionLimits));
     });
     const config = JSON.parse(readFileSync(resolve(ROOT, 'tests/fixtures/sing-box.expected.json'), 'utf8'));
     const port = await proxyPort(); config.inbounds[0].listen_port = port;
@@ -111,6 +113,11 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
       assert.deepEqual(response, { status: 200, body: 'ROUTEVELA_OWNED_RESPONSE' });
       assert.equal(targetRequests, 1); assert.equal(sessions, 1);
       assert.equal(completed[0].ok, true); assert.equal(peers[0].closed, true);
+    } else if (scenario === 'byte budget') {
+      assert.notDeepEqual(response, { status: 200, body: 'A'.repeat(1024) });
+      assert.equal(targetRequests, 1); assert.equal(sessions, 1); assert.equal(peers.length, 1);
+      assert.equal(completed[0].ok, false); assert.equal(completed[0].error.code, 'RV-TRANS-008');
+      assert.equal(peers[0].closed, true);
     } else {
       assert.notEqual(response.status, 200); assert.equal(targetRequests, 0); assert.equal(peers.length, 0);
       assert.equal(sessions, scenario === 'wrong TLS name' ? 0 : 1);

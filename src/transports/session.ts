@@ -2,13 +2,13 @@ import { failure, success } from '../contracts/index.js';
 import type { ByteDuplex, ErrorCode, Result, RelayLimits, Timers } from '../contracts/index.js';
 
 export const DEFAULT_RELAY_LIMITS: RelayLimits = Object.freeze({ maxChunkBytes: 65_536,
-  idleTimeoutMs: 30_000, cleanupTimeoutMs: 1000, maxEmptyReads: 8, maxSessionMs: 300_000 });
+  maxSessionBytes: 16_777_216, idleTimeoutMs: 30_000, cleanupTimeoutMs: 1000, maxEmptyReads: 8, maxSessionMs: 300_000 });
 
 export function validLimits(limits: RelayLimits): boolean {
   if (typeof limits !== 'object' || limits === null || Array.isArray(limits)) return false;
-  return [limits.maxChunkBytes, limits.idleTimeoutMs, limits.cleanupTimeoutMs,
+  return [limits.maxChunkBytes, limits.maxSessionBytes, limits.idleTimeoutMs, limits.cleanupTimeoutMs,
     limits.maxEmptyReads, limits.maxSessionMs].every(value => Number.isSafeInteger(value) && value > 0) &&
-    limits.maxChunkBytes <= 1_048_576 && limits.idleTimeoutMs <= 3_600_000 &&
+    limits.maxChunkBytes <= 1_048_576 && limits.maxSessionBytes <= 1_073_741_824 && limits.idleTimeoutMs <= 3_600_000 &&
     limits.cleanupTimeoutMs <= 10_000 && limits.maxEmptyReads <= 128 && limits.maxSessionMs <= 86_400_000;
 }
 

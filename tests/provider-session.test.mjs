@@ -90,3 +90,29 @@ test('a fresh requested session works after a failure without reusing old stream
     async dial() { return success(peer); } }, timers, TEST_LIMITS)).ok, true);
   assert.equal(denied.closes, 1); assert.equal(next.closes, 1); assert.equal(peer.closes, 1); assert.equal(timers.pending, 0);
 });
+
+test('over-budget initial VLESS payload never authorizes, dials or sends success', async () => {
+  const client = new MemoryDuplex([requestBytes({ payload: [1, 2, 3] })]);
+  const timers = new ManualTimers(); let calls = 0;
+  const result = await handleVlessSession(client, {
+    async authorize() { calls++; return success(undefined); },
+    async dial() { calls++; return success(new MemoryDuplex()); },
+  }, timers, { ...TEST_LIMITS, maxSessionBytes: 2 });
+  fail(result, 'RV-TRANS-008'); assert.equal(calls, 0); assert.equal(client.written.length, 0);
+  assert.equal(client.closes, 1); assert.equal(timers.pending, 0);
+});
+
+test('initial payload and later bytes share one session budget and correct totals', async () => {
+  for (const overflow of [false, true]) {
+    const client = new MemoryDuplex([requestBytes({ payload: [1, 2] }), new Uint8Array([3])]);
+    const peer = new MemoryDuplex(overflow ? [new Uint8Array([8, 9])] : []); const timers = new ManualTimers();
+    const result = await handleVlessSession(client, { async authorize() { return success(undefined); },
+      async dial() { return success(peer); } }, timers, { ...TEST_LIMITS, maxSessionBytes: 3 });
+    if (overflow) fail(result, 'RV-TRANS-008');
+    else { assert.equal(result.ok, true); assert.deepEqual(result.value, { clientToUpstreamBytes: 3, upstreamToClientBytes: 0 }); }
+    const forwarded = peer.written.reduce((total, bytes) => total + bytes.length, 0) +
+      client.written.slice(1).reduce((total, bytes) => total + bytes.length, 0);
+    assert.ok(forwarded <= 3); assert.deepEqual([...peer.written[0]], [1, 2]);
+    assert.equal(client.closes, 1); assert.equal(peer.closes, 1); assert.equal(timers.pending, 0);
+  }
+});

@@ -4,7 +4,7 @@ import { failure, success } from '../dist/contracts/index.js';
 import { TEST_UUID } from './connection-helpers.mjs';
 
 export const limits = { maxChunkBytes: 65_536, idleTimeoutMs: 1500, cleanupTimeoutMs: 500,
-  maxEmptyReads: 8, maxSessionMs: 4000 };
+  maxEmptyReads: 8, maxSessionMs: 4000, maxSessionBytes: 65_536 };
 
 // Test-only OS adapters: actual sockets and library WebSockets on loopback only.
 export function streamPort(stream) {

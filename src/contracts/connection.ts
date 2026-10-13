@@ -29,6 +29,9 @@ export interface Timers {
 }
 export interface RelayLimits {
   readonly maxChunkBytes: number;
+  // Combined forwarded application bytes, including any initial VLESS payload.
+  // Protocol/TLS framing overhead is not a provider billing quota.
+  readonly maxSessionBytes: number;
   readonly idleTimeoutMs: number;
   readonly cleanupTimeoutMs: number;
   readonly maxEmptyReads: number;

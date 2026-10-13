@@ -59,7 +59,7 @@ before entering a VLESS session. No system certificate store is changed.
 Loopback tests are not an ISP trial, production deployment or a native Windows pass. Port adapters must enforce their own queue bounds,
 authentication and destination restrictions before a live runtime is considered.
 
-`npm run test:core` builds the core and runs four controlled connection cases plus
+`npm run test:core` builds the core and runs five controlled connection cases plus
 the unchanged renderer-output parse check against official sing-box 1.12.0. The
 artifact tool fetches the matching Windows/Linux x64/arm64 release, verifies the
 pinned upstream archive digest before extracting/executing, and rejects tampering.
@@ -205,3 +205,16 @@ that automatically improve every network. Do not disable TLS verification to win
 Critical security invariants must pass completely; a percentage coverage target is
 not evidence that revocation, recovery or protocol parsing is safe. Tests must not
 hit production users/accounts or unrelated network targets. Use controlled fixtures.
+
+The relay now enforces one maxSessionBytes allowance across both directions,
+including the initial VLESS payload. The default is 16 MiB per session; explicit
+positive safe integers up to 1 GiB are accepted. Invalid/absent values fail closed.
+A whole chunk is reserved before awaiting a write, so concurrent directions cannot
+spend the same allowance. Over-budget chunks are not partially forwarded and the
+session closes with RV-TRANS-008, without automatic reconnect or replay. Initial
+payload already above the limit is rejected before authorization/dial/success reply.
+Exact-boundary, concurrent pending-write, initial-payload and cleanup regressions
+exercise this behavior, including an actual-core over-budget HTTP response trial.
+These are application forwarding limits, not account-wide billing quotas: protocol
+framing and bytes received into an adapter are excluded, and ports still need their
+own queue/connection limits before production deployment.

@@ -36,6 +36,25 @@ During P01, review capabilities, free-egress candidates and existing permission 
 Unresolved external gates do not prevent completing tested local P01 work or controlled local P02 parsers/streams. They prevent live Cloudflare VPN deployment, P02 closure and P03+ product expansion.
 At the blocked live step, finish useful independent work and report the specific missing prerequisite. Changed product goals or costs need an owner decision; routine local tasks do not need repeated confirmation.
 Do not grow a large UI or implement optional features while the critical connection path remains unproven.
+
+Concrete operator action for the external permission gate:
+Submit the following prepared request through the official support/contact channel
+available in your own Cloudflare account. Account ownership and the provider's
+written decision cannot be supplied by an agent. Keep account details and the full
+reply private; provide the decision, its scope and a non-sensitive reference.
+No outreach has been sent. The agent owns technical design, free-egress assessment,
+implementation and validation; the operator need not invent an egress solution.
+
+Subject: Written permission and free-tier feasibility for an authenticated proxy trial
+Message: We are developing RouteVela, a Windows/Linux-compatible connection service.
+The local prototype uses authenticated VLESS over TLS WebSockets with TCP forwarding,
+restricted destinations, byte/time limits and no public administrative endpoint.
+It has not been deployed on Cloudflare. We propose a bounded controlled trial on
+Workers Free, without paid services or quota circumvention. Please confirm whether
+this use is permitted in writing under the applicable terms, including any VPN/proxy
+restriction. If permitted, please identify the allowed scope, free-tier eligibility,
+outbound TCP/egress restrictions and any required paid component. We will not deploy
+until applicable permission and a permitted zero-required-cost path are established.
 Do not promise a two-week or fixed-week delivery date. Estimate after P01/P02 using observed throughput and explicitly exclude unresolved external waiting time.
 
 3) Core release behavior

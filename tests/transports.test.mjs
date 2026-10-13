@@ -71,7 +71,8 @@ test('oversized frames, empty-read storms and invalid limits fail with bounded c
     fail(await relayBytes(client, upstream, timers, TEST_LIMITS), code);
     assert.equal(upstream.written.length, 0); assert.equal(client.closes, 1); assert.equal(upstream.closes, 1);
   }
-  for (const limits of [null, {}, { ...TEST_LIMITS, maxChunkBytes: Infinity }, { ...TEST_LIMITS, cleanupTimeoutMs: 0 }]) {
+  for (const limits of [null, {}, { ...TEST_LIMITS, maxChunkBytes: Infinity }, { ...TEST_LIMITS, cleanupTimeoutMs: 0 },
+    ...[undefined, 0, -1, 1.5, Infinity, 1_073_741_825].map(maxSessionBytes => ({ ...TEST_LIMITS, maxSessionBytes }))]) {
     const a = new MemoryDuplex(); const b = new MemoryDuplex(); const timers = new ManualTimers();
     fail(await relayBytes(a, b, timers, limits), 'RV-TRANS-006'); assert.equal(a.readCalls, 0); assert.equal(a.closes, 1);
   }
@@ -92,4 +93,43 @@ test('cleanup failures and hanging adapters do not turn an incomplete disposal i
   const c = new MemoryDuplex(); const d = new MemoryDuplex(); c.close = pending;
   const run = relayBytes(c, d, timers, TEST_LIMITS); await flush(); timers.advance(10);
   fail(await run, 'RV-TRANS-007'); assert.equal(d.closes, 1); assert.equal(timers.pending, 0);
+});
+
+test('combined byte budget permits the exact boundary and rejects the next whole chunk', async () => {
+  for (const extra of [false, true]) {
+    const client = new MemoryDuplex([new Uint8Array([1, 2]), ...(extra ? [new Uint8Array([3])] : [])]);
+    const upstream = new MemoryDuplex([new Uint8Array([7])]); const timers = new ManualTimers();
+    const result = await relayBytes(client, upstream, timers, { ...TEST_LIMITS, maxSessionBytes: 3 });
+    if (extra) fail(result, 'RV-TRANS-008');
+    else { assert.equal(result.ok, true); assert.deepEqual(result.value, { clientToUpstreamBytes: 2, upstreamToClientBytes: 1 }); }
+    assert.deepEqual(upstream.written.map(x => [...x]), [[1, 2]]);
+    assert.deepEqual(client.written.map(x => [...x]), [[7]]);
+    assert.equal(client.closes, 1); assert.equal(upstream.closes, 1); assert.equal(timers.pending, 0);
+  }
+});
+
+test('simultaneous writes reserve a shared budget before acknowledgements', async () => {
+  const client = new MemoryDuplex([new Uint8Array([1, 2, 3])]);
+  const upstream = new MemoryDuplex([new Uint8Array([7, 8, 9])]); const timers = new ManualTimers();
+  let acknowledge;
+  upstream.write = async bytes => { upstream.written.push(new Uint8Array(bytes));
+    await new Promise(resolve => { acknowledge = resolve; }); };
+  const result = await relayBytes(client, upstream, timers, { ...TEST_LIMITS, maxSessionBytes: 5 });
+  fail(result, 'RV-TRANS-008'); assert.equal(client.written.length, 0);
+  assert.deepEqual(upstream.written.map(x => [...x]), [[1, 2, 3]]);
+  acknowledge(); await flush(); assert.equal(client.readCalls, 1);
+  assert.equal(client.closes, 1); assert.equal(upstream.closes, 1); assert.equal(timers.pending, 0);
+});
+
+test('initial forwarded bytes consume the relay budget once and invalid seeds perform no I/O', async () => {
+  const client = new MemoryDuplex([new Uint8Array([1])]); const upstream = new MemoryDuplex();
+  const timers = new ManualTimers();
+  const result = await relayBytes(client, upstream, timers, { ...TEST_LIMITS, maxSessionBytes: 3 }, undefined, 2);
+  assert.equal(result.ok, true); assert.deepEqual(result.value, { clientToUpstreamBytes: 3, upstreamToClientBytes: 0 });
+  for (const seed of [-1, 1.5, 4, Infinity]) {
+    const a = new MemoryDuplex(); const b = new MemoryDuplex();
+    fail(await relayBytes(a, b, timers, { ...TEST_LIMITS, maxSessionBytes: 3 }, undefined, seed), 'RV-TRANS-006');
+    assert.equal(a.readCalls, 0); assert.equal(b.readCalls, 0); assert.equal(a.closes, 1); assert.equal(b.closes, 1);
+  }
+  assert.equal(timers.pending, 0);
 });

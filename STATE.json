@@ -20,11 +20,12 @@
     "P02.02"
   ],
   "next_task": "P02.03",
-  "resume_action": "Local P02 parser/relay, verified TLS and actual sing-box 1.12.0 loopback interoperability are implemented in unpushed checkpoints. Run npm run context and verify:local-evidence; use npm run test:core for the pinned client trial. Native Windows execution remains unobserved despite configured CI. Before a live Cloudflare VPN trial obtain applicable written permission and a permitted zero-required-cost egress path, then review P02.03 and complete the live P02.04 gates. Do not treat loopback proof as a live Internet connection. Native mobile apps stay deferred; target Windows/Linux.",
+  "resume_action": "P02 local parser/relay, verified TLS, actual sing-box interoperability and shared session byte limits are implemented in unpushed checkpoints. Run npm run context and verify:local-evidence. The next external step is the operator permission request prepared in PROJECT.txt (Concrete operator action). The owner needs only to submit it through their official Cloudflare account channel and provide the scoped decision/non-sensitive reference; the agent owns free-egress assessment and all technical work. Do not deploy, close P02 or expand P03+ until applicable permission and a permitted zero-required-cost path are proven. Windows runtime remains unobserved; native mobile stays deferred.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build, 62 main tests and 5 separate real-core tests passed; zero failed/skipped.",
+    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build, 67 main tests and 6 separate real-core tests passed; zero failed/skipped.",
+    "A shared maxSessionBytes budget includes initial VLESS payload and both directions. Exact boundary, overlapping pending writes, invalid limits, no-dial initial overflow and actual-core response overflow passed; both ports closed without replay.",
     "Actual loopback TCP, WS and verified TLS/WSS forwarding passed, with half-close, backpressure, authentication/destination gates and resource cleanup.",
     "Official sing-box 1.12.0 Linux x64 archive matched upstream release SHA-256; unchanged renderer output passed the real core check. Owned HTTP response crossed VLESS/WSS successfully.",
     "Actual core denied invalid credentials, forbidden destination and wrong TLS name without reaching the owned destination; direct TLS rejected untrusted CA.",
@@ -37,13 +38,13 @@
       "id": "CF_PERMISSION",
       "scope": "live VPN deployment/P02 closure",
       "status": "unresolved",
-      "action": "Owner must supply applicable written provider permission; no message has been sent."
+      "action": "Operator: submit the prepared PROJECT.txt permission request through the official channel available in your own Cloudflare account, retain the full reply privately and provide the scoped decision/non-sensitive reference. No outreach has been sent."
     },
     {
       "id": "FREE_EGRESS",
       "scope": "P02 connection viability",
       "status": "unproven",
-      "action": "Prove a permitted zero-required-cost real traffic path."
+      "action": "Agent: assess permitted zero-required-cost egress against the provider reply/capabilities, then prove real traffic viability. The operator is not asked to design or supply an unverified relay."
     }
   ],
   "publication": {
@@ -52,7 +53,7 @@
     "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T20:45:29.641570Z",
+  "updated_at_utc": "2026-10-13T20:54:20.084133Z",
   "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP checkpoint; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming. Cloud draft changes do not prove fresh-task restoration of local commits.",
   "platform_targets": [
     "Windows",
