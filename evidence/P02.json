@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "P02",
-  "created_at_utc": "2026-10-13T20:53:34.675Z",
+  "created_at_utc": "2026-10-13T20:59:46.215Z",
   "scope": "local_partial",
   "phase_readiness": "blocked",
   "environment": {
@@ -29,14 +29,14 @@
     "AGENTS.md": "945330ebd3ff8eedf711db24ea85d6e22f24658bfa362d12ac70db006ed271de",
     "CONTINUE.md": "555c011dc14248318f2136c73c1c7e0e52ac3014c08f52d91c43d3830da818ac",
     "LICENSE": "4fdccdd38003dcb2598d5b4f8a8e70021d780d510c2f174122d819be63f2a0de",
-    "PROJECT.txt": "f62285d5556418059c0c56df99e4cb2f43f0c5defbe37822639be0c31338d418",
+    "PROJECT.txt": "8213f063f4f0c4700ce572efc9d28958bb08ae555c643050a026dcaa176cfedc",
     "README.md": "070cece2bebe62c0e61eb6ef94e6d98fc9d14f889cdf91a5aab80d99c7284c1f",
     "ROADMAP.json": "daa70256603f9c3f6fcf9d5975b416ca6fb9a4f89fdb4d014ab42440d3adb20a",
     "SECURITY.md": "e3d7b4ae313c5fe71fb91877828b0df2fcc3c7153cf9348273b9a0ca244659f3",
     "docs/ARCHITECTURE.md": "b5afd33b8d97ee3bd8c4dbf6fe1614e5ba3db14342e1d8b1adb0c17f6cc0bd5b",
     "docs/DEPENDENCIES.md": "8b87339bb31bb6c3a0933dd1fd30b5a76dc933a160993c224910728e166f7ff7",
     "docs/SOURCES.json": "21a9b2f7925cc32dab738ee6d1992169dcf893bcc53f8109c7ecc68640932f60",
-    "docs/TESTING.md": "450da7395198117cb1a01bc08f2b07665151ea6132f6494cb8e0f654f6852cf5",
+    "docs/TESTING.md": "144e94381c3ed14406372f8327224e1cf5735073ab46f5b060322a0d03f2deb2",
     "eslint.config.mjs": "80f507012208718de07219e1c1f93528be0828a7a28c88a2103fd5ccc8083291",
     "module-map.json": "220daab5515d968d38a0837a750b1fcd7be4f52b9c0f471e645f32941b19a8e2",
     "package-lock.json": "1432336a8b36be4d98d5343f25d770fdb6f6f8b8f4fc7d0d695f31f33eadfff0",
@@ -63,7 +63,7 @@
     "tests/config.test.mjs": "fbf9b9ead08b9f5d9d8670288ee8530a5d420873d7276f799d24950bfa21d4ef",
     "tests/connection-helpers.mjs": "8e400b6944cd64ffd013f52a4549d4f8eb8101d2fc3d41c615e2af6654dd9b8a",
     "tests/core-artifact.test.mjs": "da30a4e7a159143bc13a5bc27200d41e7e184fceb84bc9819d7ccbae0aab8b0f",
-    "tests/core-interop.mjs": "a2512d0e90f58c4424dfdd314e28d924cf788179978f69f88996c5f6ab5f264d",
+    "tests/core-interop.mjs": "530398d906c696643c4517e442e14225577770342cb03e6f882099020d73680d",
     "tests/domain.test.mjs": "e50e92cceddd3395afa57ee76861868c705db49ffadb6589c13c2bcc0a157807",
     "tests/fixtures/profile.json": "1f03a58d1b5e4938cba91d4cbf5c67aa891ccf7b55497bddddd6097efde1b84a",
     "tests/fixtures/sing-box.expected.json": "be3884391d236c930326437f5dfaeccf1d9d2359fa38b7d62497ae1e3dd09d44",
@@ -131,7 +131,7 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 67\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1058.235459",
+      "summary": "ℹ suites 0\nℹ pass 67\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1050.7902",
       "test_counts": {
         "executed": 67,
         "failed": 0,
@@ -150,9 +150,9 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 834.592573",
+      "summary": "ℹ suites 0\nℹ pass 7\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 885.851417",
       "test_counts": {
-        "executed": 6,
+        "executed": 7,
         "failed": 0,
         "skipped": 0
       }

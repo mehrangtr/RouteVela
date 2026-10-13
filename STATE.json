@@ -20,11 +20,12 @@
     "P02.02"
   ],
   "next_task": "P02.03",
-  "resume_action": "P02 local parser/relay, verified TLS, actual sing-box interoperability and shared session byte limits are implemented in unpushed checkpoints. Run npm run context and verify:local-evidence. The next external step is the operator permission request prepared in PROJECT.txt (Concrete operator action). The owner needs only to submit it through their official Cloudflare account channel and provide the scoped decision/non-sensitive reference; the agent owns free-egress assessment and all technical work. Do not deploy, close P02 or expand P03+ until applicable permission and a permitted zero-required-cost path are proven. Windows runtime remains unobserved; native mobile stays deferred.",
+  "resume_action": "Owner requested continued test-only work and no current provider-permission action. Controlled local parser/relay/TLS/core/budget tests are implemented; continue bounded repeated-run resource profiling and interruption/isolation tests within P02, then obtain actual Windows execution through an available native runner. Do not invent Windows results, provider permission or free live egress from local tests. No outreach or live deployment is requested now. The prepared PROJECT.txt provider request is deferred to a future live deployment. P02 live acceptance and P03+ gates remain open. Native mobile stays deferred.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build, 67 main tests and 6 separate real-core tests passed; zero failed/skipped.",
+    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build, 67 main tests and 7 separate real-core tests passed (74 total); zero failed/skipped.",
+    "Real sing-box parallel test: six overlapping VLESS/WSS sessions, five distinct healthy responses and one budget failure; all source/peer ports closed and healthy sessions were isolated from the failure. Not a production capacity benchmark.",
     "A shared maxSessionBytes budget includes initial VLESS payload and both directions. Exact boundary, overlapping pending writes, invalid limits, no-dial initial overflow and actual-core response overflow passed; both ports closed without replay.",
     "Actual loopback TCP, WS and verified TLS/WSS forwarding passed, with half-close, backpressure, authentication/destination gates and resource cleanup.",
     "Official sing-box 1.12.0 Linux x64 archive matched upstream release SHA-256; unchanged renderer output passed the real core check. Owned HTTP response crossed VLESS/WSS successfully.",
@@ -38,13 +39,13 @@
       "id": "CF_PERMISSION",
       "scope": "live VPN deployment/P02 closure",
       "status": "unresolved",
-      "action": "Operator: submit the prepared PROJECT.txt permission request through the official channel available in your own Cloudflare account, retain the full reply privately and provide the scoped decision/non-sensitive reference. No outreach has been sent."
+      "action": "Deferred for the current controlled local test scope; no operator action or outreach requested now. Before a future live provider deployment, establish applicable permission/scope rather than inferring it from test status."
     },
     {
       "id": "FREE_EGRESS",
       "scope": "P02 connection viability",
       "status": "unproven",
-      "action": "Agent: assess permitted zero-required-cost egress against the provider reply/capabilities, then prove real traffic viability. The operator is not asked to design or supply an unverified relay."
+      "action": "Agent: continue independent local validation and assess permitted zero-required-cost live egress before any online trial. Local loopback results do not prove Internet viability. No unverified relay is requested from the operator."
     }
   ],
   "publication": {
@@ -53,7 +54,7 @@
     "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T20:54:20.084133Z",
+  "updated_at_utc": "2026-10-13T21:00:30.293545Z",
   "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP checkpoint; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming. Cloud draft changes do not prove fresh-task restoration of local commits.",
   "platform_targets": [
     "Windows",

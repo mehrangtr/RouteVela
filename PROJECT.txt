@@ -37,9 +37,13 @@ Unresolved external gates do not prevent completing tested local P01 work or con
 At the blocked live step, finish useful independent work and report the specific missing prerequisite. Changed product goals or costs need an owner decision; routine local tasks do not need repeated confirmation.
 Do not grow a large UI or implement optional features while the critical connection path remains unproven.
 
-Concrete operator action for the external permission gate:
-Submit the following prepared request through the official support/contact channel
-available in your own Cloudflare account. Account ownership and the provider's
+Current test scope: controlled local tests require no provider account, outreach
+or operator action. Continue independent testing for Windows/Linux. Testing alone
+is not evidence of permission for a future live third-party deployment.
+
+Prepared operator action for a future live provider permission gate:
+Before a live provider deployment, use the following request through the official
+support/contact channel available in your own Cloudflare account. Account ownership and the provider's
 written decision cannot be supplied by an agent. Keep account details and the full
 reply private; provide the decision, its scope and a non-sensitive reference.
 No outreach has been sent. The agent owns technical design, free-egress assessment,

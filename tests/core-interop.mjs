@@ -66,10 +66,10 @@ async function startCore(t, path, port) {
   throw new Error('CORE_READINESS_TIMEOUT');
 }
 
-async function requestThrough(port, destination) {
+async function requestThrough(port, destination, path = '/owned-test') {
   return new Promise((resolve, reject) => {
     const request = http.get({ host: '127.0.0.1', port,
-      path: `http://127.0.0.1:${destination}/owned-test`, headers: { Connection: 'close' },
+      path: `http://127.0.0.1:${destination}${path}`, headers: { Connection: 'close' },
       agent: false, timeout: 3000 }, response => {
       const chunks = []; response.on('data', data => chunks.push(data));
       response.once('error', reject);
@@ -80,22 +80,38 @@ async function requestThrough(port, destination) {
   });
 }
 
-for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name', 'byte budget']) {
+for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name', 'byte budget', 'parallel isolation']) {
   test(`real core VLESS/WSS connection: ${scenario}`, { timeout: 12_000 }, async t => {
     let targetRequests = 0;
+    const waiting = [];
     const target = http.createServer((request, response) => {
-      targetRequests++; assert.equal(request.url, '/owned-test');
+      targetRequests++;
+      if (scenario === 'parallel isolation') {
+        assert.match(request.url, /^\/owned-test\?session=[0-5]$/);
+        waiting.push({ path: request.url, response });
+        // Hold every response until all six requests have arrived. This proves
+        // overlapping sessions without timing-based concurrency assumptions.
+        if (waiting.length === 6) for (const item of waiting) {
+          item.response.writeHead(200, { Connection: 'close' });
+          item.response.end(item.path.endsWith('=5') ? Buffer.alloc(1024, 65) : `OWNED:${item.path}`);
+        }
+        return;
+      }
+      assert.equal(request.url, '/owned-test');
       response.writeHead(200, { Connection: 'close' });
       response.end(scenario === 'byte budget' ? Buffer.alloc(1024, 65) : 'ROUTEVELA_OWNED_RESPONSE');
     });
     target.listen(0, '127.0.0.1'); await once(target, 'listening');
     t.after(async () => { target.closeAllConnections(); await new Promise(resolve => target.close(resolve)); });
     const destination = target.address().port;
-    let sessions = 0; const peers = []; const outcomes = [];
+    let sessions = 0; let active = 0; let peakActive = 0;
+    const peers = []; const outcomes = []; const sources = [];
     const server = await securePeer(t, source => {
-      sessions++;
-      const sessionLimits = scenario === 'byte budget' ? { ...limits, maxSessionBytes: 256 } : limits;
-      outcomes.push(handleVlessSession(source, accessTo(scenario === 'denied destination' ? destination + 1 : destination, peers), realTimers, sessionLimits));
+      sessions++; active++; peakActive = Math.max(peakActive, active); sources.push(source);
+      const sessionLimits = scenario === 'byte budget' ? { ...limits, maxSessionBytes: 256 } :
+        scenario === 'parallel isolation' ? { ...limits, maxSessionBytes: 384 } : limits;
+      outcomes.push(handleVlessSession(source, accessTo(scenario === 'denied destination' ? destination + 1 : destination, peers), realTimers, sessionLimits)
+        .finally(() => { active--; }));
     });
     const config = JSON.parse(readFileSync(resolve(ROOT, 'tests/fixtures/sing-box.expected.json'), 'utf8'));
     const port = await proxyPort(); config.inbounds[0].listen_port = port;
@@ -107,6 +123,21 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
     outbound.tls.certificate = [server.ca]; outbound.transport.path = '/connect';
     if (scenario === 'denied credential') outbound.uuid = '00000000-0000-4000-8000-000000000002';
     await startCore(t, temporaryConfig(t, config), port);
+    if (scenario === 'parallel isolation') {
+      const responses = await Promise.all(Array.from({ length: 6 }, (_, index) =>
+        requestThrough(port, destination, `/owned-test?session=${index}`).catch(() => ({ status: 0, body: '' }))));
+      const completed = await Promise.all(outcomes);
+      for (let index = 0; index < 5; index++) {
+        assert.deepEqual(responses[index], { status: 200, body: `OWNED:/owned-test?session=${index}` });
+      }
+      assert.notDeepEqual(responses[5], { status: 200, body: 'A'.repeat(1024) });
+      assert.equal(targetRequests, 6); assert.equal(sessions, 6); assert.equal(peakActive, 6); assert.equal(active, 0);
+      assert.equal(completed.filter(result => result.ok).length, 5);
+      assert.deepEqual(completed.filter(result => !result.ok).map(result => result.error.code), ['RV-TRANS-008']);
+      assert.equal(peers.length, 6);
+      assert.ok(peers.every(peer => peer.closed)); assert.ok(sources.every(source => source.closed));
+      return;
+    }
     const response = await requestThrough(port, destination).catch(() => ({ status: 0, body: '' }));
     const completed = await Promise.all(outcomes);
     if (scenario === 'permitted') {

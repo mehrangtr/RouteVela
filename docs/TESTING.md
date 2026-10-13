@@ -59,7 +59,7 @@ before entering a VLESS session. No system certificate store is changed.
 Loopback tests are not an ISP trial, production deployment or a native Windows pass. Port adapters must enforce their own queue bounds,
 authentication and destination restrictions before a live runtime is considered.
 
-`npm run test:core` builds the core and runs five controlled connection cases plus
+`npm run test:core` builds the core and runs six controlled connection cases plus
 the unchanged renderer-output parse check against official sing-box 1.12.0. The
 artifact tool fetches the matching Windows/Linux x64/arm64 release, verifies the
 pinned upstream archive digest before extracting/executing, and rejects tampering.
@@ -218,3 +218,10 @@ exercise this behavior, including an actual-core over-budget HTTP response trial
 These are application forwarding limits, not account-wide billing quotas: protocol
 framing and bytes received into an adapter are excluded, and ports still need their
 own queue/connection limits before production deployment.
+
+The real-core parallel-isolation case holds destination responses until six
+independent sessions are active. Five requests receive distinct expected bodies;
+the sixth exceeds its session byte budget. All five healthy sessions must still
+succeed, exactly one session must report RV-TRANS-008, and all twelve source/peer
+ports must close. A response barrier proves overlap without fragile timing checks.
+This bounded local concurrency check is not a production capacity benchmark.
