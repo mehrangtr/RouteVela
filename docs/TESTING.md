@@ -243,3 +243,9 @@ observations in evidence/P02.json; CI is configured to run the profile on both O
 They include Node test/TLS setup/adapters and exclude the separate sing-box child,
 build time, cloud runtime and ISP. Sampling can miss brief peaks. No memory leak,
 production capacity, billing or throughput conclusion follows from these numbers.
+
+CI failure annotations expose only source basenames/line numbers, known core case
+names, stable error/stage codes and small numeric/boolean assertions. They omit
+raw exception/config/payload strings. This permits diagnosis from public job
+annotations when GitHub log authentication is unavailable. Full logs remain under
+GitHub's normal access rules; no access controls or tests are bypassed.

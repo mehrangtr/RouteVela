@@ -23,7 +23,7 @@
     "verify": "npm run doctor && npm run check && npm run typecheck && npm run lint && npm test && npm run audit",
     "demo": "npm run build && node tools/demo.mjs",
     "verify:local-evidence": "node tools/evidence.mjs verify-local P02",
-    "test:core": "npm run build && node --test tests/core-interop.mjs",
+    "test:core": "npm run build && node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/ci-diagnostics.mjs --test-reporter-destination=stderr tests/core-interop.mjs",
     "profile:core": "npm run build && node tools/core-profile.mjs"
   },
   "devDependencies": {

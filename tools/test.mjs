@@ -14,7 +14,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const tests = discoverTests(resolve(ROOT, 'tests'));
   if (!tests.length) { console.error('NO_TEST_FILES'); process.exitCode = 1; }
   else {
-    const run = runCommand('node', ['--test', ...tests], { cwd: ROOT, stdio: 'inherit' });
+    const reporters = process.env.GITHUB_ACTIONS === 'true' ? ['--test-reporter=spec', '--test-reporter-destination=stdout',
+      '--test-reporter=./tools/ci-diagnostics.mjs', '--test-reporter-destination=stderr'] : [];
+    const run = runCommand('node', ['--test', ...reporters, ...tests], { cwd: ROOT, stdio: 'inherit' });
     process.exitCode = run.status ?? 1;
   }
 }

@@ -15,9 +15,16 @@ try {
     const path = join(directory, `${index}.json`);
     const runId = `${profileId}:${index}`;
     const run = runCommand('node', ['--test-isolation=none', '--import', './tools/resource-observer.mjs',
-      '--test', 'tests/core-interop.mjs'], { cwd: ROOT, encoding: 'utf8', timeout: 60_000,
+      '--test', '--test-reporter=spec', '--test-reporter-destination=stdout',
+      '--test-reporter=./tools/ci-diagnostics.mjs', '--test-reporter-destination=stderr',
+      'tests/core-interop.mjs'], { cwd: ROOT, encoding: 'utf8', timeout: 60_000,
       env: { ...process.env, ROUTEVELA_RESOURCE_REPORT: path, ROUTEVELA_RESOURCE_RUN_ID: runId } });
-    if (run.status !== 0) throw new Error('CORE_PROFILE_TEST_FAILED');
+    if (run.status !== 0) {
+      for (const line of run.stderr?.split('\n') ?? []) {
+        if (line.startsWith('::error title=RouteVela test failure::')) console.error(line);
+      }
+      throw new Error('CORE_PROFILE_TEST_FAILED');
+    }
     const counts = Object.fromEntries(['tests', 'fail', 'skipped'].map(name =>
       [name, Number(run.stdout.match(new RegExp(`(?:\\u2139|#) ${name} (\\d+)`))?.[1] ?? -1)]));
     if (counts.tests < 1 || counts.fail !== 0 || counts.skipped !== 0) throw new Error('CORE_PROFILE_TEST_COUNTS');
@@ -42,5 +49,8 @@ try {
   writeFileSync(resolve(ROOT, '.tmp/core-profile.json'), JSON.stringify(report, null, 2) + '\n');
   console.log('PASS: three bounded real-core test repetitions; resource observations saved to .tmp/core-profile.json.');
   for (const run of runs) console.log(`Node host: CPU ${(run.cpu_user_ms + run.cpu_system_ms).toFixed(1)} ms; sampled peak RSS ${(run.sampled_peak_rss_bytes / 1048576).toFixed(1)} MiB; ${run.test_counts.executed} tests passed.`);
-} catch (error) { console.error(error.message); process.exitCode = 1; }
+} catch (error) {
+  const code = /^CORE_PROFILE_[A-Z_]+$/.test(error.message ?? '') ? error.message : 'CORE_PROFILE_TOOL_ERROR';
+  console.error(`::error title=RouteVela profile failure::code=${code}`); process.exitCode = 1;
+}
 finally { rmSync(directory, { recursive: true, force: true }); }
