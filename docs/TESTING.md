@@ -257,3 +257,11 @@ already-closed transport, while read/write errors and session deadlines remain
 strict. TCP port end similarly acknowledges a previously finished writer and
 rejects an abruptly destroyed unfinished writer immediately. Regressions cover
 both states and peer-first WebSocket close; no test expectation or budget is relaxed.
+
+`npm run test:lab` executes the bounded loopback CLI harness in a child process.
+Smoke, one-second auto-stop and stdin stop cases require the exact owned response,
+zero failed/active sessions, closed proxy/WSS/target ports and no leftover temporary
+config or extracted executable. Argument tests reject public bind/destination
+options and unbounded durations. Native CI runs this alongside core/profile tests;
+it is also required in partial P02 evidence. The persistent cached archive is
+intentionally retained and reverified. No external provider or GUI is involved.

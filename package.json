@@ -24,7 +24,9 @@
     "demo": "npm run build && node tools/demo.mjs",
     "verify:local-evidence": "node tools/evidence.mjs verify-local P02",
     "test:core": "npm run build && node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/ci-diagnostics.mjs --test-reporter-destination=stderr tests/core-interop.mjs",
-    "profile:core": "npm run build && node tools/core-profile.mjs"
+    "profile:core": "npm run build && node tools/core-profile.mjs",
+    "lab": "npm run build && node tools/local-lab.mjs",
+    "test:lab": "npm run build && node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/ci-diagnostics.mjs --test-reporter-destination=stderr tests/lab-interop.mjs"
   },
   "devDependencies": {
     "eslint": "10.12.0",

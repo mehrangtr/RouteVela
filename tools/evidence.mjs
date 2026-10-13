@@ -19,7 +19,7 @@ const gates = {
 };
 const commandText = ([command, args]) => [command, ...args].join(' ');
 // P02's local runner cannot establish the separately gated live acceptance.
-gates.P02 = [...gates.P01, ['npm', ['run', 'test:core']], ['npm', ['run', 'profile:core']]];
+gates.P02 = [...gates.P01, ['npm', ['run', 'test:core']], ['npm', ['run', 'profile:core']], ['npm', ['run', 'test:lab']]];
 try {
   if (!/^P\d{2}$/.test(phase ?? '')) throw new Error('Provide an explicit phase ID.');
   if (!gates[phase]) throw new Error('Add the actual phase runner before recording or verifying this phase.');
@@ -39,7 +39,7 @@ try {
       const result = { command: description, execution_context: 'local_process', exit_code: run.status,
         result: run.status === 0 ? 'pass' : 'fail',
         summary: run.status === 0 ? run.stdout.trim().split('\n').slice(-7).join('\n') : 'Check failed; inspect local output.' };
-      if (description === testCommand || description === 'npm run test:core') {
+      if (description === testCommand || description === 'npm run test:core' || description === 'npm run test:lab') {
         const count = run.stdout.match(/(?:\u2139|#) tests (\d+)/);
         const failed = run.stdout.match(/(?:\u2139|#) fail (\d+)/);
         const skipped = run.stdout.match(/(?:\u2139|#) skipped (\d+)/);
@@ -111,7 +111,7 @@ try {
     const expected = {
       acceptanceIds: criteria.map(text => text.split(':')[0]),
       commands: gates[phase].map(commandText), testCommand,
-      testCommands: phase === 'P02' ? [testCommand, 'npm run test:core'] : [testCommand],
+      testCommands: phase === 'P02' ? [testCommand, 'npm run test:core', 'npm run test:lab'] : [testCommand],
       ...(phase === 'P02' ? { resourceCommand: 'npm run profile:core' } : {}),
     };
     if (action === 'verify-local' && phase !== 'P02') throw new Error('Local partial verification is only implemented for P02.');

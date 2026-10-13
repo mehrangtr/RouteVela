@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "P02",
-  "created_at_utc": "2026-10-13T21:32:05.278Z",
+  "created_at_utc": "2026-10-13T22:05:54.701Z",
   "scope": "local_partial",
   "phase_readiness": "blocked",
   "environment": {
@@ -22,7 +22,7 @@
   "input_sha256": {
     ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
     ".github/CODEOWNERS": "569035fb5c59bd2d43cc545be390cc14531c0d2a95415411deddea304bcf13da",
-    ".github/workflows/ci.yml": "7b4f2b2ddc4d37ebc6d61d483f344868d38966a018a02756178c1e4827cc3a03",
+    ".github/workflows/ci.yml": "fb8224b00048ffe9e5290537e9af03801cd1fa4de5b9bee667f0b538ff56f780",
     ".gitignore": "53b36ab9b53f20e3473374f03995ec71006cc6a80de412247dab3d2fd6fda7e7",
     ".node-version": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
     ".npmrc": "bd560ecd60af0e020ba7cc618d53cac0976be3d90ee1a8024578af6ced0aa8dc",
@@ -30,17 +30,17 @@
     "CONTINUE.md": "555c011dc14248318f2136c73c1c7e0e52ac3014c08f52d91c43d3830da818ac",
     "LICENSE": "4fdccdd38003dcb2598d5b4f8a8e70021d780d510c2f174122d819be63f2a0de",
     "PROJECT.txt": "8213f063f4f0c4700ce572efc9d28958bb08ae555c643050a026dcaa176cfedc",
-    "README.md": "89a56d57147af7e4af2c4934fb77c05967ab62012784ae46a8bc1ba1adde57c4",
+    "README.md": "6356947cab59c88e7917a4ba6ee1511e5d3ed5b53cd77c178b9fad6665e1eacb",
     "ROADMAP.json": "daa70256603f9c3f6fcf9d5975b416ca6fb9a4f89fdb4d014ab42440d3adb20a",
     "SECURITY.md": "e3d7b4ae313c5fe71fb91877828b0df2fcc3c7153cf9348273b9a0ca244659f3",
     "docs/ARCHITECTURE.md": "b5afd33b8d97ee3bd8c4dbf6fe1614e5ba3db14342e1d8b1adb0c17f6cc0bd5b",
     "docs/DEPENDENCIES.md": "8b87339bb31bb6c3a0933dd1fd30b5a76dc933a160993c224910728e166f7ff7",
     "docs/SOURCES.json": "21a9b2f7925cc32dab738ee6d1992169dcf893bcc53f8109c7ecc68640932f60",
-    "docs/TESTING.md": "8f764dc20e6a7cb15985f3fa133c23e0e2a636ea7ef80ba37cbceb800ebecc9e",
+    "docs/TESTING.md": "32261f998c4a38dc62bbe9717344ffcbb8f8ae6279e7852b78db64ee97fa538c",
     "eslint.config.mjs": "80f507012208718de07219e1c1f93528be0828a7a28c88a2103fd5ccc8083291",
     "module-map.json": "220daab5515d968d38a0837a750b1fcd7be4f52b9c0f471e645f32941b19a8e2",
     "package-lock.json": "1432336a8b36be4d98d5343f25d770fdb6f6f8b8f4fc7d0d695f31f33eadfff0",
-    "package.json": "aa96546929d8ff7837b86caf76431a254175eab5fb2cdf0ee27491db6599a5c7",
+    "package.json": "7fae7be118adeda37fcceaa9dac03e1760273992b733c54fdf33c483cf587fe4",
     "src/app/index.ts": "2cb0fed507e02fc4c64d2c46f337278ea35b4f07b5621d8eb12067c7b848721f",
     "src/compiler/index.ts": "b0a856b3e8fb8d1f4833c325b814269352add5821ce9f2fdda7b81cf8341da39",
     "src/compiler/sing-box.ts": "41fee5455f1fdc84625932a3472d212b34ad5d943a1a806474f90fbb8048eabe",
@@ -64,11 +64,14 @@
     "tests/config.test.mjs": "fbf9b9ead08b9f5d9d8670288ee8530a5d420873d7276f799d24950bfa21d4ef",
     "tests/connection-helpers.mjs": "8e400b6944cd64ffd013f52a4549d4f8eb8101d2fc3d41c615e2af6654dd9b8a",
     "tests/core-artifact.test.mjs": "da30a4e7a159143bc13a5bc27200d41e7e184fceb84bc9819d7ccbae0aab8b0f",
-    "tests/core-interop.mjs": "76565e8f70857d720c8b531f87837d0fc47a396a9b7cc834dd229569f835c9f1",
+    "tests/core-helpers.mjs": "370d38cdfd798dbbc75c668a7085f412db8d35b695b0adbcac95012a4f08a600",
+    "tests/core-interop.mjs": "e13cdc38bdef5bf3b29892485a9c84a6479f3f70915aea6ebd343b7feddbd13e",
     "tests/domain.test.mjs": "e50e92cceddd3395afa57ee76861868c705db49ffadb6589c13c2bcc0a157807",
     "tests/fixtures/profile.json": "1f03a58d1b5e4938cba91d4cbf5c67aa891ccf7b55497bddddd6097efde1b84a",
     "tests/fixtures/sing-box.expected.json": "be3884391d236c930326437f5dfaeccf1d9d2359fa38b7d62497ae1e3dd09d44",
     "tests/helpers.mjs": "8ddc45557985beff23ffba797b8bac094ea27be4556d7cf07e99a08718766762",
+    "tests/lab-interop.mjs": "1837acec6407fe5b728e590d1f5a041aa2fa746125883fe8a605275b165065e5",
+    "tests/lab-options.test.mjs": "ebddf87a186b3fd92856ca36aa8ff545ad3ac782354157ee461dce9a178f9c69",
     "tests/local-peers.test.mjs": "7b5581e245fc259be125d64f36141b5cdf005f6dbfd3baa660b9d3ffad0b6ec0",
     "tests/loopback-helpers.mjs": "c2ada269bb27ae165bd7165c7556e96d971a7ef52b203f906755a0deeb5be6c9",
     "tests/platform.test.mjs": "83160a61eced1543ed8ade86c2e350a5e661896376e2c981817161027b34049a",
@@ -76,7 +79,7 @@
     "tests/protocols.test.mjs": "eab0522f556777c5216d5de924e030cd9ea652971f8585dd655ce865fe2ef78a",
     "tests/provider-session.test.mjs": "52496545aaacea73903cf49825601f7ad289d1c1e802e6275977d7f5d4241328",
     "tests/stream-port.test.mjs": "2b99e6ce0858d6bf24e942c7a3373ac57798586fe388f0dd777fc54cf600c52f",
-    "tests/tls-helpers.mjs": "07825ff58e2e4fa8ce1815b06554ad098d9316f361fa1d98bf0ef56702ace114",
+    "tests/tls-helpers.mjs": "fc019901c5c2cbaef532c4d6502792b6d69700ad64646a594a8b92caaf1d7f2a",
     "tests/tls-peers.test.mjs": "954c8f9f84bfc055cb3b7cd9d1c3399739912a58937f9f83a3f2ce5a4bb3e358",
     "tests/transports.test.mjs": "b40efdc8205bf680859f37e66e5cc21e1987d7637510936142e7d003e8f4e209",
     "tools/architecture.mjs": "b7456243b721f3ee2130b04b44bc2720ed0d26228ae0f091d0d30a91a7e86541",
@@ -88,7 +91,8 @@
     "tools/core-profile.mjs": "066c3e091dc9f98d5713d118c1f47c5cdf7818a338296451283bb31ca7906681",
     "tools/demo.mjs": "d2e3bebaaeca682cf965fc94ce1297e768fd5ac450009ea5b638d88f624f7dad",
     "tools/doctor.mjs": "4c2821bbb0e88e6c5a24fbd6b64d3c21145e6f310364516256637b865ce50035",
-    "tools/evidence.mjs": "eb5c26be685d383f5d2c76ece555456658951954bffd6d06da0f383b75534c60",
+    "tools/evidence.mjs": "0fa1c81b84007c099f45c3d523d9f48788e50471492957263481bc5735f578ff",
+    "tools/local-lab.mjs": "2ea2e26b843987bb4cbc82ea8d06a9ae5f8a9ef7e842fe1b60a7f6a3aa06ce21",
     "tools/process.mjs": "f029f81bde549d594dba9b5635a53c8bba15423b236216237c8d4a05d16fbbcb",
     "tools/project.mjs": "1b5d162dce8a90e9d4a3a3ddf369393062b1079d7a494a75835cdc6efc7880ce",
     "tools/resource-observer.mjs": "e6587aa540438966c6c9c6092bd22d0daee59631159a6ff860e385aaaaad40dd",
@@ -101,7 +105,7 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "added 119 packages in 2s"
+      "summary": "added 119 packages in 1s"
     },
     {
       "command": "npm run doctor",
@@ -136,9 +140,9 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 74\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1827.345074",
+      "summary": "ℹ suites 0\nℹ pass 75\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 930.540771",
       "test_counts": {
-        "executed": 74,
+        "executed": 75,
         "failed": 0,
         "skipped": 0
       }
@@ -155,7 +159,7 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1765.719165",
+      "summary": "ℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 968.630844",
       "test_counts": {
         "executed": 9,
         "failed": 0,
@@ -167,69 +171,69 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "> routevela@0.0.0 build\n> node tools/build.mjs\n\nPASS: three bounded real-core test repetitions; resource observations saved to .tmp/core-profile.json.\nNode host: CPU 1051.6 ms; sampled peak RSS 73.7 MiB; 9 tests passed.\nNode host: CPU 795.4 ms; sampled peak RSS 74.2 MiB; 9 tests passed.\nNode host: CPU 1406.7 ms; sampled peak RSS 73.6 MiB; 9 tests passed.",
+      "summary": "> routevela@0.0.0 build\n> node tools/build.mjs\n\nPASS: three bounded real-core test repetitions; resource observations saved to .tmp/core-profile.json.\nNode host: CPU 553.5 ms; sampled peak RSS 73.9 MiB; 9 tests passed.\nNode host: CPU 539.7 ms; sampled peak RSS 74.8 MiB; 9 tests passed.\nNode host: CPU 543.5 ms; sampled peak RSS 74.3 MiB; 9 tests passed.",
       "resource_observations": {
         "scope": "node_test_host_only",
         "platform": "linux",
         "node": "v24.19.0",
         "runs": [
           {
-            "run_id": "6ee3ea20-4d32-4746-bc5d-7a27dda76dd8:0",
+            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:0",
             "exit_code": 0,
             "scope": "node_test_host_only",
             "platform": "linux",
             "node": "v24.19.0",
-            "wall_ms": 1459.868394,
-            "cpu_user_ms": 859.011,
-            "cpu_system_ms": 192.573,
-            "sampled_peak_rss_bytes": 77254656,
-            "baseline_rss_bytes": 32112640,
-            "final_rss_bytes": 77254656,
-            "baseline_heap_used_bytes": 6075928,
-            "final_heap_used_bytes": 23626376,
-            "samples": 82,
-            "test_counts": {
-              "executed": 9,
-              "failed": 0,
-              "skipped": 0
-            }
-          },
-          {
-            "run_id": "6ee3ea20-4d32-4746-bc5d-7a27dda76dd8:1",
-            "exit_code": 0,
-            "scope": "node_test_host_only",
-            "platform": "linux",
-            "node": "v24.19.0",
-            "wall_ms": 1352.199233,
-            "cpu_user_ms": 653.816,
-            "cpu_system_ms": 141.543,
-            "sampled_peak_rss_bytes": 77787136,
-            "baseline_rss_bytes": 31326208,
-            "final_rss_bytes": 77787136,
-            "baseline_heap_used_bytes": 6069840,
-            "final_heap_used_bytes": 23206856,
-            "samples": 74,
-            "test_counts": {
-              "executed": 9,
-              "failed": 0,
-              "skipped": 0
-            }
-          },
-          {
-            "run_id": "6ee3ea20-4d32-4746-bc5d-7a27dda76dd8:2",
-            "exit_code": 0,
-            "scope": "node_test_host_only",
-            "platform": "linux",
-            "node": "v24.19.0",
-            "wall_ms": 1921.808988,
-            "cpu_user_ms": 1117.781,
-            "cpu_system_ms": 288.925,
-            "sampled_peak_rss_bytes": 77185024,
+            "wall_ms": 912.61588,
+            "cpu_user_ms": 418.583,
+            "cpu_system_ms": 134.893,
+            "sampled_peak_rss_bytes": 77467648,
             "baseline_rss_bytes": 31981568,
-            "final_rss_bytes": 77185024,
+            "final_rss_bytes": 77467648,
             "baseline_heap_used_bytes": 6075856,
-            "final_heap_used_bytes": 23568304,
-            "samples": 92,
+            "final_heap_used_bytes": 24116992,
+            "samples": 47,
+            "test_counts": {
+              "executed": 9,
+              "failed": 0,
+              "skipped": 0
+            }
+          },
+          {
+            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:1",
+            "exit_code": 0,
+            "scope": "node_test_host_only",
+            "platform": "linux",
+            "node": "v24.19.0",
+            "wall_ms": 912.645789,
+            "cpu_user_ms": 452.064,
+            "cpu_system_ms": 87.609,
+            "sampled_peak_rss_bytes": 78426112,
+            "baseline_rss_bytes": 32112640,
+            "final_rss_bytes": 78426112,
+            "baseline_heap_used_bytes": 6075856,
+            "final_heap_used_bytes": 24122752,
+            "samples": 48,
+            "test_counts": {
+              "executed": 9,
+              "failed": 0,
+              "skipped": 0
+            }
+          },
+          {
+            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:2",
+            "exit_code": 0,
+            "scope": "node_test_host_only",
+            "platform": "linux",
+            "node": "v24.19.0",
+            "wall_ms": 926.321654,
+            "cpu_user_ms": 459.708,
+            "cpu_system_ms": 83.791,
+            "sampled_peak_rss_bytes": 77860864,
+            "baseline_rss_bytes": 32112640,
+            "final_rss_bytes": 77860864,
+            "baseline_heap_used_bytes": 6777816,
+            "final_heap_used_bytes": 23862224,
+            "samples": 49,
             "test_counts": {
               "executed": 9,
               "failed": 0,
@@ -243,6 +247,18 @@
           "10 ms RSS sampling can miss brief peaks; no leak, capacity or throughput conclusion is inferred.",
           "Each repetition starts a fresh Node host; repeated sessions run within each host."
         ]
+      }
+    },
+    {
+      "command": "npm run test:lab",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "ℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3502.589063",
+      "test_counts": {
+        "executed": 4,
+        "failed": 0,
+        "skipped": 0
       }
     }
   ],

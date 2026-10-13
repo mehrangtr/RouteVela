@@ -24,9 +24,10 @@ export async function testIdentity() {
   return { ca: ca.cert, key: server.private, cert: server.cert };
 }
 
-export async function securePeer(t, onConnection) {
+export async function securePeer(t, onConnection, { maxConnections = 64 } = {}) {
   const identity = await testIdentity();
   const server = https.createServer({ key: identity.key, cert: identity.cert, minVersion: 'TLSv1.2' });
+  server.maxConnections = maxConnections;
   const sockets = new Set();
   server.on('connection', socket => { sockets.add(socket); socket.once('close', () => sockets.delete(socket)); });
   server.on('tlsClientError', () => {});

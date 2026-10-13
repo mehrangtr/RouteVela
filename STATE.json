@@ -20,19 +20,22 @@
     "P02.02"
   ],
   "next_task": "P02.03",
-  "resume_action": "Owner explicitly authorized public test/p02-runtime-checks publication for Windows/Linux CI. Publish the containing validated checkpoint to that new branch after checking the remote, inspect actual independent CI jobs, and fix any failures. Do not merge main, close P02 or deploy providers. Local evidence: 68 main/9 core tests, three CPU/RSS profile repetitions, forced interruption/fresh-session recovery and twenty-request cleanup. Provider/live free-egress gates remain separate; native mobile deferred.",
+  "resume_action": "The bounded local lab is implemented: npm run lab starts verified sing-box/TLS loopback services, self-checks, allows manual /check requests only to the owned target, and stops after 60 s or Enter/Ctrl+C. test:lab proves smoke/timed/stdin cleanup and forbidden-destination rejection. Publish this validated update to the already-authorized test/p02-runtime-checks branch and observe its new Windows/Linux CI before claiming the new lab passed on Windows. Preserve previous successful core CI references; do not merge main or close P02. Provider/ISP/desktop GUI and native mobile remain outside this test scope.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint/build, 68 main tests and 9 separate real-core tests passed (77 distinct tests); three additional profiling repetitions passed all 9 core cases each.",
+    "Current local lab: exact /check response traversed verified sing-box and VLESS/WSS; manual repeat worked and an unrelated owned destination received no request. Smoke/timed/stdin modes left no active sessions, open ports, temporary credential/config or extracted executable.",
+    "Updated local runner passed 75 main tests, 9 real-core cases and 4 lab CLI lifecycle/denial cases (88 distinct tests), plus three resource-profile repetitions. Prior native core CI passed both OSes at 8c67611; the new lab CI is pending publication.",
+    "P02 locked local gates passed 74 main tests plus 9 real-core cases (83 distinct tests), with three additional 9-case resource-profile repetitions; no failures/skips in the final checks.",
+    "Independent CI run 38471342077 at the exact published source SHA: ubuntu-latest and windows-latest both completed successfully. Core parse/VLESS/WSS, interruption/recovery, repeated cleanup, bounds and profile commands ran; desktop GUI/import/install is not tested.",
+    "Native CI exposed a ws stream shutdown race. Test WebSocket end now uses the public close API/event; already-finished TCP writers are acknowledged and destroyed unfinished writers fail immediately. Regressions passed without relaxing original assertions/budgets.",
+    "Three final Linux Node test-host profiles: sampled peak RSS 73.6-74.2 MiB and CPU 0.80-1.41 s per repetition; excludes the separate sing-box child/build/provider/ISP and makes no leak/capacity claim.",
     "Actual-core abrupt source disconnection failed safely, closed both ports and a fresh explicitly requested session succeeded without replay. Twenty consecutive requests on one running core left zero active sessions and closed all owned ports after each request.",
-    "Three observed Linux Node test-host profiles: sampled peak RSS 73.3-75.1 MiB and CPU 0.81-1.33 s per repetition. Excludes separate sing-box child/build/provider/ISP; no leak/capacity claim. Fresh profile IDs and input hashes verified.",
     "Real sing-box parallel test: six overlapping VLESS/WSS sessions, five distinct healthy responses and one budget failure; all source/peer ports closed and healthy sessions were isolated from the failure. Not a production capacity benchmark.",
     "A shared maxSessionBytes budget includes initial VLESS payload and both directions. Exact boundary, overlapping pending writes, invalid limits, no-dial initial overflow and actual-core response overflow passed; both ports closed without replay.",
     "Actual loopback TCP, WS and verified TLS/WSS forwarding passed, with half-close, backpressure, authentication/destination gates and resource cleanup.",
     "Official sing-box 1.12.0 Linux x64 archive matched upstream release SHA-256; unchanged renderer output passed the real core check. Owned HTTP response crossed VLESS/WSS successfully.",
     "Actual core denied invalid credentials, forbidden destination and wrong TLS name without reaching the owned destination; direct TLS rejected untrusted CA.",
-    "Official Windows x64 archive digest/member inspected; native Windows core/desktop execution is NOT RUN. Linux/Windows core checks are configured in unpushed CI.",
     "npm audit: zero vulnerabilities; selfsigned 5.5.0 is a reviewed dev-only test-certificate dependency. No third-party app runtime dependency added.",
     "Partial local evidence verification passed. Full P02 verification correctly rejected EVIDENCE_ACCEPTANCE,P02_LIVE_GATES_UNRUN; provider permission/free live egress remain unresolved."
   ],
@@ -59,11 +62,13 @@
       "branch": "test/p02-runtime-checks",
       "authorized_by": "owner explicit chat reply",
       "scope": "Publish reviewed incomplete P02 test code to execute Windows/Linux CI only; no main merge, phase closure or deployment",
-      "status": "authorized_pending_push"
+      "status": "validated_lab_update_pending_push",
+      "head_sha": "8c67611e0313b746bd926493187c08843471c72d",
+      "run_url": "https://github.com/mehrangtr/RouteVela/actions/runs/38471342077"
     }
   },
-  "updated_at_utc": "2026-10-13T21:09:45.928640Z",
-  "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP checkpoint; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming. Cloud draft changes do not prove fresh-task restoration of local commits.",
+  "updated_at_utc": "2026-10-13T22:06:48.230833Z",
+  "checkpoint_note": "New local-lab source and preserved prior CI/state observations are captured by the containing commit. After publication, record the new exact CI source SHA and results without claiming GUI/provider acceptance.",
   "platform_targets": [
     "Windows",
     "Linux"

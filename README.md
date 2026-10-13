@@ -59,7 +59,7 @@ downloads an official, digest-verified sing-box 1.12.0 test executable into igno
 `.tmp`; it checks generated configuration and real loopback VLESS/WSS forwarding.
 The latter checks only partial P02 evidence; it cannot close P02 or establish a
 permitted free Internet connection. Mobile native apps are deferred; development
-continues for Windows/Linux. A native Windows run is not yet observed here.
+continues for Windows/Linux. Native Node/core CI passed on Windows and Linux; desktop GUI/import/install trials remain unrun.
 
 Repository text is English. The product still targets Persian/English and RTL;
 future localized resources use escaped Unicode, with decoded-text tests.
@@ -100,3 +100,23 @@ This is a public, **restricted-use source repository**, not an open-source licen
 grant. See `LICENSE`. Public visibility permits viewing/forking under GitHub terms;
 it cannot prevent copying. No copy-protection tracking, central kill switch or
 hidden activation service is planned. Third-party rights remain separate.
+
+## Local connection lab
+
+Run `npm run lab` on Windows or Linux with the installed development dependencies.
+It starts a generated-TLS loopback VLESS/WSS peer, a restricted owned HTTP target
+and a verified sing-box test client, then proves a request before reporting ready.
+Readiness output names the dynamic HTTP proxy and destination ports. To issue your
+own request, use `curl --proxy http://127.0.0.1:<http_proxy_port>
+http://127.0.0.1:<destination_port>/check` on one line (use curl.exe in PowerShell).
+The expected body is ROUTEVELA_LAB_OK. Only that destination is allowed.
+Press Enter or Ctrl+C to stop; it also exits after 60 seconds. Use
+`npm run lab -- --duration-ms 1000` for a shorter run (maximum 120000 ms), or
+`npm run lab -- --smoke` to self-check and exit immediately. All services bind to
+127.0.0.1. TLS keys stay in memory; a random ephemeral connection credential lives
+only in the temporary client config, which is removed with the owned child process
+and sockets. No system proxy/certificate installation or Internet relay is created.
+This is a bounded developer test harness using dev dependencies, not a desktop GUI
+or a deployed VPN. Initial verified core provisioning requires curl/tar and HTTPS
+access; authenticated archives can be reused offline. `npm run test:lab` validates
+self-check, timed exit, portable stdin stop and port/config/executable cleanup.
