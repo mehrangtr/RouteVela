@@ -1,0 +1,71 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { project, validateProject, boundaryErrors, secretErrors, contextPack,
+  inputManifest, verifyEvidence } from '../tools/project.mjs';
+const baseline = project();
+const copy = () => structuredClone(baseline);
+
+test('the real preparation roadmap and checkpoint are consistent', () => {
+  assert.deepEqual(validateProject(baseline), []);
+});
+test('an invalid next task and missing resume action are rejected', () => {
+  const p = copy(); p.state.next_task = 'P99.99'; p.state.resume_action = '';
+  assert.ok(validateProject(p).includes('NEXT_TASK'));
+  assert.ok(validateProject(p).includes('RESUME_ACTION'));
+});
+test('future/circular phase dependencies and duplicate tasks are rejected', () => {
+  const p = copy(); p.roadmap.phases[0].depends_on = ['P09'];
+  p.roadmap.phases[1].tasks[1].id = p.roadmap.phases[1].tasks[0].id;
+  assert.ok(validateProject(p).some(x => x.startsWith('PHASE_DEPENDENCY')));
+  assert.ok(validateProject(p).some(x => x.startsWith('TASK_ID')));
+});
+test('connection phase cannot be declared complete with unresolved provider/cost gates', () => {
+  const p = copy(); p.state.phase = 'P02'; p.state.phase_status = 'closed'; p.state.next_task = null;
+  p.state.completed_phases = ['P00', 'P01', 'P02'];
+  p.state.completed_tasks = p.roadmap.phases.slice(0,3).flatMap(x => x.tasks.map(t => t.id));
+  assert.ok(validateProject(p).includes('CONNECTION_GATE_UNRESOLVED'));
+});
+test('closing a phase without its tasks or dependencies is rejected', () => {
+  const p = copy(); p.state.completed_phases = ['P03'];
+  const errors = validateProject(p);
+  assert.ok(errors.includes('INCOMPLETE_CLOSED_PHASE:P03'));
+  assert.ok(errors.includes('COMPLETED_DEPENDENCY:P03'));
+});
+test('public permitted imports work; private or privileged shortcuts fail', () => {
+  assert.deepEqual(boundaryErrors('src/compiler/render.ts', "import { X } from '../config/index.ts';", baseline.modules), []);
+  assert.ok(boundaryErrors('src/ui/view.ts', "import { db } from '../storage/index.ts';", baseline.modules).some(x => x.startsWith('DISALLOWED_DEPENDENCY')));
+  assert.ok(boundaryErrors('src/compiler/render.ts', "export { x } from '../config/private.ts';", baseline.modules).some(x => x.startsWith('PRIVATE_MODULE_IMPORT')));
+  assert.ok(boundaryErrors('src/domain/user.ts', "const x = import('../providers/index.ts');", baseline.modules).some(x => x.startsWith('DYNAMIC_IMPORT')));
+});
+test('secret-pattern guard rejects synthetic credential material and secret files', () => {
+  const fake = ['gh', 'p_', 'a'.repeat(36)].join('');
+  assert.ok(secretErrors('sample.txt', fake).some(x => x.startsWith('GITHUB_CREDENTIAL')));
+  assert.ok(secretErrors('.env', 'EXAMPLE=1').some(x => x.startsWith('SECRET_FILE')));
+  assert.deepEqual(secretErrors('.env.example', 'EXAMPLE=REPLACE_ME'), []);
+});
+test('the context pack selects one next task and omits the full specification', () => {
+  const context = contextPack(baseline);
+  assert.equal(context.next_task.id, baseline.state.next_task);
+  assert.equal(context.acceptance.length, baseline.roadmap.phases.find(x => x.id === baseline.state.phase).acceptance.length);
+  assert.ok(JSON.stringify(context).length < 8000);
+  assert.ok(!Object.hasOwn(context, 'specification'));
+});
+test('evidence detects changed input and failed checks; excludes mutable checkpoint only', () => {
+  const root = mkdtempSync(join(tmpdir(), 'routevela-test-'));
+  try {
+    writeFileSync(join(root, 'implementation.txt'), 'one');
+    writeFileSync(join(root, 'STATE.json'), '{}');
+    const manifest = inputManifest(root);
+    const record = { schema_version:1, phase:'P00', created_at_utc:'2026-10-12T00:00:00Z', input_sha256:manifest,
+      checks:[{ exit_code:0, result:'pass' }], acceptance:[{ result:'pass' }] };
+    assert.deepEqual(verifyEvidence(record, manifest), []);
+    writeFileSync(join(root, 'implementation.txt'), 'two');
+    assert.ok(verifyEvidence(record, inputManifest(root)).includes('EVIDENCE_INPUT_CHANGED'));
+    record.checks[0].exit_code = 1;
+    assert.ok(verifyEvidence(record, manifest).includes('EVIDENCE_CHECK_FAILED'));
+    assert.ok(!Object.hasOwn(manifest, 'STATE.json'));
+  } finally { rmSync(root, { recursive:true, force:true }); }
+});

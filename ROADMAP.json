@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "phases": [
+    {
+      "id": "P00",
+      "title": "Preparation",
+      "depends_on": [],
+      "tasks": [
+        {
+          "id": "P00.01",
+          "summary": "Specify requirements, cost/permission boundaries and ownership."
+        },
+        {
+          "id": "P00.02",
+          "summary": "Prepare module/task/state contracts and short Codex instructions."
+        },
+        {
+          "id": "P00.03",
+          "summary": "Validate tooling, negative guard tests and truthful evidence."
+        },
+        {
+          "id": "P00.04",
+          "summary": "Prepare a reviewed, locally closed milestone for publication."
+        }
+      ],
+      "acceptance": [
+        "P00-A1: Product/cost/security/modular constraints documented.",
+        "P00-A2: Every phase has bounded tasks and testable acceptance.",
+        "P00-A3: Doctor, checks and preparation tests pass.",
+        "P00-A4: Input-hashed evidence and resume state exist."
+      ],
+      "context_files": [
+        "PROJECT.txt",
+        "AGENTS.md",
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md",
+        "tools/",
+        "tests/"
+      ]
+    },
+    {
+      "id": "P01",
+      "title": "Local typed foundation",
+      "depends_on": [
+        "P00"
+      ],
+      "tasks": [
+        {
+          "id": "P01.01",
+          "summary": "Pin strict TypeScript/build/test tooling and clean npm ci; evolve CI/evidence gates for P01 without a mandatory service."
+        },
+        {
+          "id": "P01.02",
+          "summary": "Implement narrow contracts, domain model and schema/semantic/capability validator."
+        },
+        {
+          "id": "P01.03",
+          "summary": "Add typed/redacted errors, fake clock/random/storage and compiler-backed module guard."
+        },
+        {
+          "id": "P01.04",
+          "summary": "Implement minimal deterministic config output fixture and its negative tests."
+        }
+      ],
+      "acceptance": [
+        "P01-A1: Strict typecheck, build, architecture and relevant tests pass.",
+        "P01-A2: Invalid/unsupported input is rejected with stable error codes.",
+        "P01-A3: Pure core uses no provider APIs; deterministic fixture output is reproduced."
+      ],
+      "context_files": [
+        "module-map.json",
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P02",
+      "title": "Connection feasibility",
+      "depends_on": [
+        "P01"
+      ],
+      "tasks": [
+        {
+          "id": "P02.01",
+          "summary": "Separate VLESS parser from WS/TCP transport; test locally against controlled peers."
+        },
+        {
+          "id": "P02.02",
+          "summary": "Prove stream bounds, cleanup, cancellation, timeout and reconnect behavior."
+        },
+        {
+          "id": "P02.03",
+          "summary": "Document actual Cloudflare/free-egress capabilities and applicable permission evidence."
+        },
+        {
+          "id": "P02.04",
+          "summary": "Only with a permitted free deployment: test real destinations/client, CPU/memory and cost; decide viability."
+        }
+      ],
+      "acceptance": [
+        "P02-A1: Protocol/stream negative and failure tests pass.",
+        "P02-A2: A real free permitted connection is demonstrated with environment/version evidence.",
+        "P02-A3: Provider permission and cost constraints are satisfied; no paid/unknown mandatory egress."
+      ],
+      "context_files": [
+        "PROJECT.txt",
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md",
+        "docs/SOURCES.json"
+      ]
+    },
+    {
+      "id": "P03",
+      "title": "One end-to-end subscription flow",
+      "depends_on": [
+        "P02"
+      ],
+      "tasks": [
+        {
+          "id": "P03.01",
+          "summary": "Create a user, independent connection credential and subscription token."
+        },
+        {
+          "id": "P03.02",
+          "summary": "Implement two version-pinned initial formatters for sing-box and Mihomo."
+        },
+        {
+          "id": "P03.03",
+          "summary": "Test fetch, parse, real-device import, connection and subscription update."
+        },
+        {
+          "id": "P03.04",
+          "summary": "Handle unsupported client capabilities explicitly."
+        }
+      ],
+      "acceptance": [
+        "P03-A1: Create -> subscription -> import -> connect -> update succeeds.",
+        "P03-A2: Both claimed clients have actual compatibility evidence.",
+        "P03-A3: Unsupported capabilities never generate silently broken configs."
+      ],
+      "context_files": [
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P04",
+      "title": "Identity and revocation",
+      "depends_on": [
+        "P03"
+      ],
+      "tasks": [
+        {
+          "id": "P04.01",
+          "summary": "Implement single-owner admin bootstrap, secure sessions and recovery."
+        },
+        {
+          "id": "P04.02",
+          "summary": "Select a maintained WebAuthn or password/TOTP solution after CPU/UX spike; no custom crypto."
+        },
+        {
+          "id": "P04.03",
+          "summary": "Implement expiry, rotation, revocation and a measured active-session policy."
+        },
+        {
+          "id": "P04.04",
+          "summary": "Test admin/subscription isolation, request forgery and bounded login attempts."
+        }
+      ],
+      "acceptance": [
+        "P04-A1: Admin/subscription purpose isolation and recovery tests pass.",
+        "P04-A2: Expired/revoked credentials fail within the documented bound.",
+        "P04-A3: No shared/default password; no secrets in diagnostics."
+      ],
+      "context_files": [
+        "SECURITY.md",
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P05",
+      "title": "Safe changes and recovery",
+      "depends_on": [
+        "P04"
+      ],
+      "tasks": [
+        {
+          "id": "P05.01",
+          "summary": "Implement draft/validate/preview/atomic activate and safe config rollback."
+        },
+        {
+          "id": "P05.02",
+          "summary": "Encrypt owner-controlled backups using vetted crypto; test fresh-install restore."
+        },
+        {
+          "id": "P05.03",
+          "summary": "Preserve credential revocation across rollback/restore; fail safe if freshness is unknown."
+        },
+        {
+          "id": "P05.04",
+          "summary": "Implement migrations with preflight, backup and failed-migration recovery."
+        }
+      ],
+      "acceptance": [
+        "P05-A1: Invalid config never activates; rollback cannot revive revoked access.",
+        "P05-A2: Wrong-password/corrupt backup rejection and fresh-install restore pass.",
+        "P05-A3: Migration failure leaves a tested recovery route."
+      ],
+      "context_files": [
+        "SECURITY.md",
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P06",
+      "title": "UI and installation",
+      "depends_on": [
+        "P05"
+      ],
+      "tasks": [
+        {
+          "id": "P06.01",
+          "summary": "Implement polished Persian/English RTL mobile UI, simple/expert and light/dark/system."
+        },
+        {
+          "id": "P06.02",
+          "summary": "Build status/users/subscription/settings/recovery/diagnostics screens around working flows."
+        },
+        {
+          "id": "P06.03",
+          "summary": "Implement guided official install, inventory, idempotent resume and selective uninstall."
+        },
+        {
+          "id": "P06.04",
+          "summary": "Show capability, permission, privacy and quota estimates with timestamps."
+        }
+      ],
+      "acceptance": [
+        "P06-A1: Novice/mobile/keyboard/RTL workflows pass real UX checks.",
+        "P06-A2: Repeated/interrupted installs avoid duplicate resources; unrelated resources survive removal.",
+        "P06-A3: Diagnostic export is previewed/redacted; status distinguishes last observation from current connection."
+      ],
+      "context_files": [
+        "PROJECT.txt",
+        "SECURITY.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P07",
+      "title": "Limited beta",
+      "depends_on": [
+        "P06"
+      ],
+      "tasks": [
+        {
+          "id": "P07.01",
+          "summary": "Test a small authorized beta on declared networks/devices/client versions."
+        },
+        {
+          "id": "P07.02",
+          "summary": "Measure success/latency/throughput/reconnect and quota budgets against a controlled baseline."
+        },
+        {
+          "id": "P07.03",
+          "summary": "Fix critical failures with regression tests and verify recovery/security."
+        },
+        {
+          "id": "P07.04",
+          "summary": "Confirm all beta dependencies remain permitted and free."
+        }
+      ],
+      "acceptance": [
+        "P07-A1: Published beta support matrix has actual network/device evidence.",
+        "P07-A2: No unresolved critical security/recovery defect.",
+        "P07-A3: Cost and provider permission are still valid."
+      ],
+      "context_files": [
+        "docs/TESTING.md",
+        "SECURITY.md"
+      ]
+    },
+    {
+      "id": "P08",
+      "title": "Public release quality",
+      "depends_on": [
+        "P07"
+      ],
+      "tasks": [
+        {
+          "id": "P08.01",
+          "summary": "Review original/third-party licenses, SBOM, integrity/provenance and signed release process."
+        },
+        {
+          "id": "P08.02",
+          "summary": "Test novice install/update/restore and alternate domain distribution without trusting compromised code."
+        },
+        {
+          "id": "P08.03",
+          "summary": "Complete security/privacy/help text and verify artifact hashes from a clean build."
+        },
+        {
+          "id": "P08.04",
+          "summary": "Publish only supported capabilities and measured limits."
+        }
+      ],
+      "acceptance": [
+        "P08-A1: All required phase gates pass; provider/budget gate remains satisfied.",
+        "P08-A2: Release integrity, dependency licenses and restore/upgrade are verified.",
+        "P08-A3: No untested speed/UDP/always-on/reproducible-build promise."
+      ],
+      "context_files": [
+        "PROJECT.txt",
+        "SECURITY.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "P09",
+      "title": "Measured reliability improvements",
+      "depends_on": [
+        "P08"
+      ],
+      "tasks": [
+        {
+          "id": "P09.01",
+          "summary": "Add compatible native client fallback/url-test with limited trusted profiles and bounded probes."
+        },
+        {
+          "id": "P09.02",
+          "summary": "Add local network measurements and explainable deterministic advisor."
+        },
+        {
+          "id": "P09.03",
+          "summary": "Tune by controlled A/B evidence; keep TLS/auth and privacy invariants."
+        },
+        {
+          "id": "P09.04",
+          "summary": "Only add extra protocol/routing UI after demonstrated user need."
+        }
+      ],
+      "acceptance": [
+        "P09-A1: Capability-specific fallback and stale/no-route cases pass real-core tests.",
+        "P09-A2: Probe overhead and switching behavior meet a measured budget.",
+        "P09-A3: Each recommendation is explainable and backed by observed data."
+      ],
+      "context_files": [
+        "PROJECT.txt",
+        "docs/TESTING.md"
+      ]
+    }
+  ]
+}

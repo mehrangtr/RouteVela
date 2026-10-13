@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "phase": "P00",
+  "created_at_utc": "2026-10-13T00:03:02.406Z",
+  "environment": {
+    "node": "v24.19.0",
+    "git": "git version 2.51.1",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "input_sha256": {
+    ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
+    ".github/CODEOWNERS": "569035fb5c59bd2d43cc545be390cc14531c0d2a95415411deddea304bcf13da",
+    ".github/workflows/ci.yml": "e5b49349051d94c3fb3628952794f5527e24ed5e7d01da7ae012f7fb3608eac1",
+    ".gitignore": "53b36ab9b53f20e3473374f03995ec71006cc6a80de412247dab3d2fd6fda7e7",
+    ".node-version": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+    "AGENTS.md": "f0421d1856f9ebb6a5568e0f0086893e78cab7069a89e8a5080c7bb81beb40a0",
+    "CONTINUE.md": "fec1c2bff2cf61ad3f9fd99459de0dcd229019e7ef9d60964b2bad741e584d13",
+    "LICENSE": "4fdccdd38003dcb2598d5b4f8a8e70021d780d510c2f174122d819be63f2a0de",
+    "PROJECT.txt": "68936fd3ed8a3b0cb7a724b1e9a3816e612263e668c3221e2a67b9515b1ce53d",
+    "README.md": "87b96aac198f8e23483b652e7f88e7ae069e386700a5f05a4e205d92b84262b9",
+    "ROADMAP.json": "cd58c30169c23dfa4be4ac103d9abb7af5f5b80ebef390164628f1b6baee513c",
+    "SECURITY.md": "5c0e1f6f91120b0be0631df8a993eb42058595aaf1eab0c51ec0f3283054d145",
+    "docs/ARCHITECTURE.md": "4506630954971ed65b3805eb4d1d2c04ef2addd1251f5d50de19325446d712ac",
+    "docs/SOURCES.json": "275faec793dae36c73f29107ed2634e2fabe9102cb9fbfc955b041737b356189",
+    "docs/TESTING.md": "4a35c3fb61c9f64d0d0a7ea75a7b38c033f721b7ec1864e45ea5e74a2c4ff449",
+    "module-map.json": "038677dc4e91970b6eba114a5ee0a1077284652d056d2dfc405068936101e8f4",
+    "package-lock.json": "282231a170dffe3c84a13a43e2cf03c869e4a486e2f617e1390fcf6e6fb2f67b",
+    "package.json": "543d70bd072b309511f7baeb7187f00e54f77b33501cfddfd5f8941ccdf8f108",
+    "tests/preflight.test.mjs": "3fbadbceed69254e017020b6f1c8a6b5e6c57e0733d5b21261634b97494c850a",
+    "tools/check.mjs": "5c1bc8bf8492769f4838bf75002a2ab9c7668cf39ca77af3080a8143dbf6bc9f",
+    "tools/context.mjs": "fcf41834344aa9a22580750dc43f12935924bf4a8ea0e38762933519415e464c",
+    "tools/doctor.mjs": "4c2821bbb0e88e6c5a24fbd6b64d3c21145e6f310364516256637b865ce50035",
+    "tools/evidence.mjs": "ed848ee649cb357efecbb58aa204ce4f4f67af6b0e87b49828a5aa31723fe81b",
+    "tools/project.mjs": "24365568cc8db8c713706ad194566ac08833cdcbc06c55953201e0d6a42be30f"
+  },
+  "checks": [
+    {
+      "command": "node tools/doctor.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "PASS: Node 24.19.0; git version 2.51.1; preparation files present. No production credential required."
+    },
+    {
+      "command": "node tools/check.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "PASS: project contracts, required files, JS syntax, early import guard and secret-pattern guard. No app typecheck/live connection claimed."
+    },
+    {
+      "command": "node --test tests/preflight.test.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "\u2139 pass 9\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 156.705332"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "P00-A1",
+      "result": "pass",
+      "basis": "Preparation author reviewed PROJECT R01-R14 against the owner request: cost, working connection, modularity, UI, recovery, privacy, ownership and publication constraints are preserved.",
+      "reviewer": "Preparation author (Codex)"
+    },
+    {
+      "id": "P00-A2",
+      "result": "pass",
+      "basis": "Preparation author reviewed P00-P09 dependencies, bounded task IDs and acceptance criteria; code, real client tests, permission and free-egress gates remain explicit.",
+      "reviewer": "Preparation author (Codex)"
+    },
+    {
+      "id": "P00-A3",
+      "result": "pass",
+      "basis": "Executed preparation gates and generated input manifest."
+    },
+    {
+      "id": "P00-A4",
+      "result": "pass",
+      "basis": "Executed preparation gates and generated input manifest."
+    }
+  ],
+  "not_run": [
+    "Application TypeScript typecheck/build (not implemented in P00)",
+    "Cloudflare deployment",
+    "Real client import/connect",
+    "ISP performance benchmark"
+  ],
+  "limitations": [
+    "P00 tests preparation tooling only.",
+    "The static import/secret guards are conservative, incomplete first guards.",
+    "Provider permission and free-egress viability remain unresolved.",
+    "STATE.json is a mutable checkpoint validated by check, excluded from the immutable input manifest."
+  ]
+}

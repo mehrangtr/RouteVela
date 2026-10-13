@@ -1,0 +1,40 @@
+{
+  "reviewed_date_utc": "2026-10-12",
+  "sources": [
+    {
+      "id": "CF_TERMS",
+      "url": "https://www.cloudflare.com/terms/",
+      "finding": "Self-Serve 2.2.1 intro/(j): written-permission exception and VPN/similar proxy restriction."
+    },
+    {
+      "id": "WORKERS_LIMITS",
+      "url": "https://developers.cloudflare.com/workers/platform/limits/",
+      "finding": "Free account limits: 100000 requests/day; 10 ms CPU/request; 128 MB isolate memory. Recheck before deployment."
+    },
+    {
+      "id": "PAGES_PRICING",
+      "url": "https://developers.cloudflare.com/pages/functions/pricing/",
+      "finding": "Functions share Workers free request quota; static non-Function assets have distinct pricing."
+    },
+    {
+      "id": "DEPLOY_BUTTON",
+      "url": "https://developers.cloudflare.com/workers/platform/deploy-buttons/",
+      "finding": "Official clone/build/provision/install flow; not permission for VPN use."
+    },
+    {
+      "id": "CF_OAUTH",
+      "url": "https://developers.cloudflare.com/fundamentals/oauth/create-an-oauth-client/",
+      "finding": "Self-managed OAuth exists; public clients require domain verification; scopes/PKCE are flow dependent."
+    },
+    {
+      "id": "AGENTS_MD",
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "finding": "Codex discovers uppercase AGENTS.md and directory overrides; keep guidance concise."
+    },
+    {
+      "id": "GITHUB_LICENSE",
+      "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository",
+      "finding": "Public repository viewing/forking cannot be removed by a custom license notice."
+    }
+  ]
+}

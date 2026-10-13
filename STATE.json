@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "phase": "P01",
+  "phase_status": "not_started",
+  "completed_phases": [
+    "P00"
+  ],
+  "completed_tasks": [
+    "P00.01",
+    "P00.02",
+    "P00.03",
+    "P00.04"
+  ],
+  "next_task": "P01.01",
+  "resume_action": "Establish pinned strict TypeScript/build/test tooling. Verify clean installation and update actual P01 CI/evidence gates before writing core modules.",
+  "working_paths": [],
+  "checkpoint_commit": null,
+  "last_checks": [
+    "See evidence/P00.json for executed preparation gates."
+  ],
+  "blockers": [
+    {
+      "id": "CF_PERMISSION",
+      "scope": "live VPN deployment/P02 closure",
+      "status": "unresolved",
+      "action": "Owner must supply applicable written provider permission; no message has been sent."
+    },
+    {
+      "id": "FREE_EGRESS",
+      "scope": "P02 connection viability",
+      "status": "unproven",
+      "action": "Prove a permitted zero-required-cost real traffic path."
+    }
+  ],
+  "publication": {
+    "policy": "closed_phases_only",
+    "branch": "main",
+    "milestone": "P00",
+    "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
+  },
+  "updated_at_utc": "2026-10-13T00:02:07.080542Z"
+}

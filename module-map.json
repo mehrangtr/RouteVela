@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "root": "src",
+  "language": "TypeScript strict from P01",
+  "modules": {
+    "contracts": {
+      "path": "src/contracts",
+      "allowed_imports": []
+    },
+    "domain": {
+      "path": "src/domain",
+      "allowed_imports": [
+        "contracts"
+      ]
+    },
+    "security": {
+      "path": "src/security",
+      "allowed_imports": [
+        "contracts",
+        "domain"
+      ]
+    },
+    "config": {
+      "path": "src/config",
+      "allowed_imports": [
+        "contracts",
+        "domain"
+      ]
+    },
+    "compiler": {
+      "path": "src/compiler",
+      "allowed_imports": [
+        "contracts",
+        "config"
+      ]
+    },
+    "subscriptions": {
+      "path": "src/subscriptions",
+      "allowed_imports": [
+        "contracts",
+        "domain",
+        "compiler"
+      ]
+    },
+    "protocols": {
+      "path": "src/protocols",
+      "allowed_imports": [
+        "contracts"
+      ]
+    },
+    "transports": {
+      "path": "src/transports",
+      "allowed_imports": [
+        "contracts"
+      ]
+    },
+    "providers": {
+      "path": "src/providers",
+      "allowed_imports": [
+        "contracts",
+        "protocols",
+        "transports",
+        "diagnostics"
+      ]
+    },
+    "storage": {
+      "path": "src/storage",
+      "allowed_imports": [
+        "contracts",
+        "domain",
+        "config",
+        "security",
+        "subscriptions"
+      ]
+    },
+    "diagnostics": {
+      "path": "src/diagnostics",
+      "allowed_imports": [
+        "contracts"
+      ]
+    },
+    "installer": {
+      "path": "src/installer",
+      "allowed_imports": [
+        "contracts",
+        "providers",
+        "diagnostics"
+      ]
+    },
+    "ui": {
+      "path": "src/ui",
+      "allowed_imports": [
+        "contracts"
+      ]
+    },
+    "app": {
+      "path": "src/app",
+      "allowed_imports": [
+        "contracts",
+        "domain",
+        "security",
+        "config",
+        "compiler",
+        "subscriptions",
+        "protocols",
+        "transports",
+        "providers",
+        "storage",
+        "diagnostics",
+        "installer",
+        "ui"
+      ]
+    }
+  },
+  "rules": [
+    "Import public index.ts entry points across module boundaries.",
+    "No dynamic imports or aliases as boundary bypasses.",
+    "Provider-specific APIs are limited to providers/storage/installer/composition.",
+    "No runtime Cloudflare account token is required for an own-install D1 binding."
+  ]
+}
