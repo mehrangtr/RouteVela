@@ -26,7 +26,15 @@ export function labOptions(args) {
   return { smoke, durationMs };
 }
 
-export async function runLab(options, emit = message => console.log(JSON.stringify(message))) {
+export async function runLab(options, emit = message => console.log(JSON.stringify(message)), observe = () => {}) {
+  if (!options || typeof options !== 'object' || Array.isArray(options) ||
+    Object.keys(options).length !== 2 || typeof options.smoke !== 'boolean' ||
+    !Number.isSafeInteger(options.durationMs) || options.durationMs < 1000 || options.durationMs > 120_000) {
+    throw new Error('LAB_ARGUMENTS');
+  }
+  // Async startup must keep the validated lifetime even if a caller later
+  // mutates its input object. Only this immutable local snapshot is consulted.
+  options = Object.freeze({ smoke: options.smoke, durationMs: options.durationMs });
   const cleanups = []; const scope = { after(action) { cleanups.push(action); } };
   const controller = new AbortController(); const sessions = new Set();
   let active = 0; let completed = 0; let denied = 0; let failed = 0; let stopping = false;
@@ -49,6 +57,9 @@ export async function runLab(options, emit = message => console.log(JSON.stringi
     target.listen(0, '127.0.0.1'); await once(target, 'listening');
     scope.after(async () => { target.closeAllConnections(); await new Promise(resolve => target.close(resolve)); });
     const destination = target.address().port;
+    // Test-only lifecycle observation has no credentials or key material. An
+    // injected startup failure must unwind resources registered before it.
+    observe({ stage: 'target_ready', destination_port: destination });
     const access = {
       async authorize(request) { if (request.uuid === identity) return success(undefined); denied++; return failure('RV-AUTH-004'); },
       async dial(address, signal) {
@@ -66,6 +77,7 @@ export async function runLab(options, emit = message => console.log(JSON.stringi
         .finally(() => { active--; completed++; sessions.delete(run); });
       sessions.add(run);
     }, { maxConnections: 8 });
+    observe({ stage: 'tls_ready', wss_port: peer.port });
     if (stopping) return;
     const config = JSON.parse(readFileSync(resolve(ROOT, 'tests/fixtures/sing-box.expected.json'), 'utf8'));
     const port = await proxyPort(); config.inbounds[0].listen_port = port;
@@ -73,6 +85,7 @@ export async function runLab(options, emit = message => console.log(JSON.stringi
     outbound.uuid = identity; outbound.tls.server_name = TEST_SERVER_NAME;
     outbound.tls.certificate = [peer.ca]; outbound.transport.path = '/connect';
     await startCore(scope, core.binary, temporaryConfig(scope, config), port);
+    observe({ stage: 'client_ready', http_proxy_port: port });
     if (stopping) return;
     const response = await requestThrough(port, destination, '/check');
     if (response.status !== 200 || response.body !== 'ROUTEVELA_LAB_OK') throw new Error('LAB_SELF_CHECK');

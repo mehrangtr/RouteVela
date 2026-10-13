@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "P02",
-  "created_at_utc": "2026-10-13T22:05:54.701Z",
+  "created_at_utc": "2026-10-13T22:18:49.596Z",
   "scope": "local_partial",
   "phase_readiness": "blocked",
   "environment": {
@@ -36,7 +36,7 @@
     "docs/ARCHITECTURE.md": "b5afd33b8d97ee3bd8c4dbf6fe1614e5ba3db14342e1d8b1adb0c17f6cc0bd5b",
     "docs/DEPENDENCIES.md": "8b87339bb31bb6c3a0933dd1fd30b5a76dc933a160993c224910728e166f7ff7",
     "docs/SOURCES.json": "21a9b2f7925cc32dab738ee6d1992169dcf893bcc53f8109c7ecc68640932f60",
-    "docs/TESTING.md": "32261f998c4a38dc62bbe9717344ffcbb8f8ae6279e7852b78db64ee97fa538c",
+    "docs/TESTING.md": "19b938b08c0d3525e3d16b1d5af147d1ccff73868d85bd0831e317a1c1d06b36",
     "eslint.config.mjs": "80f507012208718de07219e1c1f93528be0828a7a28c88a2103fd5ccc8083291",
     "module-map.json": "220daab5515d968d38a0837a750b1fcd7be4f52b9c0f471e645f32941b19a8e2",
     "package-lock.json": "1432336a8b36be4d98d5343f25d770fdb6f6f8b8f4fc7d0d695f31f33eadfff0",
@@ -70,8 +70,8 @@
     "tests/fixtures/profile.json": "1f03a58d1b5e4938cba91d4cbf5c67aa891ccf7b55497bddddd6097efde1b84a",
     "tests/fixtures/sing-box.expected.json": "be3884391d236c930326437f5dfaeccf1d9d2359fa38b7d62497ae1e3dd09d44",
     "tests/helpers.mjs": "8ddc45557985beff23ffba797b8bac094ea27be4556d7cf07e99a08718766762",
-    "tests/lab-interop.mjs": "1837acec6407fe5b728e590d1f5a041aa2fa746125883fe8a605275b165065e5",
-    "tests/lab-options.test.mjs": "ebddf87a186b3fd92856ca36aa8ff545ad3ac782354157ee461dce9a178f9c69",
+    "tests/lab-interop.mjs": "80b46b5ff13df3c7e95966cb9cefcc3832c19c3c2a113dc20018c5f9e6c79221",
+    "tests/lab-options.test.mjs": "b1b6d3809b159fa84529fc2b2e1cf10a2141d2aaccf7eb8cb6e104213724334e",
     "tests/local-peers.test.mjs": "7b5581e245fc259be125d64f36141b5cdf005f6dbfd3baa660b9d3ffad0b6ec0",
     "tests/loopback-helpers.mjs": "c2ada269bb27ae165bd7165c7556e96d971a7ef52b203f906755a0deeb5be6c9",
     "tests/platform.test.mjs": "83160a61eced1543ed8ade86c2e350a5e661896376e2c981817161027b34049a",
@@ -92,7 +92,7 @@
     "tools/demo.mjs": "d2e3bebaaeca682cf965fc94ce1297e768fd5ac450009ea5b638d88f624f7dad",
     "tools/doctor.mjs": "4c2821bbb0e88e6c5a24fbd6b64d3c21145e6f310364516256637b865ce50035",
     "tools/evidence.mjs": "0fa1c81b84007c099f45c3d523d9f48788e50471492957263481bc5735f578ff",
-    "tools/local-lab.mjs": "2ea2e26b843987bb4cbc82ea8d06a9ae5f8a9ef7e842fe1b60a7f6a3aa06ce21",
+    "tools/local-lab.mjs": "a27e28deff740acf417b890553079c612b1a287a91efbcb37db839c0dd06188b",
     "tools/process.mjs": "f029f81bde549d594dba9b5635a53c8bba15423b236216237c8d4a05d16fbbcb",
     "tools/project.mjs": "1b5d162dce8a90e9d4a3a3ddf369393062b1079d7a494a75835cdc6efc7880ce",
     "tools/resource-observer.mjs": "e6587aa540438966c6c9c6092bd22d0daee59631159a6ff860e385aaaaad40dd",
@@ -105,7 +105,7 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "added 119 packages in 1s"
+      "summary": "added 119 packages in 956ms"
     },
     {
       "command": "npm run doctor",
@@ -140,9 +140,9 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 75\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 930.540771",
+      "summary": "ℹ suites 0\nℹ pass 76\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 912.922726",
       "test_counts": {
-        "executed": 75,
+        "executed": 76,
         "failed": 0,
         "skipped": 0
       }
@@ -159,7 +159,7 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 968.630844",
+      "summary": "ℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 909.629741",
       "test_counts": {
         "executed": 9,
         "failed": 0,
@@ -171,69 +171,69 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "> routevela@0.0.0 build\n> node tools/build.mjs\n\nPASS: three bounded real-core test repetitions; resource observations saved to .tmp/core-profile.json.\nNode host: CPU 553.5 ms; sampled peak RSS 73.9 MiB; 9 tests passed.\nNode host: CPU 539.7 ms; sampled peak RSS 74.8 MiB; 9 tests passed.\nNode host: CPU 543.5 ms; sampled peak RSS 74.3 MiB; 9 tests passed.",
+      "summary": "> routevela@0.0.0 build\n> node tools/build.mjs\n\nPASS: three bounded real-core test repetitions; resource observations saved to .tmp/core-profile.json.\nNode host: CPU 501.7 ms; sampled peak RSS 75.2 MiB; 9 tests passed.\nNode host: CPU 512.8 ms; sampled peak RSS 75.0 MiB; 9 tests passed.\nNode host: CPU 494.6 ms; sampled peak RSS 73.5 MiB; 9 tests passed.",
       "resource_observations": {
         "scope": "node_test_host_only",
         "platform": "linux",
         "node": "v24.19.0",
         "runs": [
           {
-            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:0",
+            "run_id": "f5b51f11-2145-4c1d-a2a7-26dd6f7b4797:0",
             "exit_code": 0,
             "scope": "node_test_host_only",
             "platform": "linux",
             "node": "v24.19.0",
-            "wall_ms": 912.61588,
-            "cpu_user_ms": 418.583,
-            "cpu_system_ms": 134.893,
-            "sampled_peak_rss_bytes": 77467648,
+            "wall_ms": 878.510496,
+            "cpu_user_ms": 447.257,
+            "cpu_system_ms": 54.472,
+            "sampled_peak_rss_bytes": 78843904,
             "baseline_rss_bytes": 31981568,
-            "final_rss_bytes": 77467648,
-            "baseline_heap_used_bytes": 6075856,
-            "final_heap_used_bytes": 24116992,
+            "final_rss_bytes": 78843904,
+            "baseline_heap_used_bytes": 6075928,
+            "final_heap_used_bytes": 24286248,
+            "samples": 45,
+            "test_counts": {
+              "executed": 9,
+              "failed": 0,
+              "skipped": 0
+            }
+          },
+          {
+            "run_id": "f5b51f11-2145-4c1d-a2a7-26dd6f7b4797:1",
+            "exit_code": 0,
+            "scope": "node_test_host_only",
+            "platform": "linux",
+            "node": "v24.19.0",
+            "wall_ms": 877.252079,
+            "cpu_user_ms": 398.95,
+            "cpu_system_ms": 113.892,
+            "sampled_peak_rss_bytes": 78594048,
+            "baseline_rss_bytes": 32112640,
+            "final_rss_bytes": 78594048,
+            "baseline_heap_used_bytes": 6777744,
+            "final_heap_used_bytes": 23659904,
+            "samples": 44,
+            "test_counts": {
+              "executed": 9,
+              "failed": 0,
+              "skipped": 0
+            }
+          },
+          {
+            "run_id": "f5b51f11-2145-4c1d-a2a7-26dd6f7b4797:2",
+            "exit_code": 0,
+            "scope": "node_test_host_only",
+            "platform": "linux",
+            "node": "v24.19.0",
+            "wall_ms": 882.325917,
+            "cpu_user_ms": 407.282,
+            "cpu_system_ms": 87.312,
+            "sampled_peak_rss_bytes": 77066240,
+            "baseline_rss_bytes": 31850496,
+            "final_rss_bytes": 77066240,
+            "baseline_heap_used_bytes": 6077784,
+            "final_heap_used_bytes": 23886544,
             "samples": 47,
-            "test_counts": {
-              "executed": 9,
-              "failed": 0,
-              "skipped": 0
-            }
-          },
-          {
-            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:1",
-            "exit_code": 0,
-            "scope": "node_test_host_only",
-            "platform": "linux",
-            "node": "v24.19.0",
-            "wall_ms": 912.645789,
-            "cpu_user_ms": 452.064,
-            "cpu_system_ms": 87.609,
-            "sampled_peak_rss_bytes": 78426112,
-            "baseline_rss_bytes": 32112640,
-            "final_rss_bytes": 78426112,
-            "baseline_heap_used_bytes": 6075856,
-            "final_heap_used_bytes": 24122752,
-            "samples": 48,
-            "test_counts": {
-              "executed": 9,
-              "failed": 0,
-              "skipped": 0
-            }
-          },
-          {
-            "run_id": "664e26c6-9e28-47ae-beb1-f33977bd59bc:2",
-            "exit_code": 0,
-            "scope": "node_test_host_only",
-            "platform": "linux",
-            "node": "v24.19.0",
-            "wall_ms": 926.321654,
-            "cpu_user_ms": 459.708,
-            "cpu_system_ms": 83.791,
-            "sampled_peak_rss_bytes": 77860864,
-            "baseline_rss_bytes": 32112640,
-            "final_rss_bytes": 77860864,
-            "baseline_heap_used_bytes": 6777816,
-            "final_heap_used_bytes": 23862224,
-            "samples": 49,
             "test_counts": {
               "executed": 9,
               "failed": 0,
@@ -254,9 +254,9 @@
       "execution_context": "local_process",
       "exit_code": 0,
       "result": "pass",
-      "summary": "ℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3502.589063",
+      "summary": "ℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5925.327699",
       "test_counts": {
-        "executed": 4,
+        "executed": 8,
         "failed": 0,
         "skipped": 0
       }

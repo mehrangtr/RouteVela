@@ -265,3 +265,11 @@ config or extracted executable. Argument tests reject public bind/destination
 options and unbounded durations. Native CI runs this alongside core/profile tests;
 it is also required in partial P02 evidence. The persistent cached archive is
 intentionally retained and reverified. No external provider or GUI is involved.
+
+Local-lab startup rollback is exercised at target_ready, tls_ready and client_ready
+using a test-only lifecycle observer. Injected failures must never report ready;
+owned ports/config/extracted executable and process signal listeners must disappear,
+and an immediate fresh smoke run must succeed. Direct API calls validate bounded
+options before allocating resources and snapshot them before asynchronous startup;
+mutating caller input cannot alter the validated lifetime. Failure injection is not exposed as a CLI flag
+and observations contain only stage names and loopback port numbers.
