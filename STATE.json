@@ -20,14 +20,14 @@
     "P02.02"
   ],
   "next_task": "P02.03",
-  "resume_action": "Local-lab rollback is now tested after target/TLS/core startup; every failure closes owned resources/listeners and a fresh run succeeds. Direct API options are validated and immutably snapshotted before asynchronous setup. Publish the validated update on the already-authorized test/p02-runtime-checks branch and observe new native Windows/Linux CI; previous lab CI remains tied to 093ab42. No main merge/phase closure/provider deployment. Cloud configuration publication is only environment reproducibility and does not block current coding; request owner action only for an actual external prerequisite.",
+  "resume_action": "Local-lab rollback is tested after target/TLS/core startup; every failure closes owned resources/listeners and a fresh run succeeds. Direct API options are validated and immutably snapshotted before asynchronous setup. The authorized test/p02-runtime-checks branch now passes native Windows/Linux CI; continue only with the external P02.03 provider and egress gates. No main merge/phase closure/provider deployment. Cloud configuration publication is only environment reproducibility and does not block current coding; request owner action only for an actual external prerequisite.",
   "working_paths": [],
-  "checkpoint_commit": null,
+  "checkpoint_commit": "a52858c",
   "last_checks": [
-    "Updated local locked gates passed 76 main tests, 9 real-core cases and 8 lab cases (93 distinct tests), plus three measured core repetitions; zero failures/skips/audit vulnerabilities.",
+    "Updated local locked gates passed 77 main tests, 9 real-core cases and 8 lab cases (94 distinct tests), plus three measured core repetitions; zero failures/skips/audit vulnerabilities.",
     "Injected failures after target_ready/tls_ready/client_ready left no open ports, temporary config/executable or added process signal listeners; immediately repeated smoke startup succeeded.",
     "Direct API invalid options allocate nothing; a regression confirms caller mutation during async setup cannot extend or change the validated lab lifetime.",
-    "Independent native ubuntu-latest/windows-latest CI run 38475520271 succeeded for the exact published SHA 093ab42c97cbd3afe870e9a155813352d56d6440; no GUI/device/ISP/provider claim.",
+    "Independent native ubuntu-latest/windows-latest CI run 38481143716 succeeded for the exact published SHA a52858c; no GUI/device/ISP/provider claim.",
     "Lab self-check and manual proxy request returned the exact owned response through authenticated VLESS/WSS and verified TLS; an unrelated owned HTTP target received zero requests, with one recorded destination denial.",
     "Smoke, one-second expiry and stdin stop left zero active sessions, closed proxy/WSS/target ports, and no temporary credential/config or extracted executable; authenticated archive cache is intentionally retained."
   ],
@@ -54,13 +54,13 @@
       "branch": "test/p02-runtime-checks",
       "authorized_by": "owner explicit chat reply",
       "scope": "Publish reviewed incomplete P02 test code to execute Windows/Linux CI only; no main merge, phase closure or deployment",
-      "status": "validated_rollback_update_pending_push",
-      "head_sha": "093ab42c97cbd3afe870e9a155813352d56d6440",
-      "run_url": "https://github.com/mehrangtr/RouteVela/actions/runs/38475520271"
+      "status": "validated_native_ci",
+      "head_sha": "a52858c7c6853186f8570786ad1dc0039356d150",
+      "run_url": "https://github.com/mehrangtr/RouteVela/actions/runs/38481143716"
     }
   },
-  "updated_at_utc": "2026-10-13T22:19:17.641018Z",
-  "checkpoint_note": "Startup-rollback/snapshot source and retained prior state observations are captured in the containing checkpoint commit; new native CI must be observed after publication.",
+  "updated_at_utc": "2026-10-13T23:00:00Z",
+  "checkpoint_note": "Startup rollback/snapshot source, reserved WebSocket close handling and refreshed P02 evidence are captured in checkpoint a52858c; native Windows/Linux CI run 38481143716 passed.",
   "platform_targets": [
     "Windows",
     "Linux"
