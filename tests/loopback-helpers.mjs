@@ -27,8 +27,16 @@ export function streamPort(stream) {
   return { events, get closed() { return closed; },
     interrupt() { stream.destroy(new Error('TEST_CONNECTION_INTERRUPTED')); },
     async read(signal) { events.push('read:start'); return operation(signal, async () => {
-      const result = await reader.next(); events.push(result.done ? 'read:eof' : `read:${result.value.byteLength}`);
-      return result.done ? null : result.value;
+      try {
+        const result = await reader.next(); events.push(result.done ? 'read:eof' : `read:${result.value.byteLength}`);
+        return result.done ? null : result.value;
+      } catch (error) {
+        // sing-box may send a reserved 1006 close code after the HTTP response
+        // has completed. Treat that peer shutdown as EOF so a successful
+        // request is not turned into a transport failure by ws' parser.
+        if (error?.code === 'WS_ERR_INVALID_CLOSE_CODE') { events.push('read:eof'); return null; }
+        throw error;
+      }
     }, 'read'); },
     async write(chunk, signal) { events.push(`write:${chunk.byteLength}`); await operation(signal,
       () => new Promise((resolve, reject) => stream.write(chunk, error => error ? reject(error) : resolve())), 'write'); events.push('write:done'); },
