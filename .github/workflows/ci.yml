@@ -1,4 +1,4 @@
-name: Preparation checks
+name: Local foundation checks
 on:
   push:
     branches: [main]
@@ -10,7 +10,7 @@ concurrency:
   group: routevela-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  preparation:
+  foundation:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -22,7 +22,5 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - run: npm ci --ignore-scripts
-      - run: npm run doctor
-      - run: npm run check
-      - run: npm test
-      - run: npm run verify:evidence -- P00
+      - run: npm run verify
+      - run: npm run verify:evidence -- P01

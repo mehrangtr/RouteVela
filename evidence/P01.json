@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "phase": "P01",
+  "created_at_utc": "2026-10-13T19:39:24.406Z",
+  "environment": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "git": "git version 2.52.0",
+    "platform": "linux",
+    "arch": "x64",
+    "tools": {
+      "typescript": "6.0.3",
+      "eslint": "10.12.0",
+      "typescript-eslint": "8.71.2"
+    }
+  },
+  "input_sha256": {
+    ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
+    ".github/CODEOWNERS": "569035fb5c59bd2d43cc545be390cc14531c0d2a95415411deddea304bcf13da",
+    ".github/workflows/ci.yml": "a810d4c423aa5987bc78987be73e55873b514e8231b0c230259e032056f8b4ae",
+    ".gitignore": "53b36ab9b53f20e3473374f03995ec71006cc6a80de412247dab3d2fd6fda7e7",
+    ".node-version": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+    ".npmrc": "bd560ecd60af0e020ba7cc618d53cac0976be3d90ee1a8024578af6ced0aa8dc",
+    "AGENTS.md": "b7fe363474595a68061ab163d36d4563164603ee5aceda1f987b4fc3d9aed8ac",
+    "CONTINUE.md": "555c011dc14248318f2136c73c1c7e0e52ac3014c08f52d91c43d3830da818ac",
+    "LICENSE": "4fdccdd38003dcb2598d5b4f8a8e70021d780d510c2f174122d819be63f2a0de",
+    "PROJECT.txt": "76b9c0c84e4e10b80576894120b733cc183fe5756fa1bc6a93a66c2121782f5c",
+    "README.md": "035cbae7dffe018c3ff3b6e7498fb62218e1c85c0c679d5f5693632fb1452d0c",
+    "ROADMAP.json": "c6780481c3a17fabe129523549f7a5b92b32ae9a9da8018d3aadad1d02d9c5ff",
+    "SECURITY.md": "e3d7b4ae313c5fe71fb91877828b0df2fcc3c7153cf9348273b9a0ca244659f3",
+    "docs/ARCHITECTURE.md": "c34d1e0909d656f5141e99468cf399b86ed7a63cda35e23046505339575e47a4",
+    "docs/DEPENDENCIES.md": "89e280eda6dae8d19143f215ef0bbe90b9994c49f7673148f1a77148ef9e618f",
+    "docs/SOURCES.json": "c587743b871f7512b9745b088e2564e6d8260c39fd1d081339add761ed26a931",
+    "docs/TESTING.md": "85bd18ccf77df42904f90307b00c67a6fa6b4f2219ec6044107a7b2098ab23e4",
+    "eslint.config.mjs": "80f507012208718de07219e1c1f93528be0828a7a28c88a2103fd5ccc8083291",
+    "module-map.json": "220daab5515d968d38a0837a750b1fcd7be4f52b9c0f471e645f32941b19a8e2",
+    "package-lock.json": "57d3f2eb593fd1d32f41fb8d61f97b0ff0e16f4fc22c73e929bf1d44ceaea023",
+    "package.json": "04c38c931d81c8f94a66503de356e6b560b29b81542ed8a301c84dada1a56a27",
+    "src/app/index.ts": "2cb0fed507e02fc4c64d2c46f337278ea35b4f07b5621d8eb12067c7b848721f",
+    "src/compiler/index.ts": "b0a856b3e8fb8d1f4833c325b814269352add5821ce9f2fdda7b81cf8341da39",
+    "src/compiler/sing-box.ts": "41fee5455f1fdc84625932a3472d212b34ad5d943a1a806474f90fbb8048eabe",
+    "src/config/index.ts": "1e9c09d1fbbbce7f728dbc3590e17fad647fd2398ac9547c921ee7fa4cb6a47a",
+    "src/config/profile.ts": "f82d7ad1ce9fc3c1a29976555318f357ca49ec18b6e391aedd8129a6645ba0b6",
+    "src/contracts/errors.ts": "bf15f809badab95e579e1ade9d87f0ac9b6f68915f2c7a55d882a7557cbafcfe",
+    "src/contracts/index.ts": "278f501392dec9c999fb7f744b232b39e8c29a91ce6a27b32af1eda3d69b445b",
+    "src/contracts/model.ts": "8c96b3dc5f838f9f50381e444ebf02e53a65829fa2e7ec0ec96677e30ae6bb5e",
+    "src/domain/index.ts": "aa67edbb9a06f54201860ae1cf26b06803929c2c2f9be5faa5919d493a18cef5",
+    "src/domain/users.ts": "29d6f9d318e83a93150d39b4385ab087e3e09018222ca55dc74625efeea57616",
+    "tests/architecture.test.mjs": "bbb50e09cb71674b2051cb7d38bb6e33b7066620debf58d89d72a62d462a480e",
+    "tests/config.test.mjs": "fbf9b9ead08b9f5d9d8670288ee8530a5d420873d7276f799d24950bfa21d4ef",
+    "tests/domain.test.mjs": "e50e92cceddd3395afa57ee76861868c705db49ffadb6589c13c2bcc0a157807",
+    "tests/fixtures/profile.json": "1f03a58d1b5e4938cba91d4cbf5c67aa891ccf7b55497bddddd6097efde1b84a",
+    "tests/fixtures/sing-box.expected.json": "be3884391d236c930326437f5dfaeccf1d9d2359fa38b7d62497ae1e3dd09d44",
+    "tests/helpers.mjs": "8ddc45557985beff23ffba797b8bac094ea27be4556d7cf07e99a08718766762",
+    "tests/preflight.test.mjs": "b16670243e1c1682ee75dbe4ae9ccceb28d9920bdd0a47f9da0cfdac7a01892f",
+    "tools/architecture.mjs": "3dbef604e0b4bb1c82b1f85d536cf034f000f1bf5547c9f8dc45001b138c71bb",
+    "tools/build.mjs": "9803b9538040c0476754d3fc3ea2b5a372a9536fc432c5afaec23c2691f399d3",
+    "tools/check.mjs": "908b956db0d9f0bc105e600d477b61e375848f9c07a964a159b1ffc78613213a",
+    "tools/context.mjs": "fcf41834344aa9a22580750dc43f12935924bf4a8ea0e38762933519415e464c",
+    "tools/demo.mjs": "d2e3bebaaeca682cf965fc94ce1297e768fd5ac450009ea5b638d88f624f7dad",
+    "tools/doctor.mjs": "4c2821bbb0e88e6c5a24fbd6b64d3c21145e6f310364516256637b865ce50035",
+    "tools/evidence.mjs": "bceb2861a03f564b0185cead4cf8febb3f86beafab59e8fee266102f6c1be77f",
+    "tools/project.mjs": "e2512dec2ece49d18627bfa4e75ce1798f501fb5643dd6295dc3c6803e90b17e",
+    "tsconfig.json": "551c5485cac2fe105d5770bd4e516bb3a3fd98ecde7789f4532bd38320c1f521"
+  },
+  "checks": [
+    {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "added 95 packages in 2s"
+    },
+    {
+      "command": "npm run doctor",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 doctor\n> node tools/doctor.mjs\n\nPASS: Node 24.19.0; git version 2.52.0; preparation files present. No production credential required."
+    },
+    {
+      "command": "npm run check",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 check\n> node tools/check.mjs\n\nPASS: project contracts, JS syntax, compiler-backed module boundaries, secret/script guards. Run typecheck separately; no live connection claimed."
+    },
+    {
+      "command": "npm run typecheck",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 typecheck\n> tsc --noEmit"
+    },
+    {
+      "command": "npm run lint",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 lint\n> eslint src --max-warnings=0"
+    },
+    {
+      "command": "npm test",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "\u2139 suites 0\n\u2139 pass 27\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1068.969417",
+      "test_counts": {
+        "executed": 27,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": "npm run audit",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 audit\n> npm audit --audit-level=high\n\nfound 0 vulnerabilities"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "P01-A1",
+      "result": "pass",
+      "verification_method": "automated_local_run",
+      "basis": "Executed the required phase gates, compiled behavior tests and recorded the input manifest."
+    },
+    {
+      "id": "P01-A2",
+      "result": "pass",
+      "verification_method": "automated_local_run",
+      "basis": "Executed the required phase gates, compiled behavior tests and recorded the input manifest."
+    },
+    {
+      "id": "P01-A3",
+      "result": "pass",
+      "verification_method": "automated_local_run",
+      "basis": "Executed the required phase gates, compiled behavior tests and recorded the input manifest."
+    },
+    {
+      "id": "P01-A4",
+      "result": "pass",
+      "verification_method": "author_feasibility_document_review",
+      "basis": "Reviewed docs/SOURCES.json at official docs commit 8971693bf9c176c38f4600f2aad904c239ed4bc0: Workers/Pages budgets and outbound TCP restrictions observed. Direct terms recheck returned proxy 403; previous finding is retained as unvalidated. CF_PERMISSION is unresolved and FREE_EGRESS unproven. Only controlled local P02.01/P02.02 work may proceed; live deployment, P02 closure and P03+ expansion remain gated. No cost/scope constraint changed.",
+      "reviewer": "Codex (implementation author; not independent review)"
+    }
+  ],
+  "not_run": [
+    "Cloudflare/VPN deployment",
+    "Real core parser/device import/connect/update",
+    "Target ISP performance benchmark",
+    "Production admin authentication and durable storage"
+  ],
+  "limitations": [
+    "P01 is a local typed foundation, not a working VPN or UI.",
+    "Policy checks use trusted metadata; they do not verify secrets or implement durable revocation.",
+    "The sing-box output is a deterministic schema fixture, not tested live core compatibility.",
+    "Fake random/clock/repository implementations are test-only.",
+    "The import graph guard is not a security sandbox; script/secret guards are incomplete.",
+    "Provider permission and free-egress viability remain unresolved.",
+    "Direct official terms access returned proxy 403; immutable official documentation sources were inspected.",
+    "Local execution and author review are not independent review or observed remote CI.",
+    "STATE.json is mutable, separately checked and excluded from the input manifest."
+  ],
+  "functional_smoke": {
+    "command": "node tools/demo.mjs > /tmp/routevela-p01-demo.json && cmp /tmp/routevela-p01-demo.json tests/fixtures/sing-box.expected.json",
+    "exit_code": 0,
+    "result": "pass",
+    "basis": "Built composed pipeline produced the reviewed synthetic fixture byte-for-byte; no live network operation."
+  }
+}

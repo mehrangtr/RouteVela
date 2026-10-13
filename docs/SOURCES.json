@@ -4,17 +4,38 @@
     {
       "id": "CF_TERMS",
       "url": "https://www.cloudflare.com/terms/",
-      "finding": "Self-Serve 2.2.1 intro/(j): written-permission exception and VPN/similar proxy restriction."
+      "finding": "Self-Serve 2.2.1 intro/(j): written-permission exception and VPN/similar proxy restriction.",
+      "recheck": {
+        "attempted_date_utc": "2026-10-13",
+        "result": "not_observed",
+        "reason": "Direct HTTPS requests rejected by egress proxy with 403 Forbidden; existing 2026-10-12 finding retained, not revalidated. No permission supplied or inferred."
+      }
     },
     {
       "id": "WORKERS_LIMITS",
       "url": "https://developers.cloudflare.com/workers/platform/limits/",
-      "finding": "Free account limits: 100000 requests/day; 10 ms CPU/request; 128 MB isolate memory. Recheck before deployment."
+      "finding": "Free requests 100000/day; CPU 10 ms/request; memory 128 MB/isolate. Network wait is not CPU time.",
+      "last_checked_date_utc": "2026-10-13",
+      "verification": {
+        "method": "Official Cloudflare documentation repository over verified HTTPS",
+        "immutable_url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/8971693bf9c176c38f4600f2aad904c239ed4bc0/src/content/docs/workers/platform/limits.mdx",
+        "commit": "8971693bf9c176c38f4600f2aad904c239ed4bc0",
+        "content_sha256": "707eb71f26a93061771979b386ebce8374680f64864d61f750d20f265ec62a3e",
+        "result": "observed"
+      }
     },
     {
       "id": "PAGES_PRICING",
       "url": "https://developers.cloudflare.com/pages/functions/pricing/",
-      "finding": "Functions share Workers free request quota; static non-Function assets have distinct pricing."
+      "finding": "Functions requests share the Workers free 100000 daily request quota; static requests do not invoke Functions.",
+      "last_checked_date_utc": "2026-10-13",
+      "verification": {
+        "method": "Official Cloudflare documentation repository over verified HTTPS",
+        "immutable_url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/8971693bf9c176c38f4600f2aad904c239ed4bc0/src/content/docs/pages/functions/pricing.mdx",
+        "commit": "8971693bf9c176c38f4600f2aad904c239ed4bc0",
+        "content_sha256": "0fb71a6f78247ebe4978030b75c9165375c437105a7d14f1a6fa1d505ebc7252",
+        "result": "observed"
+      }
     },
     {
       "id": "DEPLOY_BUTTON",
@@ -35,6 +56,27 @@
       "id": "GITHUB_LICENSE",
       "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository",
       "finding": "Public repository viewing/forking cannot be removed by a custom license notice."
+    },
+    {
+      "id": "TCP_SOCKETS",
+      "url": "https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/",
+      "finding": "Outbound sockets to Cloudflare IP ranges, localhost/private IPs and port 25 are restricted. Inbound service-binding sockets do not establish general public TCP or UDP support.",
+      "last_checked_date_utc": "2026-10-13",
+      "verification": {
+        "method": "Official Cloudflare documentation repository over verified HTTPS",
+        "immutable_url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/8971693bf9c176c38f4600f2aad904c239ed4bc0/src/content/docs/workers/runtime-apis/tcp-sockets.mdx",
+        "commit": "8971693bf9c176c38f4600f2aad904c239ed4bc0",
+        "content_sha256": "99d084a4d88151ed92cdf0db4f6d1c9da34d5331b7f7052cbb4bed563b2995ea",
+        "result": "observed"
+      }
     }
-  ]
+  ],
+  "p01_feasibility_checkpoint": {
+    "date_utc": "2026-10-13",
+    "permission": "unresolved: no applicable written permission evidence supplied; no outreach performed",
+    "free_egress": "unproven: direct egress has documented target restrictions; no verified free permitted relay/operator or live destination evidence",
+    "allowed_next_work": "P02.01/P02.02 controlled local parser/stream tests",
+    "blocked_work": "Live Cloudflare VPN deployment, P02 closure and P03+ expansion",
+    "cost_decision": "No new account, domain, paid service or mandatory relay introduced."
+  }
 }

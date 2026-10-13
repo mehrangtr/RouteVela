@@ -1,0 +1,34 @@
+{
+  "log": {
+    "disabled": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "local",
+      "listen": "127.0.0.1",
+      "listen_port": 1080
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "example-profile",
+      "server": "edge.example.invalid",
+      "server_port": 443,
+      "uuid": "00000000-0000-4000-8000-000000000001",
+      "tls": {
+        "enabled": true,
+        "server_name": "edge.example.invalid"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/routevela"
+      }
+    }
+  ],
+  "route": {
+    "final": "example-profile",
+    "auto_detect_interface": true
+  }
+}

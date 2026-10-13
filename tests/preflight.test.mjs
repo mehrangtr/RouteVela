@@ -95,3 +95,22 @@ test('evidence detects changed input and failed checks; excludes mutable checkpo
     assert.ok(!Object.hasOwn(manifest, 'STATE.json'));
   } finally { rmSync(root, { recursive:true, force:true }); }
 });
+test('phase evidence rejects missing or duplicate criteria/commands and zero or skipped tests', () => {
+  const expected = { acceptanceIds: ['P01-A1', 'P01-A2'], commands: ['npm test', 'npm run typecheck'], testCommand: 'npm test' };
+  const record = { schema_version: 1, phase: 'P01', created_at_utc: '2026-10-13T00:00:00Z', input_sha256: {},
+    acceptance: expected.acceptanceIds.map(id => ({ id, result: 'pass' })),
+    checks: expected.commands.map(command => ({ command, exit_code: 0, result: 'pass',
+      ...(command === 'npm test' ? { test_counts: { executed: 1, failed: 0, skipped: 0 } } : {}) })) };
+  assert.deepEqual(verifyEvidence(record, {}, expected), []);
+  const missingCriterion = structuredClone(record); missingCriterion.acceptance.pop();
+  assert.ok(verifyEvidence(missingCriterion, {}, expected).includes('EVIDENCE_ACCEPTANCE_IDS'));
+  const duplicateCriterion = structuredClone(record); duplicateCriterion.acceptance[1].id = 'P01-A1';
+  assert.ok(verifyEvidence(duplicateCriterion, {}, expected).includes('EVIDENCE_ACCEPTANCE_IDS'));
+  const missingCommand = structuredClone(record); missingCommand.checks.pop();
+  assert.ok(verifyEvidence(missingCommand, {}, expected).includes('EVIDENCE_COMMANDS'));
+  for (const counts of [{ executed: 0, failed: 0, skipped: 0 }, { executed: 3, failed: 0, skipped: 1 },
+    { executed: 3, failed: 1, skipped: 0 }]) {
+    const changed = structuredClone(record); changed.checks[0].test_counts = counts;
+    assert.ok(verifyEvidence(changed, {}, expected).includes('EVIDENCE_TEST_COUNTS'));
+  }
+});

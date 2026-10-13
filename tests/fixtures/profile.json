@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "example-profile",
+  "protocol": "vless",
+  "transport": "ws",
+  "server": "edge.example.invalid",
+  "port": 443,
+  "tls": true,
+  "serverName": "edge.example.invalid",
+  "path": "/routevela",
+  "credential": {
+    "purpose": "connection",
+    "uuid": "00000000-0000-4000-8000-000000000001",
+    "generation": 1
+  }
+}

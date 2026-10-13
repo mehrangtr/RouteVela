@@ -21,10 +21,11 @@ when their first implementation is added in P01+, not filled with dummy classes 
 | ui | Persian/English UI and safe API client | No DB/provider privileged imports |
 | app | Composition and HTTP routing | Wires modules, minimal business logic |
 
-P00 import checks catch declared static relative imports and disallowed shortcuts.
-They are an early guard, not a sandbox or a full TypeScript parser. P01 must add
-compiler-backed checking of aliases/re-exports and type/build gates before app code
-is considered ready. Do not permit dynamic imports to bypass the contract.
+The P01 guard in tools/architecture.mjs uses the pinned TypeScript parser and
+resolver for static imports, aliases, re-exports, import types, declarations and
+reference directives. It checks real paths, public index.ts boundaries and cycles,
+rejects dynamic/require loading and source files outside the build. It is an import
+contract check, not a security sandbox. Typecheck/lint/build are separate gates.
 
 Core ports: Clock, RandomSource, UserRepository, CredentialRepository,
 ConfigRepository, ProtocolParser, TransportSession, ProviderAdapter, ClientFormatter.
@@ -94,3 +95,26 @@ end-to-end; do not introduce a root CA or intercept provider login.
 Catalog provenance/expiry and endpoint health are separate checks. Updates must
 not introduce a paid central service, mandatory unknown relay or public scraping.
 Keep bootstrap credentials and control state separate from production credentials.
+
+## Implemented local P01 slice
+
+contracts defines safe Result/error catalog, DTOs and clock/random/repository ports.
+domain creates immutable users and evaluates trusted expiry/purpose/generation
+metadata; it does not verify a password/token or persist revocation. Atomic insert
+is a repository contract exercised against the test-only in-memory implementation.
+Production identity/storage adapters belong to later tasks.
+
+config accepts bounded JSON for one VLESS/WS/TLS profile with exact keys, validated
+DNS names, port, route path and connection-purpose UUID/generation. It canonicalizes
+host/UUID case and freezes copied data. WeakSet provenance ensures only an unchanged
+validated instance reaches compiler. The initial path/host subset is conservative;
+IP literals, IDNs, other protocols and raw query/fragment paths are not supported.
+No parse/render operation performs network I/O or establishes provider permission.
+
+compiler emits one deterministic sing-box 1.12.0 schema fixture. This is a reviewed
+output shape, not an executed core-parser/device compatibility claim; P03 must
+validate and pin the actual supported client versions. Output contains a connection
+credential intentionally, while diagnostic errors never include it. The synthetic
+example uses example.invalid and a test UUID. Never reuse it as a production secret.
+app composes parsing/rendering without a server or privileged I/O. npm run demo
+executes this built pipeline against the synthetic fixture.

@@ -9,6 +9,33 @@
 - `npm run verify:evidence -- P00`: hashes/results match the checked preparation inputs.
 - `npm run verify:prep`: doctor, check, tests and explicit P00 evidence verification.
 
+The list above describes the historical P00 snapshot. After P01 implementation,
+verify:prep only runs current preparation checks/tests; old P00 hashes intentionally
+do not match the new implementation. Use the current phase's runner below.
+
+## P01 executable gates
+
+- `npm ci --ignore-scripts --no-audit --no-fund`: clean, integrity-checked locked install.
+- `npm run doctor` and `npm run check`: repository/state/script/secret guards and
+  compiler-resolved module graph, including aliases, import types and declarations.
+- `npm run typecheck`: pinned strict TypeScript with unchecked-index/optional/unused checks.
+- `npm run lint`: pinned ESLint with type-aware TypeScript rules and zero warnings.
+- `npm test`: clean TypeScript build, followed by every existing Node test file.
+  Tests exercise built domain/config/compiler/app code and negative architecture fixtures.
+- `npm run audit`: registry advisory check, fails on high/critical findings.
+- `npm run verify`: the current validation gates above except the explicit install.
+- `npm run demo`: built parse -> validate -> render pipeline for the synthetic fixture.
+- `npm run evidence -- P01`: real clean install and current phase gates with exact
+  input hashes/versions/test counts; feasibility acceptance initially needs review.
+- `npm run verify:evidence -- P01`: current manifest, expected acceptance IDs and
+  required command records. This verifies the record, not provider permission or
+  an independent rerun. CI separately executes npm run verify.
+
+Fake clock/random/in-memory repositories are test-only ports. Credential-policy
+tests are metadata-policy checks, not token/password verification or durable storage.
+The sing-box fixture is tested byte-for-byte; its external core parser, device
+import and network connection are explicitly unrun until the corresponding phases.
+
 The check command also rejects raw Arabic-script text in repository files. This
 enforces the owner's current English-file policy; it is not a general language
 classifier. Localized UI data uses Unicode escapes, with decoded-text and RTL

@@ -1,26 +1,32 @@
 {
   "schema_version": 1,
-  "phase": "P01",
+  "phase": "P02",
   "phase_status": "not_started",
   "completed_phases": [
-    "P00"
+    "P00",
+    "P01"
   ],
   "completed_tasks": [
     "P00.01",
     "P00.02",
     "P00.03",
-    "P00.04"
+    "P00.04",
+    "P01.01",
+    "P01.02",
+    "P01.03",
+    "P01.04",
+    "P01.05"
   ],
-  "next_task": "P01.01",
-  "resume_action": "Implement P01.01 with pinned strict TypeScript/build/test/lint and dependency/audit gates. Begin dated capability/free-egress review for P01.05. The reviewed P00 skeleton is complete; no P01 application task was implemented by the redesign.",
+  "next_task": "P02.01",
+  "resume_action": "Implement the VLESS parser independently from transport and test controlled local peers (P02.01/P02.02). Do not deploy a live Cloudflare VPN or close P02 until applicable permission and genuine free egress evidence are supplied. Review docs/SOURCES.json and the local P01 evidence before continuing.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "npm ci --ignore-scripts --cache /tmp/routevela-npm-cache --no-audit --no-fund: exit 0.",
-    "npm run evidence -- P00: exit 0; doctor/check and all 11 preparation tests passed.",
-    "P00-A1/A2 reviewed by Codex revision author, explicitly not independent review; see evidence/P00.json.",
-    "Raw Persian/Arabic script scan: 27 repository files checked, zero matching files.",
-    "npm run verify:prep, npm run context and git diff --check: exit 0 on the revised preparation baseline."
+    "P01 evidence runner: clean npm ci, doctor, check, strict typecheck, type-aware lint, fresh build and all 27 tests passed; none failed or skipped.",
+    "npm audit --audit-level=high: zero vulnerabilities reported.",
+    "Built demo output matched the reviewed synthetic sing-box fixture byte-for-byte.",
+    "Exact direct dependency pins, lock declarations and package integrity fields checked.",
+    "P01-A4 author feasibility review completed; permission/free egress remain unresolved, not passes."
   ],
   "blockers": [
     {
@@ -39,41 +45,9 @@
   "publication": {
     "policy": "closed_phases_only",
     "branch": "main",
-    "milestone": "P00",
+    "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T13:36:22.596815Z",
-  "review_checkpoint": {
-    "scope": "Selective proposal/ZIP review and English preparation redesign; P01 remains not_started.",
-    "basis_commit": "bcb43d7b70d595e0618cd99e21989f5f3a3a2db2",
-    "source_material": "Eight ZIP proposal files plus CL3/COP3/DEEP3/QW3/COP4/QW4/PR4/GP4; proposal instructions are advisory.",
-    "changes": [
-      "English product specification and repository text policy.",
-      "Early P01 feasibility checkpoint; preserved authorization and licensing.",
-      "Profile library, safe config preview, staged diagnostics and client help assigned to existing modules/tasks.",
-      "Optional offline bootstrap help in P06; gated catalog/local integration evaluation in P09.05.",
-      "Threat/dependency policy, concrete UX/beta protocols, truthful evidence provenance.",
-      "Fixed missing/duplicate/evidence-free connection gate bypass; added script policy regression tests."
-    ],
-    "changed_paths": [
-      "AGENTS.md",
-      "CONTINUE.md",
-      "PROJECT.txt",
-      "README.md",
-      "ROADMAP.json",
-      "SECURITY.md",
-      "STATE.json",
-      "docs/ARCHITECTURE.md",
-      "docs/DEPENDENCIES.md",
-      "docs/TESTING.md",
-      "evidence/P00.json",
-      "module-map.json",
-      "package.json",
-      "tests/preflight.test.mjs",
-      "tools/check.mjs",
-      "tools/evidence.mjs",
-      "tools/project.mjs"
-    ],
-    "capture": "This revision is the complete P00 redesign checkpoint; resolve its commit from Git history. No P01 implementation task is complete."
-  }
+  "updated_at_utc": "2026-10-13T19:40:38.154771Z",
+  "checkpoint_note": "The closed P01 milestone is captured by the containing Git revision; inspect actual HEAD/history before resuming."
 }

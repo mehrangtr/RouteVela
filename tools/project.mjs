@@ -7,7 +7,8 @@ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const REQUIRED = ['README.md', 'AGENTS.md', 'PROJECT.txt', 'CONTINUE.md',
   'ROADMAP.json', 'STATE.json', 'module-map.json', 'SECURITY.md', 'LICENSE',
   'package.json', 'package-lock.json', 'docs/ARCHITECTURE.md', 'docs/TESTING.md',
-  'docs/SOURCES.json', 'docs/DEPENDENCIES.md', '.github/workflows/ci.yml', '.github/CODEOWNERS'];
+  'docs/SOURCES.json', 'docs/DEPENDENCIES.md', 'tsconfig.json', 'eslint.config.mjs',
+  '.github/workflows/ci.yml', '.github/CODEOWNERS'];
 const SKIP = new Set(['.git', 'node_modules', 'dist', 'coverage', '.tmp', 'private',
   'backups', '.codex-log']);
 
@@ -127,12 +128,24 @@ export function inputManifest(root = ROOT) {
   return Object.fromEntries(listFiles(root).filter(p => p !== 'STATE.json' && !p.startsWith('evidence/'))
     .map(p => [p, createHash('sha256').update(readFileSync(resolve(root, p))).digest('hex')]));
 }
-export function verifyEvidence(record, manifest) {
+export function verifyEvidence(record, manifest, expected = {}) {
   const errors = [];
   if (record.schema_version !== 1 || !record.phase || !record.created_at_utc) errors.push('EVIDENCE_SCHEMA');
   if (JSON.stringify(record.input_sha256) !== JSON.stringify(manifest)) errors.push('EVIDENCE_INPUT_CHANGED');
   if (!record.checks?.length || record.checks.some(x => x.exit_code !== 0 || x.result !== 'pass')) errors.push('EVIDENCE_CHECK_FAILED');
   if (!record.acceptance?.length || record.acceptance.some(x => x.result !== 'pass')) errors.push('EVIDENCE_ACCEPTANCE');
+  if (expected.acceptanceIds) {
+    const actual = record.acceptance?.map(x => x.id).sort();
+    if (JSON.stringify(actual) !== JSON.stringify([...expected.acceptanceIds].sort())) errors.push('EVIDENCE_ACCEPTANCE_IDS');
+  }
+  if (expected.commands) {
+    const actual = record.checks?.map(x => x.command).sort();
+    if (JSON.stringify(actual) !== JSON.stringify([...expected.commands].sort())) errors.push('EVIDENCE_COMMANDS');
+  }
+  if (expected.testCommand) {
+    const test = record.checks?.find(x => x.command === expected.testCommand)?.test_counts;
+    if (!test || !Number.isSafeInteger(test.executed) || test.executed < 1 || test.failed !== 0 || test.skipped !== 0) errors.push('EVIDENCE_TEST_COUNTS');
+  }
   return errors;
 }
 export function requiredMissing(root = ROOT) { return REQUIRED.filter(p => !existsSync(resolve(root, p))); }

@@ -11,9 +11,21 @@
     "doctor": "node tools/doctor.mjs",
     "context": "node tools/context.mjs",
     "check": "node tools/check.mjs",
-    "test": "node --test tests/*.test.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
     "evidence": "node tools/evidence.mjs record",
     "verify:evidence": "node tools/evidence.mjs verify",
-    "verify:prep": "npm run doctor && npm run check && npm test && npm run verify:evidence -- P00"
+    "verify:prep": "npm run doctor && npm run check && npm test",
+    "typecheck": "tsc --noEmit",
+    "build": "node tools/build.mjs",
+    "lint": "eslint src --max-warnings=0",
+    "audit": "npm audit --audit-level=high",
+    "check:architecture": "node tools/architecture.mjs",
+    "verify": "npm run doctor && npm run check && npm run typecheck && npm run lint && npm test && npm run audit",
+    "demo": "npm run build && node tools/demo.mjs"
+  },
+  "devDependencies": {
+    "eslint": "10.12.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2"
   }
 }
