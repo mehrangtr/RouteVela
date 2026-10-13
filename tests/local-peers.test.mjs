@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
-import { WebSocketServer, createWebSocketStream } from 'ws';
+import { WebSocketServer } from 'ws';
 import { handleVlessSession } from '../dist/providers/index.js';
 import { requestBytes, realTimers } from './connection-helpers.mjs';
 
-import { limits, streamPort, tcpServer, connect, accessTo } from './loopback-helpers.mjs';
+import { limits, streamPort, webSocketPort, tcpServer, connect, accessTo } from './loopback-helpers.mjs';
 
 test('real loopback TCP carries authenticated VLESS bytes and half-closed echo without header leakage', { timeout: 6000 }, async t => {
   let targetBytes = Buffer.alloc(0);
@@ -42,7 +42,7 @@ test('real loopback WebSocket message fragments feed the same parser and a TCP p
   t.after(async () => { for (const client of server.clients) client.terminate(); await new Promise(resolve => server.close(resolve)); });
   const peers = []; let completed; const result = new Promise(resolve => { completed = resolve; }); let source;
   server.on('connection', ws => {
-    source = streamPort(createWebSocketStream(ws));
+    source = webSocketPort(ws);
     void handleVlessSession(source, accessTo(destinationPort, peers), realTimers, limits).then(completed);
   });
   const client = new WebSocket(`ws://127.0.0.1:${server.address().port}`); client.binaryType = 'arraybuffer';

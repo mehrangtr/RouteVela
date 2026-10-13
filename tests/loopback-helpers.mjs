@@ -2,6 +2,7 @@ import net from 'node:net';
 import { once } from 'node:events';
 import { failure, success } from '../dist/contracts/index.js';
 import { TEST_UUID } from './connection-helpers.mjs';
+import { createWebSocketStream } from 'ws';
 
 export const limits = { maxChunkBytes: 65_536, idleTimeoutMs: 1500, cleanupTimeoutMs: 500,
   maxEmptyReads: 8, maxSessionMs: 4000, maxSessionBytes: 65_536 };
@@ -32,13 +33,37 @@ export function streamPort(stream) {
     async write(chunk, signal) { events.push(`write:${chunk.byteLength}`); await operation(signal,
       () => new Promise((resolve, reject) => stream.write(chunk, error => error ? reject(error) : resolve())), 'write'); events.push('write:done'); },
     async end(signal) { events.push('end:start'); await operation(signal,
-      () => new Promise((resolve, reject) => stream.end(error => error ? reject(error) : resolve())), 'end'); events.push('end:done'); },
+      () => {
+        if (stream.writableFinished) return Promise.resolve();
+        if (stream.destroyed) return Promise.reject(Object.assign(new Error('TEST_WRITER_DESTROYED'), { code: 'ERR_STREAM_DESTROYED' }));
+        return new Promise((resolve, reject) => stream.end(error => error ? reject(error) : resolve()));
+      }, 'end'); events.push('end:done'); },
     async close() {
       if (closed) throw new Error('DUPLICATE_TEST_CLOSE'); closed = true;
       const disposed = stream.closed ? Promise.resolve() : once(stream, 'close');
       stream.destroy(); await Promise.all([disposed, reader.return()]);
     },
   };
+}
+
+export function webSocketPort(ws) {
+  const port = streamPort(createWebSocketStream(ws));
+  ws.on('close', code => port.events.push(`ws:${code}`));
+  // WebSockets close both directions. The generic stream _final waits for a
+  // socket finish event that may already be unavailable after a peer close.
+  // Await the public WebSocket close event; pending read/write errors still fail.
+  port.end = async signal => {
+    if (signal.aborted) throw new Error('TEST_PORT_ABORTED');
+    port.events.push('end:ws:start');
+    if (ws.readyState !== ws.CLOSED) {
+      const abort = () => ws.terminate();
+      signal.addEventListener('abort', abort, { once: true });
+      try { await new Promise(resolve => { ws.once('close', resolve); ws.close(); }); }
+      finally { signal.removeEventListener('abort', abort); }
+    }
+    port.events.push('end:ws:done');
+  };
+  return port;
 }
 
 export async function tcpServer(t, onConnection) {

@@ -1,8 +1,8 @@
 import https from 'node:https';
 import { once } from 'node:events';
 import selfsigned from 'selfsigned';
-import { WebSocketServer, createWebSocketStream } from 'ws';
-import { streamPort, limits } from './loopback-helpers.mjs';
+import { WebSocketServer } from 'ws';
+import { webSocketPort, limits } from './loopback-helpers.mjs';
 
 export const TEST_SERVER_NAME = 'routevela.test';
 
@@ -33,9 +33,7 @@ export async function securePeer(t, onConnection) {
   const ws = new WebSocketServer({ server, path: '/connect', maxPayload: limits.maxChunkBytes,
     perMessageDeflate: false });
   ws.on('connection', socket => {
-    const port = streamPort(createWebSocketStream(socket));
-    socket.on('close', code => port.events.push(`ws:${code}`));
-    onConnection(port);
+    onConnection(webSocketPort(socket));
   });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   t.after(async () => {

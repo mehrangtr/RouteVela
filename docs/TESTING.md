@@ -249,3 +249,11 @@ names, stable error/stage codes and small numeric/boolean assertions. They omit
 raw exception/config/payload strings. This permits diagnosis from public job
 annotations when GitHub log authentication is unavailable. Full logs remain under
 GitHub's normal access rules; no access controls or tests are bypassed.
+
+Native CI exposed a test-adapter shutdown race: the generic ws stream finalizer
+could wait for TCP finish after the client had already closed the WebSocket.
+The WebSocket port now awaits the public ws close API/event and acknowledges an
+already-closed transport, while read/write errors and session deadlines remain
+strict. TCP port end similarly acknowledges a previously finished writer and
+rejects an abruptly destroyed unfinished writer immediately. Regressions cover
+both states and peer-first WebSocket close; no test expectation or budget is relaxed.
