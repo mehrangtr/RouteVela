@@ -59,7 +59,7 @@ before entering a VLESS session. No system certificate store is changed.
 Loopback tests are not an ISP trial, production deployment or a native Windows pass. Port adapters must enforce their own queue bounds,
 authentication and destination restrictions before a live runtime is considered.
 
-`npm run test:core` builds the core and runs six controlled connection cases plus
+`npm run test:core` builds the core and runs eight controlled connection cases plus
 the unchanged renderer-output parse check against official sing-box 1.12.0. The
 artifact tool fetches the matching Windows/Linux x64/arm64 release, verifies the
 pinned upstream archive digest before extracting/executing, and rejects tampering.
@@ -225,3 +225,21 @@ the sixth exceeds its session byte budget. All five healthy sessions must still
 succeed, exactly one session must report RV-TRANS-008, and all twelve source/peer
 ports must close. A response barrier proves overlap without fragile timing checks.
 This bounded local concurrency check is not a production capacity benchmark.
+
+Actual-core interruption recovery destroys the source stream after the target
+receives its first request. That session must fail safely, both ports must close,
+and an explicitly requested fresh session must succeed. Exactly two requests and
+sessions rule out automatic replay. A separate repeated-session case runs twenty
+requests through one running core, verifies a distinct response and zero active
+sessions after every request, and checks all retained source/peer ports are closed.
+
+`npm run profile:core` builds then repeats the full core suite three times in fresh
+Node hosts. Each host runs with --test-isolation=none and a preload RSS/CPU observer,
+so measurement covers the actual test host rather than an idle runner parent.
+CPU user/system time and 10 ms sampled RSS, baseline/final heap and RSS, wall time,
+positive clean test counts and fresh run IDs are stored in ignored .tmp/core-profile.json.
+The P02 runner validates the fresh profile ID/input manifest and records these
+observations in evidence/P02.json; CI is configured to run the profile on both OSes.
+They include Node test/TLS setup/adapters and exclude the separate sing-box child,
+build time, cloud runtime and ISP. Sampling can miss brief peaks. No memory leak,
+production capacity, billing or throughput conclusion follows from these numbers.

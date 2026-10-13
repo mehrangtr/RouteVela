@@ -146,7 +146,27 @@ export function verifyEvidence(record, manifest, expected = {}) {
     const test = record.checks?.find(x => x.command === command)?.test_counts;
     if (!test || !Number.isSafeInteger(test.executed) || test.executed < 1 || test.failed !== 0 || test.skipped !== 0) errors.push('EVIDENCE_TEST_COUNTS');
   }
+  if (expected.resourceCommand && !validResourceObservations(
+    record.checks?.find(check => check.command === expected.resourceCommand)?.resource_observations)) {
+    errors.push('EVIDENCE_RESOURCE_OBSERVATIONS');
+  }
   return errors;
+}
+export function validResourceObservations(observation) {
+  if (!observation || observation.scope !== 'node_test_host_only' || !observation.platform || !observation.node ||
+    !Array.isArray(observation.runs) || observation.runs.length !== 3) return false;
+  const ids = new Set();
+  for (const run of observation.runs) {
+    if (!run || typeof run.run_id !== 'string' || !run.run_id || ids.has(run.run_id) || run.exit_code !== 0 ||
+      run.scope !== observation.scope || run.platform !== observation.platform || run.node !== observation.node ||
+      !['wall_ms', 'cpu_user_ms', 'cpu_system_ms', 'sampled_peak_rss_bytes', 'baseline_rss_bytes',
+        'final_rss_bytes', 'baseline_heap_used_bytes', 'final_heap_used_bytes', 'samples']
+        .every(key => Number.isFinite(run[key]) && run[key] >= 0) || run.sampled_peak_rss_bytes < 1 ||
+      !Number.isSafeInteger(run.samples) || run.samples < 2 || !Number.isSafeInteger(run.test_counts?.executed) ||
+      run.test_counts.executed < 1 || run.test_counts.failed !== 0 || run.test_counts.skipped !== 0) return false;
+    ids.add(run.run_id);
+  }
+  return true;
 }
 export function requiredMissing(root = ROOT) { return REQUIRED.filter(p => !existsSync(resolve(root, p))); }
 

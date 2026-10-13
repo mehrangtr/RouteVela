@@ -1,8 +1,9 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
 import { runCommand } from './process.mjs';
-import { ROOT, readJson, inputManifest, verifyEvidence, verifyLocalP02Evidence } from './project.mjs';
+import { ROOT, readJson, inputManifest, verifyEvidence, verifyLocalP02Evidence, validResourceObservations } from './project.mjs';
 
 const [action, phase] = process.argv.slice(2);
 const gates = {
@@ -18,7 +19,7 @@ const gates = {
 };
 const commandText = ([command, args]) => [command, ...args].join(' ');
 // P02's local runner cannot establish the separately gated live acceptance.
-gates.P02 = [...gates.P01, ['npm', ['run', 'test:core']]];
+gates.P02 = [...gates.P01, ['npm', ['run', 'test:core']], ['npm', ['run', 'profile:core']]];
 try {
   if (!/^P\d{2}$/.test(phase ?? '')) throw new Error('Provide an explicit phase ID.');
   if (!gates[phase]) throw new Error('Add the actual phase runner before recording or verifying this phase.');
@@ -29,8 +30,10 @@ try {
     const before = inputManifest();
     const checks = [];
     for (const [command, args] of gates[phase]) {
+      const profileId = randomUUID();
       const run = runCommand(command, args, {
         cwd: ROOT, encoding: 'utf8', timeout: 120000,
+        env: { ...process.env, ROUTEVELA_PROFILE_ID: profileId },
       });
       const description = commandText([command, args]);
       const result = { command: description, execution_context: 'local_process', exit_code: run.status,
@@ -45,6 +48,15 @@ try {
         if (result.test_counts.executed === 0 || result.test_counts.failed !== 0 || result.test_counts.skipped !== 0) {
           result.result = 'fail';
         }
+      }
+      if (description === 'npm run profile:core' && run.status === 0) {
+        const profile = readJson('.tmp/core-profile.json');
+        if (profile.profile_id !== profileId || profile.scope !== 'node_test_host_only' ||
+          JSON.stringify(profile.input_sha256) !== JSON.stringify(before) || !validResourceObservations(profile)) {
+          throw new Error('Fresh complete resource profile is required.');
+        }
+        result.resource_observations = { scope: profile.scope, platform: profile.platform,
+          node: profile.node, runs: profile.runs, limitations: profile.limitations };
       }
       checks.push(result);
       if (result.result !== 'pass') {
@@ -100,6 +112,7 @@ try {
       acceptanceIds: criteria.map(text => text.split(':')[0]),
       commands: gates[phase].map(commandText), testCommand,
       testCommands: phase === 'P02' ? [testCommand, 'npm run test:core'] : [testCommand],
+      ...(phase === 'P02' ? { resourceCommand: 'npm run profile:core' } : {}),
     };
     if (action === 'verify-local' && phase !== 'P02') throw new Error('Local partial verification is only implemented for P02.');
     const errors = action === 'verify-local' ? verifyLocalP02Evidence(record, inputManifest(), expected) : verifyEvidence(record, inputManifest(), expected);

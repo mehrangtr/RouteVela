@@ -21,6 +21,7 @@ export function streamPort(stream) {
     try { return await action(); } finally { signal.removeEventListener('abort', abort); }
   };
   return { events, get closed() { return closed; },
+    interrupt() { stream.destroy(new Error('TEST_CONNECTION_INTERRUPTED')); },
     async read(signal) { events.push('read:start'); return operation(signal, async () => {
       const result = await reader.next(); events.push(result.done ? 'read:eof' : `read:${result.value.byteLength}`);
       return result.done ? null : result.value;

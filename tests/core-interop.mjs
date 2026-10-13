@@ -80,12 +80,21 @@ async function requestThrough(port, destination, path = '/owned-test') {
   });
 }
 
-for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name', 'byte budget', 'parallel isolation']) {
+for (const scenario of ['permitted', 'denied credential', 'denied destination', 'wrong TLS name', 'byte budget', 'parallel isolation', 'disconnect recovery', 'repeated sessions']) {
   test(`real core VLESS/WSS connection: ${scenario}`, { timeout: 12_000 }, async t => {
     let targetRequests = 0;
     const waiting = [];
     const target = http.createServer((request, response) => {
       targetRequests++;
+      if (scenario === 'disconnect recovery') {
+        assert.match(request.url, /^\/owned-test\?attempt=[01]$/);
+        if (request.url.endsWith('=0')) { sources[0].interrupt(); return; }
+        response.writeHead(200, { Connection: 'close' }); response.end('RECOVERED'); return;
+      }
+      if (scenario === 'repeated sessions') {
+        assert.match(request.url, /^\/owned-test\?round=\d+$/);
+        response.writeHead(200, { Connection: 'close' }); response.end(`ROUND:${request.url}`); return;
+      }
       if (scenario === 'parallel isolation') {
         assert.match(request.url, /^\/owned-test\?session=[0-5]$/);
         waiting.push({ path: request.url, response });
@@ -123,6 +132,28 @@ for (const scenario of ['permitted', 'denied credential', 'denied destination', 
     outbound.tls.certificate = [server.ca]; outbound.transport.path = '/connect';
     if (scenario === 'denied credential') outbound.uuid = '00000000-0000-4000-8000-000000000002';
     await startCore(t, temporaryConfig(t, config), port);
+    if (scenario === 'disconnect recovery') {
+      const first = await requestThrough(port, destination, '/owned-test?attempt=0').catch(() => ({ status: 0, body: '' }));
+      assert.notEqual(first.status, 200);
+      const interrupted = await outcomes[0]; assert.equal(interrupted.ok, false);
+      assert.equal(interrupted.error.code, 'RV-TRANS-005');
+      assert.equal(sources[0].closed, true); assert.equal(peers[0].closed, true);
+      const next = await requestThrough(port, destination, '/owned-test?attempt=1');
+      assert.deepEqual(next, { status: 200, body: 'RECOVERED' });
+      assert.equal((await outcomes[1]).ok, true);
+      assert.equal(targetRequests, 2); assert.equal(sessions, 2); assert.equal(active, 0);
+      assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed)); return;
+    }
+    if (scenario === 'repeated sessions') {
+      for (let round = 0; round < 20; round++) {
+        const response = await requestThrough(port, destination, `/owned-test?round=${round}`);
+        assert.deepEqual(response, { status: 200, body: `ROUND:/owned-test?round=${round}` });
+        assert.equal((await outcomes[round]).ok, true);
+        assert.equal(active, 0); assert.equal(sessions, round + 1); assert.equal(targetRequests, round + 1);
+        assert.ok(sources.every(source => source.closed)); assert.ok(peers.every(peer => peer.closed));
+      }
+      assert.equal(peakActive, 1); return;
+    }
     if (scenario === 'parallel isolation') {
       const responses = await Promise.all(Array.from({ length: 6 }, (_, index) =>
         requestThrough(port, destination, `/owned-test?session=${index}`).catch(() => ({ status: 0, body: '' }))));

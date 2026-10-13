@@ -146,3 +146,27 @@ test('evidence requires positive clean counts from every required test runner', 
     assert.ok(verifyEvidence(changed, {}, expected).includes('EVIDENCE_TEST_COUNTS'));
   }
 });
+
+test('resource evidence rejects missing, mixed-scope and incomplete measurements', () => {
+  const resource = { scope: 'node_test_host_only', node: 'v24.19.0', platform: 'linux',
+    runs: Array.from({ length: 3 }, (_, index) => ({ run_id: `synthetic:${index}`, exit_code: 0,
+      scope: 'node_test_host_only', node: 'v24.19.0', platform: 'linux', wall_ms: 1,
+      cpu_user_ms: 1, cpu_system_ms: 0, sampled_peak_rss_bytes: 32,
+      baseline_rss_bytes: 16, final_rss_bytes: 24, baseline_heap_used_bytes: 8,
+      final_heap_used_bytes: 12, samples: 2, test_counts: { executed: 1, failed: 0, skipped: 0 } })) };
+  const expected = { resourceCommand: 'npm run profile:core' };
+  const record = { schema_version: 1, phase: 'P02', created_at_utc: 'test', input_sha256: {},
+    acceptance: [{ id: 'P02-A1', result: 'pass' }], checks: [{ command: expected.resourceCommand,
+      exit_code: 0, result: 'pass', resource_observations: resource }] };
+  assert.deepEqual(verifyEvidence(record, {}, expected), []);
+  for (const change of [data => { delete data.checks[0].resource_observations; },
+    data => { data.checks[0].resource_observations.scope = 'whole_system'; },
+    data => { data.checks[0].resource_observations.runs[1].platform = 'win32'; },
+    data => { data.checks[0].resource_observations.runs[1].run_id = 'synthetic:0'; },
+    data => { data.checks[0].resource_observations.runs[0].cpu_user_ms = NaN; },
+    data => { data.checks[0].resource_observations.runs[0].test_counts.executed = 0; },
+    data => { data.checks[0].resource_observations.runs.pop(); }]) {
+    const changed = structuredClone(record); change(changed);
+    assert.ok(verifyEvidence(changed, {}, expected).includes('EVIDENCE_RESOURCE_OBSERVATIONS'));
+  }
+});

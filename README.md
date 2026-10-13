@@ -52,7 +52,8 @@ until after the core release. Offline installation help is planned for P06. Thes
 are roadmap requirements. The local core and controlled connection slice are
 implemented; there is no UI profile library, production authentication or database yet.
 
-Current local validation: `npm run verify`, `npm run test:core` and
+Current local validation: `npm run verify`, `npm run test:core`,
+`npm run profile:core` and
 `npm run verify:local-evidence`. The core command requires curl/tar and initially
 downloads an official, digest-verified sing-box 1.12.0 test executable into ignored
 `.tmp`; it checks generated configuration and real loopback VLESS/WSS forwarding.
