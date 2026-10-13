@@ -36,6 +36,26 @@ tests are metadata-policy checks, not token/password verification or durable sto
 The sing-box fixture is tested byte-for-byte; its external core parser, device
 import and network connection are explicitly unrun until the corresponding phases.
 
+## Partial local P02 gates
+
+`npm run evidence -- P02` runs locked install and all local strict build/type/lint/
+module/tests/audit gates, then records P02-A1 pass and P02-A2/A3 not_run with
+scope local_partial and phase_readiness blocked. `npm run verify:local-evidence`
+checks those specific local claims, hashes, required commands and positive test
+counts. It cannot turn missing live permission/free-egress checks into passes.
+`npm run verify:evidence -- P02` must reject the incomplete live phase.
+
+Existing tests cover every incomplete VLESS prefix, all header fragmentation
+boundaries, IPv4/domain/IPv6, owned Buffer payload, unsupported addons/commands,
+auth-before-dial, shared handshake deadline, late connect disposal, bidirectional
+backpressure/half-close, idle/lifetime/cancellation limits, malformed/big/empty
+frames, safe failures, no partial-write replay and bounded cleanup.
+Actual loopback TCP and a Node native WebSocket client against a ws test server
+exercise composed forwarding and disposal. Those peers bind only 127.0.0.1.
+Plain loopback TCP/ws is not production TLS, an ISP trial, real-core compatibility
+or a native Windows pass. Port adapters must enforce their own queue bounds,
+authentication and destination restrictions before a live runtime is considered.
+
 The check command also rejects raw Arabic-script text in repository files. This
 enforces the owner's current English-file policy; it is not a general language
 classifier. Localized UI data uses Unicode escapes, with decoded-text and RTL

@@ -124,6 +124,9 @@ Optional bootstrap access assistant (staged, not a core-release dependency):
 
 5) Scope exclusions
 
+Native Android/iOS applications are deferred at the owner's request. Current
+construction targets Windows and Linux; retain responsive browser usability.
+
 No v1 marketplace, public SDK, multi-tenancy, Kubernetes, service-per-module design, complex cryptographic ledger, theme engine, mandatory AI, proprietary client, mass IP/SNI scanner, OS-wide TUN/WinDivert or TLS MITM.
 These exclusions do not remove core security, recovery, a polished interface or tested compatibility.
 An offline generator can be useful, but it does not create free egress or replace the connection objective.

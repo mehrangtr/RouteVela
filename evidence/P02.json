@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "phase": "P02",
+  "created_at_utc": "2026-10-13T20:32:21.910Z",
+  "scope": "local_partial",
+  "phase_readiness": "blocked",
+  "environment": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "git": "git version 2.52.0",
+    "platform": "linux",
+    "arch": "x64",
+    "tools": {
+      "typescript": "6.0.3",
+      "eslint": "10.12.0",
+      "typescript-eslint": "8.71.2",
+      "ws": "8.22.0"
+    }
+  },
+  "input_sha256": {
+    ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
+    ".github/CODEOWNERS": "569035fb5c59bd2d43cc545be390cc14531c0d2a95415411deddea304bcf13da",
+    ".github/workflows/ci.yml": "b97ed7b7a2b5ab7eba84dc71cf6931f09db5d503650e758872ce2d4328c4fdd9",
+    ".gitignore": "53b36ab9b53f20e3473374f03995ec71006cc6a80de412247dab3d2fd6fda7e7",
+    ".node-version": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+    ".npmrc": "bd560ecd60af0e020ba7cc618d53cac0976be3d90ee1a8024578af6ced0aa8dc",
+    "AGENTS.md": "945330ebd3ff8eedf711db24ea85d6e22f24658bfa362d12ac70db006ed271de",
+    "CONTINUE.md": "555c011dc14248318f2136c73c1c7e0e52ac3014c08f52d91c43d3830da818ac",
+    "LICENSE": "4fdccdd38003dcb2598d5b4f8a8e70021d780d510c2f174122d819be63f2a0de",
+    "PROJECT.txt": "7e5a1bbfe1cfd47c02bcb580552aa8f44fcdbbdba186a3926905c798256b069c",
+    "README.md": "363389f0f70fd2d476d71c5ab2b62f625c790bb0c503d8ea8903811adc9bf85e",
+    "ROADMAP.json": "daa70256603f9c3f6fcf9d5975b416ca6fb9a4f89fdb4d014ab42440d3adb20a",
+    "SECURITY.md": "e3d7b4ae313c5fe71fb91877828b0df2fcc3c7153cf9348273b9a0ca244659f3",
+    "docs/ARCHITECTURE.md": "b5afd33b8d97ee3bd8c4dbf6fe1614e5ba3db14342e1d8b1adb0c17f6cc0bd5b",
+    "docs/DEPENDENCIES.md": "80d6df6b39c5de5d3b0df8234b02abde57ace1baf655150e653948ec4a7f4e2c",
+    "docs/SOURCES.json": "21a9b2f7925cc32dab738ee6d1992169dcf893bcc53f8109c7ecc68640932f60",
+    "docs/TESTING.md": "fae508a3764988a1798d083a41424f8a5ea73a835a89f56b1ba8832b10612c64",
+    "eslint.config.mjs": "80f507012208718de07219e1c1f93528be0828a7a28c88a2103fd5ccc8083291",
+    "module-map.json": "220daab5515d968d38a0837a750b1fcd7be4f52b9c0f471e645f32941b19a8e2",
+    "package-lock.json": "9fa1a313e0b997a56e79a3d4ff01a1296938dc358ab436c092265c4ca2ef99b2",
+    "package.json": "f186b3019bf9fcbec4d3ed06905ed5ee8ef61071900360de01db77380db9d9cc",
+    "src/app/index.ts": "2cb0fed507e02fc4c64d2c46f337278ea35b4f07b5621d8eb12067c7b848721f",
+    "src/compiler/index.ts": "b0a856b3e8fb8d1f4833c325b814269352add5821ce9f2fdda7b81cf8341da39",
+    "src/compiler/sing-box.ts": "41fee5455f1fdc84625932a3472d212b34ad5d943a1a806474f90fbb8048eabe",
+    "src/config/index.ts": "1e9c09d1fbbbce7f728dbc3590e17fad647fd2398ac9547c921ee7fa4cb6a47a",
+    "src/config/profile.ts": "f82d7ad1ce9fc3c1a29976555318f357ca49ec18b6e391aedd8129a6645ba0b6",
+    "src/contracts/connection.ts": "4eb15a57a70d6c993fbb9544c27f136b6f05df82c0322ba2750c9e2c5bf62462",
+    "src/contracts/errors.ts": "801a4fc65562961470aa6b18cd6183830a1ace6e483c44ede89902158308c7eb",
+    "src/contracts/index.ts": "bbcb31af8b41a8fe4574451f2c9c93fab869dfcfbea920d2ec7de84960bf5e30",
+    "src/contracts/model.ts": "8c96b3dc5f838f9f50381e444ebf02e53a65829fa2e7ec0ec96677e30ae6bb5e",
+    "src/domain/index.ts": "aa67edbb9a06f54201860ae1cf26b06803929c2c2f9be5faa5919d493a18cef5",
+    "src/domain/users.ts": "29d6f9d318e83a93150d39b4385ab087e3e09018222ca55dc74625efeea57616",
+    "src/protocols/index.ts": "83ae900ffb438d003506e526c41ae0285cda90f262553b7082a468ba5bb10170",
+    "src/protocols/vless.ts": "30750713e0641f02eca28c0f076918e843f038d7f338b9359d0046a20b781003",
+    "src/providers/index.ts": "412e202c165944e412ba999914a7d105f8dba930c21b540b4a0fd7f342a276b5",
+    "src/providers/vless-session.ts": "000f3639a8e35d04403471a1a1bd57c49b805df118a967e4f9f8c1473afb7b39",
+    "src/transports/index.ts": "1ae91f2a4999a72c8b4a54943358f3b9368de016e674cb2c5d8103835503cc9b",
+    "src/transports/relay.ts": "c62631756749e0c7c8e3fd4753f3c88b8f8f2c0f743d6ce5857f8e6c053e9db4",
+    "src/transports/session.ts": "f78b3bb27ef8db3e87de0bf7d96498f310c3930545a00713c34fe3176f13fd1f",
+    "tests/architecture.test.mjs": "2cdb07da598a9b1cf21533f1b6451d70040f449272d6e4a8a7fbadf7bdcae9ba",
+    "tests/config.test.mjs": "fbf9b9ead08b9f5d9d8670288ee8530a5d420873d7276f799d24950bfa21d4ef",
+    "tests/connection-helpers.mjs": "ba7adfff4c1c7214d51f5654ff8f48c7610b5569d9e4bf68118e607bf00df6e3",
+    "tests/domain.test.mjs": "e50e92cceddd3395afa57ee76861868c705db49ffadb6589c13c2bcc0a157807",
+    "tests/fixtures/profile.json": "1f03a58d1b5e4938cba91d4cbf5c67aa891ccf7b55497bddddd6097efde1b84a",
+    "tests/fixtures/sing-box.expected.json": "be3884391d236c930326437f5dfaeccf1d9d2359fa38b7d62497ae1e3dd09d44",
+    "tests/helpers.mjs": "8ddc45557985beff23ffba797b8bac094ea27be4556d7cf07e99a08718766762",
+    "tests/local-peers.test.mjs": "7574ea3d97d833f70263dd8482367ecf319852c412c32871df17a11079883b19",
+    "tests/platform.test.mjs": "83160a61eced1543ed8ade86c2e350a5e661896376e2c981817161027b34049a",
+    "tests/preflight.test.mjs": "ad8d13d9c8a48f74be36342df006eafe26f1b87d7091a391fa3d7535ddebb4fd",
+    "tests/protocols.test.mjs": "eab0522f556777c5216d5de924e030cd9ea652971f8585dd655ce865fe2ef78a",
+    "tests/provider-session.test.mjs": "6c0cb0ebd662573820160c486fcba85f5690390999d745813c962f987bd3c220",
+    "tests/transports.test.mjs": "3bb77a1f01eca981758bca1b9aa9231a8231fae2192cb573375fbc3399088e56",
+    "tools/architecture.mjs": "b7456243b721f3ee2130b04b44bc2720ed0d26228ae0f091d0d30a91a7e86541",
+    "tools/build.mjs": "9803b9538040c0476754d3fc3ea2b5a372a9536fc432c5afaec23c2691f399d3",
+    "tools/check.mjs": "908b956db0d9f0bc105e600d477b61e375848f9c07a964a159b1ffc78613213a",
+    "tools/context.mjs": "fcf41834344aa9a22580750dc43f12935924bf4a8ea0e38762933519415e464c",
+    "tools/demo.mjs": "d2e3bebaaeca682cf965fc94ce1297e768fd5ac450009ea5b638d88f624f7dad",
+    "tools/doctor.mjs": "4c2821bbb0e88e6c5a24fbd6b64d3c21145e6f310364516256637b865ce50035",
+    "tools/evidence.mjs": "e447fc188b6eac299b47118dbcda6f40807be20230db6713610d26c646d3d1a1",
+    "tools/process.mjs": "f029f81bde549d594dba9b5635a53c8bba15423b236216237c8d4a05d16fbbcb",
+    "tools/project.mjs": "c2407ba76f5e7aefcade900e345f306a67d8caf398c0e69af47e5b682b67adfb",
+    "tools/test.mjs": "c15c03db223f6f0c5c1e6067a413da612b9ba3085eb3c8d5aa1596deff1c4c38",
+    "tsconfig.json": "551c5485cac2fe105d5770bd4e516bb3a3fd98ecde7789f4532bd38320c1f521"
+  },
+  "checks": [
+    {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "added 96 packages in 2s"
+    },
+    {
+      "command": "npm run doctor",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 doctor\n> node tools/doctor.mjs\n\nPASS: Node 24.19.0; git version 2.52.0; preparation files present. No production credential required."
+    },
+    {
+      "command": "npm run check",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 check\n> node tools/check.mjs\n\nPASS: project contracts, JS syntax, compiler-backed module boundaries, secret/script guards. Run typecheck separately; no live connection claimed."
+    },
+    {
+      "command": "npm run typecheck",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 typecheck\n> tsc --noEmit"
+    },
+    {
+      "command": "npm run lint",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 lint\n> eslint src --max-warnings=0"
+    },
+    {
+      "command": "npm test",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "\u2139 suites 0\n\u2139 pass 56\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1689.939026",
+      "test_counts": {
+        "executed": 56,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": "npm run audit",
+      "execution_context": "local_process",
+      "exit_code": 0,
+      "result": "pass",
+      "summary": "> routevela@0.0.0 audit\n> npm audit --audit-level=high\n\nfound 0 vulnerabilities"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "P02-A1",
+      "result": "pass",
+      "verification_method": "automated_local_run",
+      "basis": "Executed the required phase gates, compiled behavior tests and recorded the input manifest."
+    },
+    {
+      "id": "P02-A2",
+      "result": "not_run",
+      "verification_method": "external_prerequisite_missing",
+      "basis": "Only loopback/local trials executed; applicable permission and a genuine free live egress path remain unresolved."
+    },
+    {
+      "id": "P02-A3",
+      "result": "not_run",
+      "verification_method": "external_prerequisite_missing",
+      "basis": "Only loopback/local trials executed; applicable permission and a genuine free live egress path remain unresolved."
+    }
+  ],
+  "not_run": [
+    "Cloudflare/VPN deployment",
+    "Real core parser/device import/connect/update",
+    "Target ISP performance benchmark",
+    "Production admin authentication and durable storage",
+    "Native Windows runtime/desktop connection trial"
+  ],
+  "limitations": [
+    "P02 evidence covers local parser/relay and controlled TCP/WebSocket peers only; full phase is blocked.",
+    "Policy checks use trusted metadata; they do not verify secrets or implement durable revocation.",
+    "The sing-box output is a deterministic schema fixture, not tested live core compatibility.",
+    "Fake random/clock/repository and loopback socket adapters are test-only; authentication/destination-policy ports remain required.",
+    "The import graph guard is not a security sandbox; script/secret guards are incomplete.",
+    "Provider permission and free-egress viability remain unresolved.",
+    "Direct official terms access returned proxy 403; immutable official documentation sources were inspected.",
+    "Local execution and author review are not independent review or observed remote CI.",
+    "STATE.json is mutable, separately checked and excluded from the input manifest."
+  ],
+  "platform_validation": {
+    "targets": [
+      "Windows",
+      "Linux"
+    ],
+    "executed_platform": "linux",
+    "windows_runtime_result": "not_run",
+    "basis": "Portable Node APIs and dual-OS CI policy retained; this incomplete checkpoint is not published or executed in Windows CI."
+  },
+  "completed_local_tasks": [
+    "P02.01",
+    "P02.02"
+  ],
+  "blocked_tasks": [
+    "P02.03 permission/free-egress prerequisite",
+    "P02.04 gated live trial"
+  ],
+  "diagnostic_runs": [
+    {
+      "command": "npm run build && node --test tests/protocols.test.mjs",
+      "exit_code": 1,
+      "result": "pre_fix_failure",
+      "finding": "Buffer.slice shared mutable payload bytes; an owned Uint8Array copy fixed the failure."
+    },
+    {
+      "command": "node --test tests/local-peers.test.mjs",
+      "exit_code": 1,
+      "result": "pre_fix_integration_failure",
+      "finding": "Generic Duplex-to-Web conversion waited for both halves and deadlocked EOF. Native iteration/writable completion fixed it; final tests await actual close events."
+    }
+  ]
+}

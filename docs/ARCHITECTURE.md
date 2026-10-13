@@ -129,3 +129,32 @@ before comparing the TypeScript module graph. Later native/client/bootstrap
 operations belong to OS adapters, not domain/config/compiler. Such adapters need
 explicit platform/architecture selection, verified artifacts and cleanup tests
 on the actual supported OS; they must not introduce mandatory admin privileges.
+
+## Implemented local P02 slice (partial phase)
+
+protocols implements a pure incremental VLESS v0 TCP header parser: UUID, empty
+addons, TCP command, big-endian port and IPv4/domain/IPv6 address. It retains at
+most 276 header bytes, accepts at most 65536 bytes per input frame and returns
+an owned bounded payload. Unsupported versions, addons, UDP/Mux/reverse commands
+and malformed/truncated input fail safely. Request UUID/destination are sensitive
+I/O parameters, never diagnostic context. Parsing does not authorize a destination.
+
+transports implements ByteDuplex pumping with one pending read/write per direction,
+half-close/reverse drain, copied frame ownership, idle/lifetime deadlines, external
+cancellation, empty-read limits and bounded cleanup. Adapter queues are an explicit
+separate responsibility. Default limits are conservative local-development policy,
+not measured production capacity or a promise of uninterrupted long sessions.
+No automatic partial-write replay/reconnect occurs; requested fresh sessions have
+independent state. An adapter that ignores cancellation/cleanup is a failed contract.
+
+providers composes parser and transport through required authorize/dial ports.
+It authorizes before opening a target, bounds the entire handshake (input/auth/dial),
+closes late connections that ignored cancellation and sends the response header
+only after successful authorization/dialing. There is no permissive runtime dialer,
+Cloudflare deployment adapter or production credential verifier.
+
+Tests supply loopback-only native TCP and library WebSocket adapters. Node native
+stream iteration observes each readable half's EOF independently; generic Duplex
+toWeb conversions were found to wait for both halves and deadlock graceful shutdown.
+Those test adapters are not a released Windows/Cloudflare service. Plain TCP/ws
+tests are confined to 127.0.0.1; production verified TLS remains unrun and mandatory.

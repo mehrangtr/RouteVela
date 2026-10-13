@@ -21,11 +21,13 @@
     "audit": "npm audit --audit-level=high",
     "check:architecture": "node tools/architecture.mjs",
     "verify": "npm run doctor && npm run check && npm run typecheck && npm run lint && npm test && npm run audit",
-    "demo": "npm run build && node tools/demo.mjs"
+    "demo": "npm run build && node tools/demo.mjs",
+    "verify:local-evidence": "node tools/evidence.mjs verify-local P02"
   },
   "devDependencies": {
     "eslint": "10.12.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.71.2"
+    "typescript-eslint": "8.71.2",
+    "ws": "8.22.0"
   }
 }

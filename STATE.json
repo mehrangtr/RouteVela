@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "P02",
-  "phase_status": "not_started",
+  "phase_status": "blocked",
   "completed_phases": [
     "P00",
     "P01"
@@ -15,16 +15,20 @@
     "P01.02",
     "P01.03",
     "P01.04",
-    "P01.05"
+    "P01.05",
+    "P02.01",
+    "P02.02"
   ],
-  "next_task": "P02.01",
-  "resume_action": "Implement P02.01/P02.02 controlled local parser/stream tests with portable Node APIs. Preserve Windows/Linux targets and check both CI jobs when accessible. Live deployment/P02 closure remain blocked on permission and genuine free egress.",
+  "next_task": "P02.03",
+  "resume_action": "Local P02 parser/stream tasks are complete and preserved in this unpushed checkpoint. Before a live Cloudflare VPN trial, obtain applicable written permission evidence and identify a genuinely permitted zero-required-cost egress path; then review P02.03 capabilities and implement/run P02.04 actual client/destination/resource gates. Do not treat loopback proof as a live connection. Native mobile apps stay deferred; target Windows/Linux.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "Windows/Linux portability revision: P01 runner passed clean install, typecheck, type-aware lint, build and all 30 tests on Linux; zero failures/skips.",
-    "npm audit: zero vulnerabilities reported.",
-    "Windows CI matrix configured; native Windows/desktop connection outcomes are not observed."
+    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build and all 56 tests passed; zero failed/skipped.",
+    "Actual loopback TCP and fragmented WebSocket-to-TCP forwarding, authentication-before-dial, half-close and cleanup passed.",
+    "Deadline/backpressure/cancellation/budget/late-connect/error/cleanup tests passed; no automatic replay.",
+    "npm audit: zero vulnerabilities; ws 8.22.0 added as a reviewed exact dev-only peer dependency.",
+    "Native Windows, production TLS/client/ISP and Cloudflare permission/free-egress gates remain unrun/unresolved."
   ],
   "blockers": [
     {
@@ -46,10 +50,11 @@
     "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T19:50:39.617530Z",
-  "checkpoint_note": "The closed P01 milestone is captured by the containing Git revision; inspect actual HEAD/history before resuming.",
+  "updated_at_utc": "2026-10-13T20:29:30.226323Z",
+  "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP commit; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming.",
   "platform_targets": [
     "Windows",
     "Linux"
-  ]
+  ],
+  "native_mobile_apps": "deferred_by_owner"
 }

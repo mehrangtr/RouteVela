@@ -3,9 +3,10 @@
 A personal connectivity project focused on reliable connections, clear diagnostics,
 recoverable configuration and a polished Persian/English interface.
 
-**Current implementation: strict local P01 foundation, tested user/credential policies,
-bounded profile validation and deterministic config rendering. A live VPN and panel
-are not shipped yet.**
+**Current implementation: strict local core, user/credential policies, profile
+validation/config rendering, bounded VLESS TCP parsing and timed byte relay.
+Controlled loopback TCP/WebSocket integration works. Live VPN and panel are not
+shipped; P02 external feasibility gates remain unresolved.**
 The next implementation task is selected from `STATE.json`; do not infer progress from this README.
 
 ## Start with Codex
@@ -40,14 +41,21 @@ the historical P00 evidence matches changed inputs.
 - `docs/ARCHITECTURE.md` and `module-map.json`: module ownership and allowed dependencies.
 - `docs/TESTING.md`: meaningful checks, evidence and phase closure.
 - `evidence/P00.json`: the historical preparation snapshot, retained unchanged.
-- `evidence/P01.json`: current executed local-foundation checks and file hashes.
+- `evidence/P01.json`: historical local-foundation snapshot.
+- `evidence/P02.json`: partial local parser/stream evidence; live connection and
+  provider/cost acceptance are explicitly unrun.
 - `docs/DEPENDENCIES.md`: dependency provenance, licensing and audit policy.
 
 The revised design brings feasibility review into P01, adds a small profile library,
 safe config preview and staged diagnostics, and defers optional bootstrap integration
 until after the core release. Offline installation help is planned for P06. These
-are roadmap requirements. Only the core validation/rendering and policy slice is
+are roadmap requirements. The local core and controlled connection slice are
 implemented; there is no UI profile library, production authentication or database yet.
+
+Current local validation: `npm run verify` and `npm run verify:local-evidence`.
+The latter checks only partial P02 evidence; it cannot close P02 or establish a
+permitted free Internet connection. Mobile native apps are deferred; development
+continues for Windows/Linux. A native Windows run is not yet observed here.
 
 Repository text is English. The product still targets Persian/English and RTL;
 future localized resources use escaped Unicode, with decoded-text tests.

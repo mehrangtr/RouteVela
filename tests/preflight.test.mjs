@@ -4,7 +4,7 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { project, validateProject, boundaryErrors, secretErrors, languageErrors, contextPack,
-  inputManifest, verifyEvidence } from '../tools/project.mjs';
+  inputManifest, verifyEvidence, verifyLocalP02Evidence } from '../tools/project.mjs';
 const baseline = project();
 const copy = () => structuredClone(baseline);
 
@@ -113,4 +113,22 @@ test('phase evidence rejects missing or duplicate criteria/commands and zero or 
     const changed = structuredClone(record); changed.checks[0].test_counts = counts;
     assert.ok(verifyEvidence(changed, {}, expected).includes('EVIDENCE_TEST_COUNTS'));
   }
+});
+
+test('partial P02 proof verifies only local criteria and can never become full-phase proof', () => {
+  const expected = { acceptanceIds: ['P02-A1', 'P02-A2', 'P02-A3'], commands: ['npm test'], testCommand: 'npm test' };
+  const record = { schema_version: 1, phase: 'P02', scope: 'local_partial', phase_readiness: 'blocked',
+    created_at_utc: '2026-10-13T00:00:00Z', input_sha256: {}, checks: [{ command: 'npm test', exit_code: 0,
+      result: 'pass', test_counts: { executed: 1, failed: 0, skipped: 0 } }],
+    acceptance: expected.acceptanceIds.map((id, index) => ({ id, result: index === 0 ? 'pass' : 'not_run' })) };
+  assert.ok(verifyEvidence(record, {}, expected).includes('EVIDENCE_ACCEPTANCE'));
+  assert.deepEqual(verifyLocalP02Evidence(record, {}, expected), []);
+  for (const index of [0, 1, 2]) {
+    const changed = structuredClone(record); changed.acceptance[index].result = index === 0 ? 'not_run' : 'pass';
+    assert.ok(verifyLocalP02Evidence(changed, {}, expected).includes('LOCAL_EVIDENCE_ACCEPTANCE'));
+  }
+  const wrong = structuredClone(record); wrong.phase_readiness = 'closed';
+  assert.ok(verifyLocalP02Evidence(wrong, {}, expected).includes('LOCAL_EVIDENCE_SCOPE'));
+  const failed = structuredClone(record); failed.checks[0].exit_code = 1;
+  assert.ok(verifyLocalP02Evidence(failed, {}, expected).includes('EVIDENCE_CHECK_FAILED'));
 });

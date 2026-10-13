@@ -149,3 +149,11 @@ export function verifyEvidence(record, manifest, expected = {}) {
   return errors;
 }
 export function requiredMissing(root = ROOT) { return REQUIRED.filter(p => !existsSync(resolve(root, p))); }
+
+export function verifyLocalP02Evidence(record, manifest, expected) {
+  const errors = verifyEvidence(record, manifest, expected).filter(error => error !== 'EVIDENCE_ACCEPTANCE');
+  if (record.phase !== 'P02' || record.scope !== 'local_partial' || record.phase_readiness !== 'blocked') errors.push('LOCAL_EVIDENCE_SCOPE');
+  const criteria = new Map(record.acceptance?.map(item => [item.id, item.result]));
+  if (criteria.get('P02-A1') !== 'pass' || criteria.get('P02-A2') !== 'not_run' || criteria.get('P02-A3') !== 'not_run') errors.push('LOCAL_EVIDENCE_ACCEPTANCE');
+  return errors;
+}

@@ -69,6 +69,31 @@
         "content_sha256": "99d084a4d88151ed92cdf0db4f6d1c9da34d5331b7f7052cbb4bed563b2995ea",
         "result": "observed"
       }
+    },
+    {
+      "id": "VLESS_WIRE",
+      "url": "https://github.com/XTLS/Xray-core/tree/c77a4d0e4932a53f3eeafafdfef877b56fd660ad/proxy/vless/encoding",
+      "last_checked_date_utc": "2026-10-13",
+      "finding": "VLESS version 0, 16-byte account ID, length-prefixed addons, command, big-endian port then address; TCP=1/UDP=2/Mux=3/reverse=4; address IPv4=1/domain=2/IPv6=3; response version plus addons. Only empty-addons TCP is implemented locally. Protocol facts were reviewed; no upstream application source was copied.",
+      "verification": {
+        "method": "Immutable upstream implementation used as wire-format reference over verified HTTPS",
+        "commit": "c77a4d0e4932a53f3eeafafdfef877b56fd660ad",
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/XTLS/Xray-core/c77a4d0e4932a53f3eeafafdfef877b56fd660ad/proxy/vless/encoding/encoding.go",
+            "content_sha256": "ce5bd3a0ad9d2405c42b48794cfa7a52a01104c9560e78a27888c012e7441f84"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/XTLS/Xray-core/c77a4d0e4932a53f3eeafafdfef877b56fd660ad/common/protocol/headers.go",
+            "content_sha256": "7b24d832fed69ff4935e11453f744fb63413273043b4e53bdd708a95f1182dda"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/XTLS/Xray-core/c77a4d0e4932a53f3eeafafdfef877b56fd660ad/common/protocol/payload.go",
+            "content_sha256": "4380e4e97043a863319543eb0f37230ade1fbceefd9d0a277de9faeff0f4b578"
+          }
+        ],
+        "result": "observed"
+      }
     }
   ],
   "p01_feasibility_checkpoint": {
