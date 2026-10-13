@@ -21,6 +21,7 @@ R13. Protect ownership and installations without spyware, backdoors, central kil
 R14. Reduce repeated context and work without sacrificing security, quality or meaningful tests.
 R15. All repository prose, comments, identifiers and commit messages use English. Owner-facing chat remains Persian. Future Persian UI resources use escaped Unicode in dedicated localization files; test the decoded text and RTL behavior.
 R16. Optional bootstrap assistance helps users reach installation prerequisites on filtered networks; it must not become a mandatory relay, recurring cost or unverified proxy distribution service.
+R17. Support Windows and Linux for desktop use and development. The service runs in the permitted cloud runtime; users access the web interface and a compatible client on their own OS. Core logic, developer commands and offline help must be portable. Verify actual OS/client/browser versions before claiming support.
 
 2) Feasibility and delivery gates
 
@@ -44,6 +45,7 @@ Installation and ownership:
 - Explain access and resources before authorization. Resume interrupted installation without duplicate resources.
 - Track installation-owned resources and support selective removal; preserve unrelated resources and require a clear decision before deleting data.
 - The operator account is independent of the creator. RouteVela never collects or stores a Cloudflare account password.
+- Provide Windows PowerShell and Linux shell instructions using the same portable npm commands for development. End users do not need Node.js merely to use the future web panel.
 - Provide downloadable offline setup/recovery help and use the operator's existing trusted connection for initial account access.
 
 Connection:
@@ -58,6 +60,7 @@ Users, profiles and subscriptions:
 - One administrative owner in v1; no multi-tenant organization or complex RBAC.
 - Stable user identity, enable/disable, expiry and independently rotatable/revocable credentials.
 - Links, QR and client-specific import/update help. Complete one client flow first, then support both pinned sing-box and Mihomo families before P03 closes.
+- The desktop compatibility matrix must include Windows and Linux, with actual client/core/OS versions. Download selection, paths, process cleanup and any later local helper are OS-specific adapter concerns; no Bash, WSL, sudo or administrator access is a default prerequisite for both platforms.
 - A small profile library records an opaque ID, name, optional group, source, revision, protocol/transport and credential reference; credentials are not copied into display metadata.
 - Record parse/import/connect/update outcomes separately with tested client/core version, observation time and origin, and a stable error code. Unsupported, not_run and stale results remain explicit.
 - Imported profiles are untrusted: enforce size/count limits, schema/semantic/capability validation, safe text rendering and supported fields. A paste/import does not trigger a network fetch or activate a profile.

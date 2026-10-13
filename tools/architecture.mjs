@@ -14,13 +14,16 @@ export function architectureErrors(root, modules) {
   if (config.errors.length) return ['ARCHITECTURE_CONFIG'];
   const program = ts.createProgram(config.fileNames, config.options);
   const errors = [];
+  const location = file => slash(relative(root, realpathSync(file)));
+  // TypeScript uses forward slashes even on Windows; filesystem paths need a
+  // shared real-path representation before build membership is compared.
+  const sourceFiles = new Set(config.fileNames.map(location));
   for (const file of listFiles(root).filter(path => /^src\/.*\.[cm]?[jt]sx?$/.test(path))) {
-    if (!config.fileNames.includes(resolve(root, file))) errors.push(`SOURCE_OUTSIDE_BUILD:${file}`);
+    if (!sourceFiles.has(location(resolve(root, file)))) errors.push(`SOURCE_OUTSIDE_BUILD:${file}`);
   }
   const edges = new Map();
-  const location = file => slash(relative(root, realpathSync(file)));
   for (const source of program.getSourceFiles()) {
-    if (!config.fileNames.includes(source.fileName)) continue;
+    if (!sourceFiles.has(location(source.fileName))) continue;
     const importer = location(source.fileName);
     const parts = importer.split('/');
     const from = parts[1];

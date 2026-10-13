@@ -18,15 +18,13 @@
     "P01.05"
   ],
   "next_task": "P02.01",
-  "resume_action": "Implement the VLESS parser independently from transport and test controlled local peers (P02.01/P02.02). Do not deploy a live Cloudflare VPN or close P02 until applicable permission and genuine free egress evidence are supplied. Review docs/SOURCES.json and the local P01 evidence before continuing.",
+  "resume_action": "Implement P02.01/P02.02 controlled local parser/stream tests with portable Node APIs. Preserve Windows/Linux targets and check both CI jobs when accessible. Live deployment/P02 closure remain blocked on permission and genuine free egress.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "P01 evidence runner: clean npm ci, doctor, check, strict typecheck, type-aware lint, fresh build and all 27 tests passed; none failed or skipped.",
-    "npm audit --audit-level=high: zero vulnerabilities reported.",
-    "Built demo output matched the reviewed synthetic sing-box fixture byte-for-byte.",
-    "Exact direct dependency pins, lock declarations and package integrity fields checked.",
-    "P01-A4 author feasibility review completed; permission/free egress remain unresolved, not passes."
+    "Windows/Linux portability revision: P01 runner passed clean install, typecheck, type-aware lint, build and all 30 tests on Linux; zero failures/skips.",
+    "npm audit: zero vulnerabilities reported.",
+    "Windows CI matrix configured; native Windows/desktop connection outcomes are not observed."
   ],
   "blockers": [
     {
@@ -48,6 +46,10 @@
     "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T19:40:38.154771Z",
-  "checkpoint_note": "The closed P01 milestone is captured by the containing Git revision; inspect actual HEAD/history before resuming."
+  "updated_at_utc": "2026-10-13T19:50:39.617530Z",
+  "checkpoint_note": "The closed P01 milestone is captured by the containing Git revision; inspect actual HEAD/history before resuming.",
+  "platform_targets": [
+    "Windows",
+    "Linux"
+  ]
 }

@@ -11,7 +11,7 @@
     "doctor": "node tools/doctor.mjs",
     "context": "node tools/context.mjs",
     "check": "node tools/check.mjs",
-    "test": "npm run build && node --test tests/*.test.mjs",
+    "test": "npm run build && node tools/test.mjs",
     "evidence": "node tools/evidence.mjs record",
     "verify:evidence": "node tools/evidence.mjs verify",
     "verify:prep": "npm run doctor && npm run check && npm test",

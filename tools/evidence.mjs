@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { runCommand } from './process.mjs';
 import { ROOT, readJson, inputManifest, verifyEvidence } from './project.mjs';
 
 const [action, phase] = process.argv.slice(2);
@@ -26,7 +27,7 @@ try {
     const before = inputManifest();
     const checks = [];
     for (const [command, args] of gates[phase]) {
-      const run = spawnSync(command === 'node' ? process.execPath : command, args, {
+      const run = runCommand(command, args, {
         cwd: ROOT, encoding: 'utf8', timeout: 120000,
       });
       const description = commandText([command, args]);
@@ -52,7 +53,7 @@ try {
     const after = inputManifest();
     if (JSON.stringify(before) !== JSON.stringify(after)) throw new Error('Inputs changed during checks.');
     const git = spawnSync('git', ['--version'], { encoding: 'utf8' });
-    const npm = spawnSync('npm', ['--version'], { encoding: 'utf8' });
+    const npm = runCommand('npm', ['--version'], { encoding: 'utf8' });
     const toolVersions = Object.fromEntries(['typescript', 'eslint', 'typescript-eslint']
       .map(name => [name, readJson(`node_modules/${name}/package.json`).version]));
     const needsReview = index => phase === 'P00' ? index < 2 : index === 3;

@@ -15,6 +15,10 @@
   external expense. No mandatory VPS, paid API/plan, quota evasion or multi-account rotation.
 - Deliver a working connection, not just a configuration-management substitute.
 - Preserve Persian/English RTL, mobile usability, polished UI, recovery and privacy.
+- Target Windows and Linux for desktop use and development. Keep the core portable;
+  use Node filesystem/process APIs instead of shell-specific commands. CI runs both
+  platforms; actual browser/client/install tests must cover both before support is
+  claimed. Isolate any later OS integration behind a tested adapter.
 - Preserve independent admin/subscription credentials and revocation across rollback/restore.
 - Separate protocol, transport, provider, formatter and storage. Follow `module-map.json`.
 - New material cost, changed user goals, destructive actions or external messages

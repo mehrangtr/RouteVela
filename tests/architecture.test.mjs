@@ -7,7 +7,7 @@ import { architectureErrors } from '../tools/architecture.mjs';
 import { project } from '../tools/project.mjs';
 
 function inspect(files, change = () => {}) {
-  const root = mkdtempSync(join(tmpdir(), 'routevela-architecture-'));
+  const root = mkdtempSync(join(tmpdir(), 'routevela architecture space '));
   try {
     const modules = structuredClone(project().modules); change(modules);
     writeFileSync(join(root, 'tsconfig.json'), JSON.stringify({ compilerOptions: {

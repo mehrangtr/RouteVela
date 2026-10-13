@@ -134,7 +134,7 @@
         },
         {
           "id": "P03.03",
-          "summary": "Test fetch, parse, real-device import, connection and subscription update."
+          "summary": "Test fetch, parse, actual Windows and Linux client import, connection and subscription update; record OS/client/core versions."
         },
         {
           "id": "P03.04",
@@ -145,7 +145,8 @@
         "P03-A1: Create -> subscription -> import -> connect -> update succeeds.",
         "P03-A2: Both claimed clients have actual compatibility evidence.",
         "P03-A3: Unsupported capabilities never generate silently broken configs.",
-        "P03-A4: Profile history never reactivates obsolete credentials; imports are bounded and validated, and a pasted URL triggers no automatic fetch/activation. Live trials stay restricted until production security/recovery gates pass."
+        "P03-A4: Profile history never reactivates obsolete credentials; imports are bounded and validated, and a pasted URL triggers no automatic fetch/activation. Live trials stay restricted until production security/recovery gates pass.",
+        "P03-A5: Claimed desktop clients have actual Windows and Linux import/connect/update evidence; a Linux CLI or CI Windows Server run is not a desktop GUI pass."
       ],
       "context_files": [
         "docs/ARCHITECTURE.md",
@@ -239,7 +240,7 @@
         },
         {
           "id": "P06.03",
-          "summary": "Implement guided official install, inventory, idempotent resume and selective uninstall; provide downloadable offline help and instructions for an existing trusted connection, without a bundled relay."
+          "summary": "Implement guided official install, inventory, idempotent resume and selective uninstall; provide downloadable offline help and Windows/Linux instructions for an existing trusted connection, without a bundled relay."
         },
         {
           "id": "P06.04",
@@ -255,7 +256,8 @@
         "P06-A2: Repeated/interrupted installs avoid duplicate resources; unrelated resources survive removal.",
         "P06-A3: Diagnostic export is previewed/redacted; status distinguishes last observation from current connection.",
         "P06-A4: Offline help remains usable without reaching Cloudflare; interrupted setup resumes. Browser diagnostics respect available APIs and classify unobservable causes as unknown.",
-        "P06-A5: Privacy inventory matches actual fields/readers/retention/deletion; profile/config previews do not fetch, activate or leak credentials implicitly."
+        "P06-A5: Privacy inventory matches actual fields/readers/retention/deletion; profile/config previews do not fetch, activate or leak credentials implicitly.",
+        "P06-A6: Required browser/install/offline-help/recovery flows pass on declared Windows and Linux versions; ordinary use requires neither WSL nor elevated privileges."
       ],
       "context_files": [
         "PROJECT.txt",

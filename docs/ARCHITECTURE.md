@@ -1,6 +1,9 @@
 # Module boundaries
 
 Use one repository and a modular application, not a distributed service per module.
+Windows and Linux are desktop/development targets. The cloud runtime is separate
+from the OS of a panel user. The web UI and existing compatible connection clients
+form the initial desktop experience; core code has no dependency on a desktop OS.
 `module-map.json` is the machine-readable import contract. Directories are created
 when their first implementation is added in P01+, not filled with dummy classes now.
 
@@ -118,3 +121,11 @@ credential intentionally, while diagnostic errors never include it. The syntheti
 example uses example.invalid and a test UUID. Never reuse it as a production secret.
 app composes parsing/rendering without a server or privileged I/O. npm run demo
 executes this built pipeline against the synthetic fixture.
+
+Portable developer tooling uses Node paths, file discovery and direct argument
+arrays. npm subprocesses invoke npm-cli.js with process.execPath, avoiding .cmd
+spawning and shell interpolation on Windows. Normalize real paths consistently
+before comparing the TypeScript module graph. Later native/client/bootstrap
+operations belong to OS adapters, not domain/config/compiler. Such adapters need
+explicit platform/architecture selection, verified artifacts and cleanup tests
+on the actual supported OS; they must not introduce mandatory admin privileges.

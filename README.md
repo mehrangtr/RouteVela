@@ -52,6 +52,24 @@ implemented; there is no UI profile library, production authentication or databa
 Repository text is English. The product still targets Persian/English and RTL;
 future localized resources use escaped Unicode, with decoded-text tests.
 
+## Windows and Linux targets
+
+RouteVela targets both Windows and Linux. The intended service runs on the
+operator's permitted cloud account; its web panel is accessed in a browser and
+the connection is used through a compatible client on either desktop OS.
+The current implementation is the local Node.js foundation, not that finished UI.
+
+For development, install Node.js 24 and Git, open the checkout in PowerShell on
+Windows or a shell on Linux, and run the same commands shown above. WSL and Bash
+are not requirements on Windows. Paths/processes use Node APIs; test discovery
+does not rely on shell glob expansion. CI is configured for ubuntu-latest and
+windows-latest. A configured job is not an observed Windows pass.
+
+Real desktop browser/client import, connection, update and recovery must be tested
+on both systems in P03/P06 before publishing supported versions. Initial release
+documentation must name the tested Windows version and Linux distribution; CI
+runner coverage alone cannot establish desktop GUI or network compatibility.
+
 ## Important boundaries
 
 End-user connections must be free; the creator's required recurring external

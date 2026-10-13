@@ -75,6 +75,20 @@ cannot establish device proxy control or an enforced relay byte quota.
 
 ## Human, device and network observations
 
+Windows and Linux are required targets. Automated CI uses windows-latest and
+ubuntu-latest, with independent results (fail-fast disabled). Each job runs the
+same locked install, strict build/type/lint/module tests, audit and evidence check.
+Record observed jobs; a Linux pass or simulated Windows command plan is not an
+executed Windows pass. CI Windows Server coverage does not replace desktop testing.
+The platform tests cover literal process arguments, paths with spaces and test
+discovery without shell globs; architectural fixtures also use a spaced directory.
+
+P03 must include actual Windows and Linux client import/connect/update checks;
+P06 must include the web installer/help/keyboard/RTL flows on both. Record Windows
+version, Linux distribution, architecture, browser and client/core versions. Test
+path/permission differences, interrupted setup and cleanup where an OS helper is
+used; basic panel use must not require elevated privileges or WSL.
+
 P03 records each parse/import/connect/update separately for a named device, OS,
 client and core version. A headless core invocation is not a mobile import test.
 The observer may be an owner, tester or directly instrumented device runner;
