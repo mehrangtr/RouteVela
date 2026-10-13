@@ -20,15 +20,17 @@
     "P02.02"
   ],
   "next_task": "P02.03",
-  "resume_action": "Local P02 parser/stream tasks are complete and preserved in this unpushed checkpoint. Before a live Cloudflare VPN trial, obtain applicable written permission evidence and identify a genuinely permitted zero-required-cost egress path; then review P02.03 capabilities and implement/run P02.04 actual client/destination/resource gates. Do not treat loopback proof as a live connection. Native mobile apps stay deferred; target Windows/Linux.",
+  "resume_action": "Local P02 parser/relay, verified TLS and actual sing-box 1.12.0 loopback interoperability are implemented in unpushed checkpoints. Run npm run context and verify:local-evidence; use npm run test:core for the pinned client trial. Native Windows execution remains unobserved despite configured CI. Before a live Cloudflare VPN trial obtain applicable written permission and a permitted zero-required-cost egress path, then review P02.03 and complete the live P02.04 gates. Do not treat loopback proof as a live Internet connection. Native mobile apps stay deferred; target Windows/Linux.",
   "working_paths": [],
   "checkpoint_commit": null,
   "last_checks": [
-    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build and all 56 tests passed; zero failed/skipped.",
-    "Actual loopback TCP and fragmented WebSocket-to-TCP forwarding, authentication-before-dial, half-close and cleanup passed.",
-    "Deadline/backpressure/cancellation/budget/late-connect/error/cleanup tests passed; no automatic replay.",
-    "npm audit: zero vulnerabilities; ws 8.22.0 added as a reviewed exact dev-only peer dependency.",
-    "Native Windows, production TLS/client/ISP and Cloudflare permission/free-egress gates remain unrun/unresolved."
+    "P02 local runner: clean locked npm ci, doctor/check, strict typecheck, lint, build, 62 main tests and 5 separate real-core tests passed; zero failed/skipped.",
+    "Actual loopback TCP, WS and verified TLS/WSS forwarding passed, with half-close, backpressure, authentication/destination gates and resource cleanup.",
+    "Official sing-box 1.12.0 Linux x64 archive matched upstream release SHA-256; unchanged renderer output passed the real core check. Owned HTTP response crossed VLESS/WSS successfully.",
+    "Actual core denied invalid credentials, forbidden destination and wrong TLS name without reaching the owned destination; direct TLS rejected untrusted CA.",
+    "Official Windows x64 archive digest/member inspected; native Windows core/desktop execution is NOT RUN. Linux/Windows core checks are configured in unpushed CI.",
+    "npm audit: zero vulnerabilities; selfsigned 5.5.0 is a reviewed dev-only test-certificate dependency. No third-party app runtime dependency added.",
+    "Partial local evidence verification passed. Full P02 verification correctly rejected EVIDENCE_ACCEPTANCE,P02_LIVE_GATES_UNRUN; provider permission/free live egress remain unresolved."
   ],
   "blockers": [
     {
@@ -50,8 +52,8 @@
     "milestone": "P01",
     "resume_rule": "Inspect actual git HEAD/remote tree before retrying publication; do not republish identical content."
   },
-  "updated_at_utc": "2026-10-13T20:29:30.226323Z",
-  "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP commit; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming.",
+  "updated_at_utc": "2026-10-13T20:45:29.641570Z",
+  "checkpoint_note": "Incomplete P02 work is captured by the containing local WIP checkpoint; not published to GitHub. Inspect actual HEAD/history and evidence/P02.json before resuming. Cloud draft changes do not prove fresh-task restoration of local commits.",
   "platform_targets": [
     "Windows",
     "Linux"

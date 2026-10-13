@@ -132,3 +132,17 @@ test('partial P02 proof verifies only local criteria and can never become full-p
   const failed = structuredClone(record); failed.checks[0].exit_code = 1;
   assert.ok(verifyLocalP02Evidence(failed, {}, expected).includes('EVIDENCE_CHECK_FAILED'));
 });
+
+test('evidence requires positive clean counts from every required test runner', () => {
+  const expected = { commands: ['npm test', 'npm run test:core'], testCommands: ['npm test', 'npm run test:core'] };
+  const record = { schema_version: 1, phase: 'P02', created_at_utc: 'test', input_sha256: {},
+    acceptance: [{ id: 'P02-A1', result: 'pass' }],
+    checks: expected.commands.map(command => ({ command, exit_code: 0, result: 'pass',
+      test_counts: { executed: 1, failed: 0, skipped: 0 } })) };
+  assert.deepEqual(verifyEvidence(record, {}, expected), []);
+  for (const counts of [undefined, { executed: 0, failed: 0, skipped: 0 },
+    { executed: 1, failed: 1, skipped: 0 }, { executed: 1, failed: 0, skipped: 1 }]) {
+    const changed = structuredClone(record); changed.checks[1].test_counts = counts;
+    assert.ok(verifyEvidence(changed, {}, expected).includes('EVIDENCE_TEST_COUNTS'));
+  }
+});

@@ -142,8 +142,8 @@ export function verifyEvidence(record, manifest, expected = {}) {
     const actual = record.checks?.map(x => x.command).sort();
     if (JSON.stringify(actual) !== JSON.stringify([...expected.commands].sort())) errors.push('EVIDENCE_COMMANDS');
   }
-  if (expected.testCommand) {
-    const test = record.checks?.find(x => x.command === expected.testCommand)?.test_counts;
+  for (const command of expected.testCommands ?? (expected.testCommand ? [expected.testCommand] : [])) {
+    const test = record.checks?.find(x => x.command === command)?.test_counts;
     if (!test || !Number.isSafeInteger(test.executed) || test.executed < 1 || test.failed !== 0 || test.skipped !== 0) errors.push('EVIDENCE_TEST_COUNTS');
   }
   return errors;

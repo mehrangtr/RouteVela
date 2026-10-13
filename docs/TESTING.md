@@ -33,8 +33,9 @@ do not match the new implementation. Use the current phase's runner below.
 
 Fake clock/random/in-memory repositories are test-only ports. Credential-policy
 tests are metadata-policy checks, not token/password verification or durable storage.
-The sing-box fixture is tested byte-for-byte; its external core parser, device
-import and network connection are explicitly unrun until the corresponding phases.
+The P01 sing-box fixture was tested byte-for-byte. P02 adds the real core parser
+and loopback connection checks below; desktop GUI/import and Internet connectivity
+still require their corresponding permitted trials.
 
 ## Partial local P02 gates
 
@@ -52,9 +53,28 @@ backpressure/half-close, idle/lifetime/cancellation limits, malformed/big/empty
 frames, safe failures, no partial-write replay and bounded cleanup.
 Actual loopback TCP and a Node native WebSocket client against a ws test server
 exercise composed forwarding and disposal. Those peers bind only 127.0.0.1.
-Plain loopback TCP/ws is not production TLS, an ISP trial, real-core compatibility
-or a native Windows pass. Port adapters must enforce their own queue bounds,
+Verified loopback TLS adds a generated, short-lived CA and server certificate,
+explicit trusted-CA/name verification, and untrusted-CA/wrong-name rejection
+before entering a VLESS session. No system certificate store is changed.
+Loopback tests are not an ISP trial, production deployment or a native Windows pass. Port adapters must enforce their own queue bounds,
 authentication and destination restrictions before a live runtime is considered.
+
+`npm run test:core` builds the core and runs four controlled connection cases plus
+the unchanged renderer-output parse check against official sing-box 1.12.0. The
+artifact tool fetches the matching Windows/Linux x64/arm64 release, verifies the
+pinned upstream archive digest before extracting/executing, and rejects tampering.
+It needs curl/tar and HTTPS access to github.com/release-assets.githubusercontent.com
+on first use; a verified archive can be reused offline. This command is separate
+from `npm test` so ordinary unit/TLS tests do not download an executable. It is
+required by the partial P02 evidence runner and configured on both CI platforms.
+The actual HTTP request passes through the core's loopback mixed proxy, VLESS,
+verified WSS and RouteVela's handler into a restricted, owned loopback destination.
+The response body must match exactly; denied credentials, destinations and wrong
+TLS names must never reach that destination. No permissive production dialer,
+Internet egress, GUI app or live provider is tested. Temporary config/test trust
+is removed with the child process and servers. The exact rendered config is checked
+unchanged; connection cases explicitly override only loopback ports/address/path,
+the local CA/name, and credentials in the negative case. No insecure TLS option is used.
 
 The check command also rejects raw Arabic-script text in repository files. This
 enforces the owner's current English-file policy; it is not a general language

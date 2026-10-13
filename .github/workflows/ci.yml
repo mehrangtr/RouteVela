@@ -27,4 +27,6 @@ jobs:
           package-manager-cache: false
       - run: npm ci --ignore-scripts
       - run: npm run verify
-      - run: npm run verify:evidence -- P01
+      - run: npm run test:core
+      - name: Verify the current evidence scope
+        run: node -e "const fs=require('node:fs'),cp=require('node:child_process');const local=fs.existsSync('evidence/P02.json');const run=cp.spawnSync(process.execPath,['tools/evidence.mjs',local?'verify-local':'verify',local?'P02':'P01'],{stdio:'inherit'});process.exit(run.status??1)"
