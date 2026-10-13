@@ -3,7 +3,7 @@
 A personal connectivity project focused on reliable connections, clear diagnostics,
 recoverable configuration and a polished Persian/English interface.
 
-**Current milestone: P00 preparation. No VPN runtime, usable panel or deployment is shipped yet.**
+**Current baseline: reviewed P00 preparation skeleton. No VPN runtime, usable panel or deployment is shipped yet.**
 The next implementation task is selected from `STATE.json`; do not infer progress from this README.
 
 ## Start with Codex
@@ -14,13 +14,14 @@ Use Node.js 24. Run from the repository root:
 npm ci
 npm run doctor
 npm run context
-npm run check
-npm test
+npm run verify:prep
 ```
 
 Ask Codex to follow `AGENTS.md`, read `STATE.json`, and implement the next task
 listed by `npm run context`. `CONTINUE.md` explains recovery after an interruption.
 A paid AI API, Cloudflare credential and domain are unnecessary for P00/local P01.
+`verify:prep` runs the current preparation checks, tests and explicit P00 evidence
+verification. It is not an application build or a live-connection test.
 
 ## Project files
 
@@ -31,6 +32,15 @@ A paid AI API, Cloudflare credential and domain are unnecessary for P00/local P0
 - `docs/ARCHITECTURE.md` and `module-map.json`: module ownership and allowed dependencies.
 - `docs/TESTING.md`: meaningful checks, evidence and phase closure.
 - `evidence/P00.json`: actual preparation check results and file hashes.
+- `docs/DEPENDENCIES.md`: dependency provenance, licensing and audit policy.
+
+The revised design brings feasibility review into P01, adds a small profile library,
+safe config preview and staged diagnostics, and defers optional bootstrap integration
+until after the core release. Offline installation help is planned for P06. These
+are roadmap requirements, not implemented product capabilities.
+
+Repository text is English. The product still targets Persian/English and RTL;
+future localized resources use escaped Unicode, with decoded-text tests.
 
 ## Important boundaries
 

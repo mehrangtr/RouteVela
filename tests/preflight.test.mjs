@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { project, validateProject, boundaryErrors, secretErrors, contextPack,
+import { project, validateProject, boundaryErrors, secretErrors, languageErrors, contextPack,
   inputManifest, verifyEvidence } from '../tools/project.mjs';
 const baseline = project();
 const copy = () => structuredClone(baseline);
@@ -34,6 +34,24 @@ test('closing a phase without its tasks or dependencies is rejected', () => {
   assert.ok(errors.includes('INCOMPLETE_CLOSED_PHASE:P03'));
   assert.ok(errors.includes('COMPLETED_DEPENDENCY:P03'));
 });
+test('connection closure requires both unique resolved gates with evidence references', () => {
+  const p = copy();
+  p.state.phase = 'P02'; p.state.phase_status = 'closed'; p.state.next_task = null;
+  p.state.completed_phases = ['P00', 'P01', 'P02'];
+  p.state.completed_tasks = p.roadmap.phases.slice(0, 3).flatMap(x => x.tasks.map(t => t.id));
+  const resolved = [
+    { id: 'CF_PERMISSION', status: 'resolved', evidence_ref: 'private-record:permission-test-fixture' },
+    { id: 'FREE_EGRESS', status: 'resolved', evidence_ref: 'controlled-test:egress-test-fixture' },
+  ];
+  for (const blockers of [[], [resolved[0]], [resolved[1]],
+    [...resolved, resolved[0]], resolved.map(x => ({ ...x, evidence_ref: '' })),
+    resolved.map(x => ({ ...x, status: 'unproven' }))]) {
+    p.state.blockers = blockers;
+    assert.ok(validateProject(p).includes('CONNECTION_GATE_UNRESOLVED'));
+  }
+  p.state.blockers = resolved;
+  assert.deepEqual(validateProject(p), []);
+});
 test('public permitted imports work; private or privileged shortcuts fail', () => {
   assert.deepEqual(boundaryErrors('src/compiler/render.ts', "import { X } from '../config/index.ts';", baseline.modules), []);
   assert.ok(boundaryErrors('src/ui/view.ts', "import { db } from '../storage/index.ts';", baseline.modules).some(x => x.startsWith('DISALLOWED_DEPENDENCY')));
@@ -45,6 +63,14 @@ test('secret-pattern guard rejects synthetic credential material and secret file
   assert.ok(secretErrors('sample.txt', fake).some(x => x.startsWith('GITHUB_CREDENTIAL')));
   assert.ok(secretErrors('.env', 'EXAMPLE=1').some(x => x.startsWith('SECRET_FILE')));
   assert.deepEqual(secretErrors('.env.example', 'EXAMPLE=REPLACE_ME'), []);
+});
+test('repository language guard rejects raw Persian script but permits escaped locale data', () => {
+  assert.deepEqual(languageErrors('guide.md', 'English setup instructions.'), []);
+  assert.deepEqual(languageErrors('guide.md', '\u0633\u0644\u0627\u0645'), ['NON_ENGLISH_SCRIPT:guide.md']);
+  const locale = JSON.stringify({ label: '\u0633\u0644\u0627\u0645' }).replace(/[\u0600-\u06ff]/g,
+    char => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`);
+  assert.deepEqual(languageErrors('src/ui/locales/fa.json', locale), []);
+  assert.equal(JSON.parse(locale).label, '\u0633\u0644\u0627\u0645');
 });
 test('the context pack selects one next task and omits the full specification', () => {
   const context = contextPack(baseline);

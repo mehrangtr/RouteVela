@@ -23,3 +23,8 @@ Suggested owner prompt for Codex:
 The current phase/next action belong only in STATE.json, not in this static guide.
 A GitHub checkout cannot recover work that was never committed/pushed; keep the
 same local workspace or transfer the local checkpoint when a session is interrupted.
+Local commits also remain local until transferred. A wip branch in this public
+repository is public; it is not an automatic or private backup mechanism.
+`npm run check` always executes its guards; it does not report a cache as valid/stale.
+For the current preparation baseline use `npm run verify:prep`. Application phases
+must add their own actual gates and evidence runner before claiming completion.

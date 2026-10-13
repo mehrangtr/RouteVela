@@ -13,6 +13,7 @@
     "check": "node tools/check.mjs",
     "test": "node --test tests/*.test.mjs",
     "evidence": "node tools/evidence.mjs record",
-    "verify:evidence": "node tools/evidence.mjs verify"
+    "verify:evidence": "node tools/evidence.mjs verify",
+    "verify:prep": "npm run doctor && npm run check && npm test && npm run verify:evidence -- P00"
   }
 }

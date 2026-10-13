@@ -116,6 +116,9 @@
     "Import public index.ts entry points across module boundaries.",
     "No dynamic imports or aliases as boundary bypasses.",
     "Provider-specific APIs are limited to providers/storage/installer/composition.",
-    "No runtime Cloudflare account token is required for an own-install D1 binding."
+    "No runtime Cloudflare account token is required for an own-install D1 binding.",
+    "UI calls the HTTP API composed in app; it does not import app. Shared API types live in contracts.",
+    "Protocols return typed results without provider I/O or logging. Transports use an injected diagnostics port from contracts.",
+    "Error codes and observation types live in contracts; diagnostic formatting belongs to diagnostics."
   ]
 }

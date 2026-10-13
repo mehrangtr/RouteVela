@@ -20,9 +20,15 @@
 - New material cost, changed user goals, destructive actions or external messages
   need specific authorization. Routine reversible coding, tests, local checkpoints
   and publication of a fully closed phase are already authorized by the owner.
+- Keep in-scope dependency, CI and documentation maintenance autonomous. Review
+  dependency provenance/license as described in `docs/DEPENDENCIES.md`; do not
+  introduce a new approval gate for every package or read-only documentation lookup.
 - Never treat a local permission flag, OAuth consent or a disclaimer as provider permission.
   No live Cloudflare VPN deployment without applicable documented permission.
   Independent local work may continue while external permission remains unresolved.
+- Review feasibility during P01; record the checkpoint in P01.05. Local P01/P02
+  work can continue, but unresolved gates block live deployment, P02 closure and
+  P03+ expansion. Report the concrete prerequisite when no independent work remains.
 
 ## Implement a small vertical task
 
@@ -46,11 +52,16 @@
   `docs/TESTING.md`; add real application/type/build/compatibility checks as code appears.
 - A cached pass is valid only for identical relevant inputs and tool versions.
   Rerun after relevant changes or failures; do not repeat an unchanged green suite needlessly.
+- The current check tool runs checks; it does not implement automatic cache
+  validation. Never describe a proposed tool capability as already implemented.
 - Local syntax/import checks are not a TypeScript type checker or a live-network test.
 - Record commands, exit codes, input hashes, versions and outcomes in one concise
   `evidence/Pxx.json`. Do not invent execution, coverage, permissions or benchmarks.
 - Manual import/connect tests require actual client/core versions and environment.
   `not_run` is not `pass`. Failed/missing acceptance criteria prevent phase closure.
+- Identify the actual observer/executor and evidence source. Agent document review
+  is not independent review. CI reruns automated gates; it cannot establish human
+  UX or provider permission. Neither an owner label nor a CI label replaces evidence.
 - Keep detailed temporary logs locally/CI artifacts; keep secrets out of both.
 
 ## Checkpoint and resume
@@ -59,6 +70,9 @@
   phase, completed task IDs, exact next task, changed paths, checks, blocker and safe resume action.
 - If no Git commit captures the checkpoint, retain the working tree and identify
   it explicitly. Local WIP commits are allowed; do not publish an unfinished phase.
+- Local commits are not remote backups. A branch in a public repository is public;
+  do not automatically push wip/* or describe it as private. Preserve the workspace
+  or transfer a checkpoint if unfinished publication has not been requested.
 - On resume inspect diff/checkpoint first, then continue the next incomplete action.
   Do not reinstall dependencies if lockfile/runtime are unchanged and installation is healthy.
 - Limit an identical failing retry to two attempts. Then classify the cause and
@@ -78,7 +92,9 @@
 - `PROJECT.txt` owns requirements, `ROADMAP.json` owns tasks, `STATE.json` owns
   progress, and evidence owns test outcomes. Update those in place; avoid rival authorities.
 - Respond to the owner in Persian with English identifiers isolated in code spans.
-  Keep source identifiers and technical repository guides in clear English.
+  Keep all repository prose, comments, identifiers and commit messages in English.
+  Preserve the planned Persian UI using escaped Unicode localization resources
+  and decoded-text/RTL tests. Raw Persian/Arabic script is rejected by check.
 
 ## Token efficiency and code review
 

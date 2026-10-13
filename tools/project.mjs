@@ -7,7 +7,7 @@ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const REQUIRED = ['README.md', 'AGENTS.md', 'PROJECT.txt', 'CONTINUE.md',
   'ROADMAP.json', 'STATE.json', 'module-map.json', 'SECURITY.md', 'LICENSE',
   'package.json', 'package-lock.json', 'docs/ARCHITECTURE.md', 'docs/TESTING.md',
-  'docs/SOURCES.json', '.github/workflows/ci.yml', '.github/CODEOWNERS'];
+  'docs/SOURCES.json', 'docs/DEPENDENCIES.md', '.github/workflows/ci.yml', '.github/CODEOWNERS'];
 const SKIP = new Set(['.git', 'node_modules', 'dist', 'coverage', '.tmp', 'private',
   'backups', '.codex-log']);
 
@@ -50,7 +50,14 @@ export function validateProject({ roadmap, state, modules }) {
   }
   if (phase && !phase.depends_on.every(id => done.has(id))) errors.push('ACTIVE_DEPENDENCY');
   if (state.phase_status === 'closed' && !done.has(state.phase)) errors.push('CLOSED_STATE_MISMATCH');
-  if (done.has('P02') && state.blockers.some(b => ['CF_PERMISSION', 'FREE_EGRESS'].includes(b.id) && b.status !== 'resolved')) errors.push('CONNECTION_GATE_UNRESOLVED');
+  if (done.has('P02')) {
+    const missingGate = ['CF_PERMISSION', 'FREE_EGRESS'].some(id => {
+      const entries = state.blockers.filter(b => b.id === id);
+      return entries.length !== 1 || entries[0].status !== 'resolved' ||
+        typeof entries[0].evidence_ref !== 'string' || !entries[0].evidence_ref.trim();
+    });
+    if (missingGate) errors.push('CONNECTION_GATE_UNRESOLVED');
+  }
   const names = Object.keys(modules.modules);
   for (const [name, m] of Object.entries(modules.modules)) {
     if (m.path !== `src/${name}` || !m.allowed_imports.every(id => names.includes(id))) errors.push(`MODULE_CONTRACT:${name}`);
@@ -103,6 +110,10 @@ export function secretErrors(path, content) {
   if (/\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b/.test(content)) errors.push(`GITHUB_CREDENTIAL:${path}`);
   if (/\b(?:CF_API_TOKEN|CLOUDFLARE_API_TOKEN)\s*[:=]\s*["']?[A-Za-z0-9_-]{32,}/.test(content)) errors.push(`CF_CREDENTIAL:${path}`);
   return errors;
+}
+export function languageErrors(path, content) {
+  // Scan text without decoding Unicode escapes used by future locale resources.
+  return /\p{Script_Extensions=Arabic}/u.test(content) ? [`NON_ENGLISH_SCRIPT:${path}`] : [];
 }
 export function contextPack(p) {
   const phase = p.roadmap.phases.find(x => x.id === p.state.phase);

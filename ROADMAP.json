@@ -47,30 +47,38 @@
       "tasks": [
         {
           "id": "P01.01",
-          "summary": "Pin strict TypeScript/build/test tooling and clean npm ci; evolve CI/evidence gates for P01 without a mandatory service."
+          "summary": "Pin strict TypeScript/build/test/lint tooling; prove clean npm ci and add real typecheck/build/lint, dependency review and audit gates to CI/evidence. Begin dated provider/free-egress research without outreach or deployment."
         },
         {
           "id": "P01.02",
-          "summary": "Implement narrow contracts, domain model and schema/semantic/capability validator."
+          "summary": "Implement narrow contracts, domain model and schema/semantic/capability validation with bounded untrusted profile inputs; refine the threat model."
         },
         {
           "id": "P01.03",
-          "summary": "Add typed/redacted errors, fake clock/random/storage and compiler-backed module guard."
+          "summary": "Add a stable typed RV-MODULE-NNN error catalog, redaction, injected clock/random/storage and compiler-backed import/re-export/alias boundary tests."
         },
         {
           "id": "P01.04",
           "summary": "Implement minimal deterministic config output fixture and its negative tests."
+        },
+        {
+          "id": "P01.05",
+          "summary": "Record dated capability, permission and free-egress findings in the existing sources/blockers; decide the exact allowed local P02 work and blocked live step. Unresolved external gates do not imply local foundation failure."
         }
       ],
       "acceptance": [
-        "P01-A1: Strict typecheck, build, architecture and relevant tests pass.",
+        "P01-A1: Strict typecheck, lint, build, compiler-backed architecture tests and relevant tests pass; dependency licenses/provenance and audit findings are reviewed, with no unmitigated high/critical finding.",
         "P01-A2: Invalid/unsupported input is rejected with stable error codes.",
-        "P01-A3: Pure core uses no provider APIs; deterministic fixture output is reproduced."
+        "P01-A3: Pure core uses no provider APIs; deterministic fixture output is reproduced.",
+        "P01-A4: Feasibility checkpoint cites dated sources, actual missing prerequisites and the local/live boundary; no deployment permission is inferred from a flag or consent."
       ],
       "context_files": [
         "module-map.json",
         "docs/ARCHITECTURE.md",
-        "docs/TESTING.md"
+        "docs/TESTING.md",
+        "SECURITY.md",
+        "docs/DEPENDENCIES.md",
+        "docs/SOURCES.json"
       ]
     },
     {
@@ -90,11 +98,11 @@
         },
         {
           "id": "P02.03",
-          "summary": "Document actual Cloudflare/free-egress capabilities and applicable permission evidence."
+          "summary": "Revalidate the P01.05 capability/cost findings and applicable provider permission before live deployment; record non-sensitive evidence references, never permission documents or secrets."
         },
         {
           "id": "P02.04",
-          "summary": "Only with a permitted free deployment: test real destinations/client, CPU/memory and cost; decide viability."
+          "summary": "Only with permitted free deployment: run an authenticated, bounded controlled trial with actual client/destinations; measure CPU/memory, egress, cost and viability. Do not expose a public admin panel."
         }
       ],
       "acceptance": [
@@ -122,7 +130,7 @@
         },
         {
           "id": "P03.02",
-          "summary": "Implement two version-pinned initial formatters for sing-box and Mihomo."
+          "summary": "Complete one pinned client flow first, then both sing-box and Mihomo formatters; provide matching version/device-specific link/QR import and update instructions."
         },
         {
           "id": "P03.03",
@@ -130,13 +138,14 @@
         },
         {
           "id": "P03.04",
-          "summary": "Handle unsupported client capabilities explicitly."
+          "summary": "Handle unsupported capabilities explicitly; retain minimal profile identity/source/revision/credential references and separate timed parse/import/connect/update observations, including stale and not_run."
         }
       ],
       "acceptance": [
         "P03-A1: Create -> subscription -> import -> connect -> update succeeds.",
         "P03-A2: Both claimed clients have actual compatibility evidence.",
-        "P03-A3: Unsupported capabilities never generate silently broken configs."
+        "P03-A3: Unsupported capabilities never generate silently broken configs.",
+        "P03-A4: Profile history never reactivates obsolete credentials; imports are bounded and validated, and a pasted URL triggers no automatic fetch/activation. Live trials stay restricted until production security/recovery gates pass."
       ],
       "context_files": [
         "docs/ARCHITECTURE.md",
@@ -152,7 +161,7 @@
       "tasks": [
         {
           "id": "P04.01",
-          "summary": "Implement single-owner admin bootstrap, secure sessions and recovery."
+          "summary": "Refine the threat model against the actual design; implement single-owner admin bootstrap, secure sessions and recovery."
         },
         {
           "id": "P04.02",
@@ -164,7 +173,7 @@
         },
         {
           "id": "P04.04",
-          "summary": "Test admin/subscription isolation, request forgery and bounded login attempts."
+          "summary": "Test admin/subscription/connection isolation, request forgery, bounded login attempts and allowlisted admin audit events with bounded retention/redaction."
         }
       ],
       "acceptance": [
@@ -226,21 +235,27 @@
         },
         {
           "id": "P06.02",
-          "summary": "Build status/users/subscription/settings/recovery/diagnostics screens around working flows."
+          "summary": "Build status/users/subscription/profile/settings/recovery screens; reuse validation/compiler contracts for a bounded paste/validate/preview playground and staged diagnostics. Keep observation time/origin distinct from current connectivity."
         },
         {
           "id": "P06.03",
-          "summary": "Implement guided official install, inventory, idempotent resume and selective uninstall."
+          "summary": "Implement guided official install, inventory, idempotent resume and selective uninstall; provide downloadable offline help and instructions for an existing trusted connection, without a bundled relay."
         },
         {
           "id": "P06.04",
           "summary": "Show capability, permission, privacy and quota estimates with timestamps."
+        },
+        {
+          "id": "P06.05",
+          "summary": "Document the actual privacy inventory (field/purpose/readers/retention/deletion) in docs/PRIVACY.md; verify implementation and export redaction before beta."
         }
       ],
       "acceptance": [
-        "P06-A1: Novice/mobile/keyboard/RTL workflows pass real UX checks.",
+        "P06-A1: Run the novice/mobile/keyboard/RTL protocol in docs/TESTING.md; record observed completion, time, assistance and defects. Automated accessibility scores alone cannot pass human UX.",
         "P06-A2: Repeated/interrupted installs avoid duplicate resources; unrelated resources survive removal.",
-        "P06-A3: Diagnostic export is previewed/redacted; status distinguishes last observation from current connection."
+        "P06-A3: Diagnostic export is previewed/redacted; status distinguishes last observation from current connection.",
+        "P06-A4: Offline help remains usable without reaching Cloudflare; interrupted setup resumes. Browser diagnostics respect available APIs and classify unobservable causes as unknown.",
+        "P06-A5: Privacy inventory matches actual fields/readers/retention/deletion; profile/config previews do not fetch, activate or leak credentials implicitly."
       ],
       "context_files": [
         "PROJECT.txt",
@@ -273,7 +288,7 @@
         }
       ],
       "acceptance": [
-        "P07-A1: Published beta support matrix has actual network/device evidence.",
+        "P07-A1: Publish the actual beta network/device/client-version matrix and denominators under docs/TESTING.md; distinguish observed coverage from untested combinations.",
         "P07-A2: No unresolved critical security/recovery defect.",
         "P07-A3: Cost and provider permission are still valid."
       ],
@@ -339,12 +354,17 @@
         {
           "id": "P09.04",
           "summary": "Only add extra protocol/routing UI after demonstrated user need."
+        },
+        {
+          "id": "P09.05",
+          "summary": "Optionally evaluate bootstrap tools/catalog/local integration against PROJECT R16: provenance/license/free-capacity, first-download access, enforceable destination/byte/time scope, verified TLS, expiry/revocation and bounded updates. Defer integration with reasons if gates or maintenance budget fail."
         }
       ],
       "acceptance": [
         "P09-A1: Capability-specific fallback and stale/no-route cases pass real-core tests.",
         "P09-A2: Probe overhead and switching behavior meet a measured budget.",
-        "P09-A3: Each recommendation is explainable and backed by observed data."
+        "P09-A3: Each recommendation is explainable and backed by observed data.",
+        "P09-A4: Bootstrap integration is either deferred with a documented reason or demonstrated against its trust, cost, scope and failure tests; it never becomes a required relay or blocks the core release."
       ],
       "context_files": [
         "PROJECT.txt",

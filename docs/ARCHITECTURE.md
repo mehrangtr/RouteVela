@@ -57,3 +57,40 @@ that bound. Never promise immediate distributed revocation from eventual-consist
 Detailed health is admin-only. Public liveness reveals minimal information.
 Readiness, client import and end-to-end ISP connection are distinct checks.
 Errors identify component/stage/code/retryability; raw secrets and traffic are excluded.
+
+## API, errors and profile ownership
+
+The UI contains an HTTP API client using shared contracts. The server routes live
+in app; UI never imports app or privileged backend modules. Protocol parsers remain
+pure and return typed results. Transports emit observations through an injected
+contracts port; composition connects diagnostics. No transports -> diagnostics
+import is needed merely to describe timeouts or cleanup errors.
+
+Define the stable RV-MODULE-NNN error catalog with typed contracts in P01.03.
+Diagnostics maps safe fields to user explanations and recovery actions. Unknown
+browser network errors must not be labeled as confirmed DNS/TLS/CPU failures.
+
+Profile metadata belongs to domain; validation and revision belong to config;
+rendering belongs to compiler; delivery and credential references belong to
+subscriptions. Existing storage/app/ui modules implement persistence, API and
+presentation. A profile library or playground does not require a new service.
+Imports are bounded, validated and previewed before activation; importing a URL
+does not automatically fetch it. Remote fetch, when implemented, needs explicit
+intent and adapter-appropriate redirect/target/size limits. History references
+credentials by purpose; it does not resurrect secrets on restore.
+
+Observations include stage, outcome, client/core version, origin and time. Keep
+parse/import/connect/update distinct; server readiness cannot assert device
+connectivity. UI reports stale/unknown state rather than extrapolating a past pass.
+
+## Optional bootstrap boundary
+
+P06 offline guidance belongs to installer/ui and can ship without a relay. P09.05
+may evaluate a reviewed tool catalog/local helper after the core is stable.
+A browser cannot provide OS proxy control, arbitrary SNI probes or enforce a VPN
+byte quota. Any helper must establish a trusted enforcement point, budget and
+destination scope before claiming limited Cloudflare access. Verified TLS remains
+end-to-end; do not introduce a root CA or intercept provider login.
+Catalog provenance/expiry and endpoint health are separate checks. Updates must
+not introduce a paid central service, mandatory unknown relay or public scraping.
+Keep bootstrap credentials and control state separate from production credentials.
